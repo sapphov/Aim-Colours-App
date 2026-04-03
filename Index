@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=393, initial-scale=1.0" />
+  <title>Luminora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:        #ffffff;
+      --warm-gray:    #c8c0b8;
+      --mid-gray:     #888078;
+      --divider:      rgba(255,255,255,0.15);
+      --serif:        'Playfair Display', Georgia, serif;
+      --sans:         'Inter', Helvetica, Arial, sans-serif;
+      --purple:       #7B52C8;
+      --purple-light: #A07DE0;
+      --purple-glow:  rgba(123, 82, 200, 0.45);
+      --purple-faint: rgba(123, 82, 200, 0.15);
+    }
+
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: var(--sans);
+    }
+
+    /* ── Phone ──────────────────────────────────────────────── */
+    .phone {
+      position: relative;
+      width: 393px;
+      height: 852px;
+      background: #000;
+      overflow: hidden;
+      border-radius: 54px;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      box-shadow:
+        0 0 0 6px #0a0a0a,
+        0 40px 100px rgba(0,0,0,0.85),
+        inset 0 1px 0 rgba(255,255,255,0.07);
+    }
+
+    /* ── Background ─────────────────────────────────────────── */
+    .bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: #05020a;
+    }
+    .bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 58% at 50% 54%,
+        rgba(110, 60, 195, 0.55) 0%,
+        rgba(75,  30, 150, 0.30) 28%,
+        rgba(40,  10,  80, 0.14) 52%,
+        rgba(10,   2,  20, 0.06) 70%,
+        transparent 88%);
+    }
+    .bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 38% 32% at 38% 40%,
+        rgba(140, 90, 230, 0.22) 0%,
+        rgba(80,  40, 160, 0.08) 45%,
+        transparent 75%);
+    }
+
+    /* ── Scene depth layers ─────────────────────────────────── */
+    .vignette {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(ellipse 85% 78% at 50% 52%,
+        transparent 35%, rgba(0,0,0,0.50) 62%,
+        rgba(0,0,0,0.82) 80%, rgba(0,0,0,0.96) 100%);
+    }
+    .ground-glow {
+      position: absolute; left: 50%; top: 60%; transform: translateX(-50%);
+      width: 320px; height: 110px; z-index: 1; pointer-events: none;
+      background: radial-gradient(ellipse 100% 100% at 50% 50%,
+        rgba(110, 55, 200, 0.35) 0%, rgba(70, 20, 140, 0.14) 45%, transparent 75%);
+      filter: blur(18px);
+    }
+    .light-beam {
+      position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+      width: 110px; height: 58%; z-index: 1; pointer-events: none;
+      background: linear-gradient(to bottom,
+        rgba(200, 170, 255, 0.13) 0%, rgba(150, 100, 230, 0.07) 45%, transparent 100%);
+      clip-path: polygon(28% 0%, 72% 0%, 100% 100%, 0% 100%);
+      filter: blur(6px);
+    }
+
+    /* ── Dynamic Island ─────────────────────────────────────── */
+    .dynamic-island {
+      position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      width: 120px; height: 34px; background: #000; border-radius: 20px; z-index: 100;
+    }
+
+    /* ── Status Bar ─────────────────────────────────────────── */
+    .status-bar {
+      position: relative; z-index: 10;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 28px 0; height: 48px;
+    }
+    .status-time { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: 0.02em; }
+    .status-icons { display: flex; align-items: center; gap: 6px; }
+
+    /* ── Wordmark ────────────────────────────────────────────── */
+    .top-nav {
+      position: relative; z-index: 10;
+      padding: 8px 0 0;
+      border-bottom: 0.5px solid var(--divider);
+    }
+    .wordmark {
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 22px; font-weight: 700;
+      letter-spacing: 0.28em; color: var(--white);
+      text-transform: uppercase; padding-bottom: 2px;
+    }
+    .wordmark-sub {
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 11px; font-style: italic; font-weight: 400;
+      letter-spacing: 0.22em; color: rgba(255,255,255,0.5);
+      text-transform: uppercase; padding-bottom: 10px;
+    }
+
+    /* ── Top nav tabs ───────────────────────────────────────── */
+    .nav-scroll {
+      display: flex; overflow-x: auto; scrollbar-width: none; padding: 0 16px;
+    }
+    .nav-scroll::-webkit-scrollbar { display: none; }
+    .nav-item {
+      flex-shrink: 0; font-family: var(--sans); font-size: 10.5px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45); padding: 10px 14px; cursor: pointer;
+      position: relative; transition: color 0.2s;
+    }
+    .nav-item.active { color: var(--white); font-weight: 600; }
+    .nav-item.active::after {
+      content: ''; position: absolute; bottom: 0; left: 14px; right: 14px;
+      height: 1px; background: var(--white);
+    }
+
+    /* ── Hero ───────────────────────────────────────────────── */
+    .hero {
+      position: relative; z-index: 5; height: 460px;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: flex-start; padding-top: 20px;
+    }
+    .kicker {
+      font-family: var(--sans); font-size: 10px; font-weight: 400;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--warm-gray);
+      margin-bottom: 6px;
+    }
+    .welcome-heading {
+      font-family: var(--serif); font-size: 28px; font-weight: 400; font-style: italic;
+      color: var(--white); letter-spacing: 0.01em; text-align: center; line-height: 1.2;
+    }
+    .selector-wrap {
+      margin-top: 12px; display: flex; align-items: center;
+      border: 0.5px solid rgba(255,255,255,0.3); padding: 6px 20px 6px 18px;
+      cursor: pointer; transition: border-color 0.2s;
+    }
+    .selector-wrap:hover { border-color: rgba(255,255,255,0.6); }
+    .selector-label {
+      font-family: var(--sans); font-size: 10.5px; font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--white);
+    }
+    .selector-chevron { margin-left: 10px; opacity: 0.5; }
+
+    /* ── Product image ──────────────────────────────────────── */
+    .product-img-wrap {
+      position: relative; margin-top: 0; width: 100%; flex: 1;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .product-img-wrap::before {
+      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: linear-gradient(to bottom,
+        rgba(0,0,0,0.55) 0%, transparent 18%, transparent 72%, rgba(0,0,0,0.65) 100%);
+    }
+    .product-img-wrap::after {
+      content: ''; position: absolute; top: 10%; left: 10%; right: 10%; bottom: 20%;
+      z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse 65% 50% at 50% 48%,
+        rgba(123, 82, 200, 0.18) 0%, transparent 70%);
+      filter: blur(6px);
+    }
+    .product-img {
+      position: relative; z-index: 1; width: 100%; height: 100%;
+      object-fit: cover; object-position: center 38%;
+      transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .product-img-wrap:hover .product-img { transform: scale(1.03); }
+    .product-img.errored { display: none; }
+    .drop-hint {
+      position: absolute; inset: 0; z-index: 10; display: none;
+      align-items: center; justify-content: center; cursor: pointer;
+    }
+    .product-img.errored ~ .drop-hint { display: flex; }
+    .drop-hint-inner {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      border: 0.5px dashed rgba(255,255,255,0.25); padding: 20px 28px;
+    }
+    .drop-hint-inner span {
+      font-family: var(--sans); font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.35);
+    }
+    /* Swap button */
+    .swap-btn {
+      position: absolute; bottom: 12px; right: 12px; z-index: 10;
+      background: rgba(0,0,0,0.55); border: 0.5px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.5); font-family: var(--sans); font-size: 9px;
+      letter-spacing: 0.18em; text-transform: uppercase; padding: 5px 10px;
+      cursor: pointer; backdrop-filter: blur(8px); transition: all 0.2s;
+    }
+    .swap-btn:hover { border-color: rgba(255,255,255,0.5); color: white; }
+
+    /* ── Editorial rule ─────────────────────────────────────── */
+    .editorial-rule {
+      position: relative; z-index: 5; display: flex; align-items: center;
+      gap: 12px; padding: 0 28px; margin-bottom: 14px;
+    }
+    .rule-line { flex: 1; height: 0.5px; background: var(--divider); }
+    .rule-text {
+      font-family: var(--sans); font-size: 9px; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--mid-gray); white-space: nowrap;
+    }
+
+    /* ── Status card ────────────────────────────────────────── */
+    .status-section { position: relative; z-index: 5; padding: 0 28px; }
+    .status-card {
+      border: 0.5px solid var(--divider); padding: 16px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .status-tag {
+      font-family: var(--sans); font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--mid-gray); margin-bottom: 4px;
+    }
+    .status-value {
+      font-family: var(--serif); font-size: 16px; font-weight: 400;
+      font-style: italic; color: var(--white);
+    }
+    .status-dot-wrap { display: flex; align-items: center; gap: 7px; }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--purple-light); box-shadow: 0 0 6px var(--purple-glow);
+      animation: pulse-dot 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.85); }
+    }
+    .status-cta {
+      font-family: var(--sans); font-size: 9px; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5);
+    }
+
+    /* ── Today strip ────────────────────────────────────────── */
+    .today-strip { position: relative; z-index: 5; padding: 20px 28px 0; }
+    .today-label {
+      font-family: var(--sans); font-size: 9px; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--mid-gray); margin-bottom: 12px;
+    }
+    .today-label em {
+      font-family: var(--serif); font-style: italic; letter-spacing: 0.1em;
+      color: var(--warm-gray);
+    }
+    .cards-row { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+    .cards-row::-webkit-scrollbar { display: none; }
+    .mini-card { flex-shrink: 0; width: 130px; cursor: pointer; }
+    .mini-card-img { width: 130px; height: 78px; overflow: hidden; }
+    .mini-card-placeholder { width: 100%; height: 100%; }
+    .mini-card-title {
+      margin-top: 6px; font-family: var(--serif); font-size: 11px;
+      font-style: italic; color: var(--white); line-height: 1.35;
+    }
+    .mini-card-sub {
+      margin-top: 2px; font-family: var(--sans); font-size: 9px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray);
+    }
+
+    /* ── Tab Bar ────────────────────────────────────────────── */
+    .tab-bar {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 20;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px); border-top: 0.5px solid var(--divider);
+      padding: 0 0 6px;
+    }
+    .tabs { display: flex; justify-content: space-around; padding: 12px 0 0; }
+    .tab { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex: 1; }
+    .tab-icon { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
+    .tab-icon svg {
+      width: 20px; height: 20px; color: rgba(255,255,255,0.35);
+      stroke: currentColor; fill: none; stroke-width: 1.2; transition: color 0.2s;
+    }
+    .tab.active .tab-icon svg { color: var(--white); }
+    .tab-label {
+      font-family: var(--sans); font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: rgba(255,255,255,0.35); transition: color 0.2s;
+    }
+    .tab.active .tab-label { color: var(--white); }
+    .tab-mark { width: 12px; height: 1px; background: var(--white); margin-top: 1px; opacity: 0; }
+    .tab.active .tab-mark { opacity: 1; }
+    .home-indicator { display: flex; justify-content: center; padding: 8px 0 2px; }
+    .home-indicator-bar { width: 134px; height: 5px; background: rgba(255,255,255,0.25); border-radius: 100px; }
+  </style>
+</head>
+<body>
+<div class="phone">
+
+  <div class="dynamic-island"></div>
+  <div class="bg"></div>
+  <div class="light-beam"></div>
+  <div class="ground-glow"></div>
+  <div class="vignette"></div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="white"><rect x="0" y="6" width="3" height="6" rx="0.5" opacity="0.3"/><rect x="4.5" y="4" width="3" height="8" rx="0.5" opacity="0.5"/><rect x="9" y="2" width="3" height="10" rx="0.5" opacity="0.7"/><rect x="13.5" y="0" width="3" height="12" rx="0.5"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 10.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" fill="white"/><path d="M4.9 7.4a4.4 4.4 0 0 1 6.2 0" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M2.4 5a7.2 7.2 0 0 1 11.2 0" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.6"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="white" stroke-width="1" fill="none" opacity="0.35"/><rect x="2" y="2" width="17" height="8" rx="1.5" fill="white"/><path d="M22.5 4v4a2 2 0 0 0 0-4z" fill="white" opacity="0.4"/></svg>
+    </div>
+  </div>
+
+  <!-- Wordmark -->
+  <div class="top-nav">
+    <div class="wordmark">Luminora</div>
+    <div class="wordmark-sub">By A. C.</div>
+    <div class="nav-scroll">
+      <div class="nav-item">Closet</div>
+      <div class="nav-item">Explore</div>
+      <div class="nav-item active">Luminora</div>
+      <div class="nav-item">Profile</div>
+      <div class="nav-item">Journal</div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="kicker">Your personal device</div>
+    <div class="welcome-heading">Welcome, Allie</div>
+    <div class="selector-wrap">
+      <span class="selector-label">Select your Luminora</span>
+      <svg class="selector-chevron" width="12" height="7" viewBox="0 0 12 7" fill="none">
+        <path d="M1 1l5 5 5-5" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="product-img-wrap" id="dropZone">
+      <img class="product-img" id="luminoraImg"
+        src="https://www.figma.com/api/mcp/asset/134fa186-b980-4b77-95ad-fa5c3d261065"
+        alt="Luminora device" onerror="this.classList.add('errored')" />
+      <div class="drop-hint" id="dropHint">
+        <div class="drop-hint-inner">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span>Drop your photo here</span>
+        </div>
+      </div>
+      <button class="swap-btn" id="swapBtn">Swap ↑</button>
+      <input type="file" id="imgPicker" accept="image/*" style="display:none" />
+    </div>
+  </div>
+
+  <!-- Device Status -->
+  <div class="editorial-rule">
+    <div class="rule-line"></div>
+    <div class="rule-text">Device Status</div>
+    <div class="rule-line"></div>
+  </div>
+  <div class="status-section">
+    <div class="status-card">
+      <div>
+        <div class="status-tag">Luminora One</div>
+        <div class="status-value">Connected</div>
+      </div>
+      <div class="status-dot-wrap">
+        <div class="status-dot"></div>
+        <div class="status-cta">Manage →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Today Strip -->
+  <div class="today-strip">
+    <div class="today-label">Today in <em>Luminora</em></div>
+    <div class="cards-row">
+      <div class="mini-card">
+        <div class="mini-card-img"><div class="mini-card-placeholder" style="background:linear-gradient(135deg,#111,#1e1030)"></div></div>
+        <div class="mini-card-title">Evening Ritual</div>
+        <div class="mini-card-sub">8 min · Calm</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-img"><div class="mini-card-placeholder" style="background:linear-gradient(135deg,#110e1c,#1e1238)"></div></div>
+        <div class="mini-card-title">Morning Focus</div>
+        <div class="mini-card-sub">12 min · Energy</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-img"><div class="mini-card-placeholder" style="background:linear-gradient(135deg,#0d0d18,#151028)"></div></div>
+        <div class="mini-card-title">Deep Rest</div>
+        <div class="mini-card-sub">20 min · Sleep</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <div class="tabs">
+      <div class="tab">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3a2 2 0 0 1 2 2c0 .74-.4 1.38-1 1.73V8l7.5 5.5A2 2 0 0 1 22 15v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a2 2 0 0 1 .5-1.5L10 8V6.73A2 2 0 0 1 12 3z"/></svg>
+        </div>
+        <div class="tab-label">Closet</div>
+        <div class="tab-mark"></div>
+      </div>
+      <div class="tab">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4" stroke-linecap="round"/></svg>
+        </div>
+        <div class="tab-label">Explore</div>
+        <div class="tab-mark"></div>
+      </div>
+      <div class="tab active">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <ellipse cx="12" cy="12.5" rx="7.5" ry="5.5" stroke-width="0.9"/>
+            <ellipse cx="12" cy="12.5" rx="4.8" ry="3.2" stroke-width="0.85"/>
+            <ellipse cx="12" cy="12.5" rx="2.2" ry="1.4" stroke-width="0.8"/>
+            <line x1="12" y1="5" x2="12" y2="20" stroke-width="0.7" stroke-dasharray="1.2 1.4"/>
+            <line x1="3.5" y1="12.5" x2="20.5" y2="12.5" stroke-width="0.7" stroke-dasharray="1.2 1.4"/>
+          </svg>
+        </div>
+        <div class="tab-label">Luminora</div>
+        <div class="tab-mark"></div>
+      </div>
+      <div class="tab">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke-linecap="round"/></svg>
+        </div>
+        <div class="tab-label">Profile</div>
+        <div class="tab-mark"></div>
+      </div>
+    </div>
+    <div class="home-indicator"><div class="home-indicator-bar"></div></div>
+  </div>
+
+</div>
+<script>
+(function() {
+  const img      = document.getElementById('luminoraImg');
+  const dropZone = document.getElementById('dropZone');
+  const picker   = document.getElementById('imgPicker');
+  const swapBtn  = document.getElementById('swapBtn');
+  const saved    = localStorage.getItem('luminora_img');
+  if (saved) { img.src = saved; img.classList.remove('errored'); }
+  function loadFile(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      img.src = e.target.result;
+      img.classList.remove('errored');
+      try { localStorage.setItem('luminora_img', e.target.result); } catch(e) {}
+    };
+    reader.readAsDataURL(file);
+  }
+  dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('drag-over'); });
+  dropZone.addEventListener('drop', function(e) { e.preventDefault(); dropZone.classList.remove('drag-over'); loadFile(e.dataTransfer.files[0]); });
+  swapBtn.addEventListener('click', function() { picker.click(); });
+  picker.addEventListener('change', function() { loadFile(picker.files[0]); });
+  document.getElementById('dropHint').addEventListener('click', function() { picker.click(); });
+})();
+</script>
+</body>
+</html>
