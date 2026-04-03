@@ -1,5 +1,54 @@
 # Aim Colours — Luminora App
 
+## Migrating Screens from Figma
+
+The current HTML files are rough placeholders — the real designs live in Figma. Each screen needs to be properly migrated before any design work begins on it. **This is the first task for each designer.**
+
+### How it works
+
+The designer just needs to share the Figma link for the screen they want to migrate. Claude will handle the rest:
+
+1. **Designer pastes a Figma URL** (e.g. `figma.com/design/...`)
+   - That's it. That's all the designer needs to do. Claude will pull the design data, screenshot, and code hints directly from Figma.
+
+2. **If the Figma link doesn't work** (integration not set up, permissions issue, etc.), fall back to this:
+   - Ask the designer to open the screen in Figma, select the top-level frame, and go to the Inspect panel (right sidebar)
+   - They should copy the CSS properties shown there and paste them into the chat
+   - For each major section/component visible in the design, repeat: select it, copy the CSS, paste it
+   - Also ask them to take a screenshot of the full screen in Figma (right-click the frame → "Copy as PNG") and paste it into the chat so you can see the layout
+
+3. **Claude generates the HTML/CSS** based on the Figma data:
+   - Match the existing file structure — replace the contents of the corresponding screen file (e.g. `screen-closet.html`)
+   - Use the shared design system variables from `styles.css` wherever possible — don't hardcode colours or fonts
+   - Put screen-specific styles in a `<style>` block inside the HTML file
+   - Preserve the phone frame, dynamic island, status bar, top nav, and tab bar from the existing template — only replace the screen content area
+   - If the design introduces new shared elements (colours, components, typography), add them to `styles.css` and update the Design System section of this file
+
+4. **Review with the designer:**
+   - Show them the result in the browser (they can open the HTML file directly)
+   - Ask: "How does this look compared to the Figma design? Anything I should adjust?"
+   - Iterate until they're happy, committing each round of changes
+
+5. **Commit and push** with a clear label: `[closet] migrate screen from Figma design`
+
+### Migration status
+
+Track which screens have been properly migrated from Figma:
+
+- [ ] index.html (Luminora home) — current version is ~60% correct placeholder
+- [ ] screen-closet.html — placeholder, needs migration
+- [ ] screen-explore.html — placeholder, needs migration
+- [ ] screen-profile.html — placeholder, needs migration
+- [ ] screen-journal.html — placeholder, needs migration
+
+When a screen is migrated, check it off and note the date. This way both designers know what's ready for real work and what's still a placeholder.
+
+### Important
+
+- **Do not start refining or adding features to a screen that hasn't been migrated yet.** The placeholder HTML will be replaced entirely, so any work on it would be lost.
+- If a designer wants to work on a screen that hasn't been migrated, guide them through the migration first.
+- **Never screenshot a Figma design and add the image to the repo.** The goal is to turn the design into code, not to store pictures of it.
+
 ## Session Start — MANDATORY GATE
 
 **DO NOT write, edit, or suggest ANY code until ALL five steps below are completed. No exceptions.**
