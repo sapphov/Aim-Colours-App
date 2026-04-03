@@ -5,8 +5,24 @@ A single-file HTML mockup of the **Luminora** iOS app UI — a luxury wellness/w
 
 ## Tech Stack
 - Pure HTML/CSS/JS — no build tools, no frameworks, no dependencies
-- Single file: `Index.html`
 - Google Fonts: Playfair Display (serif) + Inter (sans-serif)
+
+## File Structure
+```
+Index.html            — Luminora (home) screen
+screen-closet.html    — Closet screen
+screen-explore.html   — Explore screen
+screen-profile.html   — Profile screen
+screen-journal.html   — Journal screen
+styles.css            — Shared styles (phone frame, colors, typography, components)
+```
+Each screen is a self-contained HTML file that links to `styles.css`. Navigation between screens uses plain `<a href>` links — no JS router needed, works with local file:// protocol.
+
+**Workflow for two designers:**
+- Each designer works on their own screen file (e.g. `screen-closet.html`)
+- Branch per screen: `screen/closet`, `screen/explore`, etc.
+- Only edit `styles.css` when adding truly shared components; coordinate to avoid conflicts
+- Screen-specific styles go in a `<style>` block inside the screen's HTML file
 
 ## Design System
 
