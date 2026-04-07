@@ -39,17 +39,8 @@
       </svg>
     </div>
 
-    <div class="product-img-wrap" id="dropZone">
-      <img class="product-img" id="luminoraImg"
-        src="https://www.figma.com/api/mcp/asset/134fa186-b980-4b77-95ad-fa5c3d261065"
-        alt="Luminora device" onerror="this.classList.add('errored')" />
-      <div class="drop-hint" id="dropHint">
-        <div class="drop-hint-inner">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          <span>Drop your photo here</span>
-        </div>
-      </div>
-      <input type="file" id="imgPicker" accept="image/*" style="display:none" />
+    <div class="product-img-wrap">
+      <img class="product-img" src="assets/luminora.png" alt="Luminora device" />
     </div>
   </div>
 
@@ -137,29 +128,5 @@
   </div>
 
 </div>
-<script>
-(function() {
-  const img      = document.getElementById('luminoraImg');
-  const dropZone = document.getElementById('dropZone');
-  const picker   = document.getElementById('imgPicker');
-  const saved    = localStorage.getItem('luminora_img');
-  if (saved) { img.src = saved; img.classList.remove('errored'); }
-  function loadFile(file) {
-    if (!file || !file.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      img.src = e.target.result;
-      img.classList.remove('errored');
-      try { localStorage.setItem('luminora_img', e.target.result); } catch(e) {}
-    };
-    reader.readAsDataURL(file);
-  }
-  dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('drag-over'); });
-  dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('drag-over'); });
-  dropZone.addEventListener('drop', function(e) { e.preventDefault(); dropZone.classList.remove('drag-over'); loadFile(e.dataTransfer.files[0]); });
-  picker.addEventListener('change', function() { loadFile(picker.files[0]); });
-  document.getElementById('dropHint').addEventListener('click', function() { picker.click(); });
-})();
-</script>
 </body>
 </html>
