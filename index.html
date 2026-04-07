@@ -8,6 +8,48 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Hero full-bleed ── */
+    .hero-full {
+      position: relative; z-index: 5;
+      width: 100%; height: 400px;
+      overflow: hidden;
+    }
+    .hero-img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 38%;
+      display: block;
+    }
+    .hero-full::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(to bottom,
+        rgba(5,2,10,0.35) 0%, transparent 25%, transparent 45%, rgba(5,2,10,0.85) 100%);
+    }
+    .hero-text {
+      position: absolute; bottom: 56px; left: 24px; z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: var(--sans); font-size: 9px; letter-spacing: 0.28em;
+      text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 7px;
+    }
+    .hero-headline {
+      font-family: var(--serif); font-size: 36px; font-weight: 400; line-height: 1.1;
+      color: var(--white);
+    }
+    .hero-headline em { font-style: italic; }
+    .hero-selector {
+      position: absolute; bottom: 22px; left: 24px; z-index: 2;
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.3); padding-bottom: 5px;
+      cursor: pointer;
+    }
+    .hero-selector .selector-label {
+      font-family: var(--sans); font-size: 9.5px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+    }
+    .hero-selector svg { opacity: 0.4; }
+  </style>
 </head>
 <body>
 <div class="phone">
@@ -28,19 +70,30 @@
     </div>
   </div>
 
+  <!-- Wordmark + Nav tabs (Vogue-style) -->
+  <div class="top-nav">
+    <div class="wordmark">Luminora</div>
+    <div class="nav-scroll">
+      <a class="nav-item" href="screen-closet.html">Closet</a>
+      <a class="nav-item" href="screen-explore.html">Explore</a>
+      <a class="nav-item active" href="index.html">Luminora</a>
+      <a class="nav-item" href="screen-profile.html">Profile</a>
+      <a class="nav-item" href="screen-journal.html">Journal</a>
+    </div>
+  </div>
 
-  <!-- Hero -->
-  <div class="hero">
-    <div class="welcome-heading">Welcome, Allie</div>
-    <div class="selector-wrap">
-      <span class="selector-label">Select your Luminora</span>
-      <svg class="selector-chevron" width="12" height="7" viewBox="0 0 12 7" fill="none">
+  <!-- Hero — full-bleed image with editorial text overlay -->
+  <div class="hero-full">
+    <img class="hero-img" src="assets/luminora.png" alt="Luminora device" />
+    <div class="hero-text">
+      <div class="hero-eyebrow">Luminora One</div>
+      <div class="hero-headline">Welcome,<br><em>Allie</em></div>
+    </div>
+    <div class="hero-selector">
+      <span class="selector-label">Select your device</span>
+      <svg width="10" height="6" viewBox="0 0 12 7" fill="none">
         <path d="M1 1l5 5 5-5" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-    </div>
-
-    <div class="product-img-wrap">
-      <img class="product-img" src="assets/luminora.png" alt="Luminora device" />
     </div>
   </div>
 
@@ -69,13 +122,9 @@
       <a class="tab" href="screen-closet.html">
         <div class="tab-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <!-- hook: rises from peak, bends right, curls clockwise -->
             <path d="M12 9.5 L12 6.5 Q12 4 14 4 Q16 4 16 6 Q16 7.8 14 7.8"/>
-            <!-- left shoulder: straight diagonal -->
             <line x1="12" y1="9.5" x2="2.5" y2="17"/>
-            <!-- right shoulder: straight diagonal -->
             <line x1="12" y1="9.5" x2="21.5" y2="17"/>
-            <!-- bottom bar: straight with rounded ends -->
             <path d="M2.5 17 Q2 17 2 17.8 Q2 18.5 2.5 18.5 L21.5 18.5 Q22 18.5 22 17.8 Q22 17 21.5 17"/>
           </svg>
         </div>
@@ -92,11 +141,8 @@
       <a class="tab active" href="index.html">
         <div class="tab-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <!-- Outer pebble shape, slightly tilted like the device -->
             <ellipse cx="12" cy="12.5" rx="8.5" ry="6.2" transform="rotate(-8 12 12.5)" stroke-width="1.1"/>
-            <!-- Middle groove -->
             <ellipse cx="12" cy="12.5" rx="5.4" ry="3.8" transform="rotate(-8 12 12.5)" stroke-width="0.85"/>
-            <!-- Inner groove -->
             <ellipse cx="12" cy="12.5" rx="2.6" ry="1.8" transform="rotate(-8 12 12.5)" stroke-width="0.75"/>
           </svg>
         </div>
