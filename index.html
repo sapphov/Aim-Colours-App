@@ -49,7 +49,6 @@
           <span>Drop your photo here</span>
         </div>
       </div>
-      <button class="swap-btn" id="swapBtn">Swap ↑</button>
       <input type="file" id="imgPicker" accept="image/*" style="display:none" />
     </div>
   </div>
@@ -142,7 +141,6 @@
   const img      = document.getElementById('luminoraImg');
   const dropZone = document.getElementById('dropZone');
   const picker   = document.getElementById('imgPicker');
-  const swapBtn  = document.getElementById('swapBtn');
   const saved    = localStorage.getItem('luminora_img');
   if (saved) { img.src = saved; img.classList.remove('errored'); }
   function loadFile(file) {
@@ -158,7 +156,6 @@
   dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('drag-over'); });
   dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('drag-over'); });
   dropZone.addEventListener('drop', function(e) { e.preventDefault(); dropZone.classList.remove('drag-over'); loadFile(e.dataTransfer.files[0]); });
-  swapBtn.addEventListener('click', function() { picker.click(); });
   picker.addEventListener('change', function() { loadFile(picker.files[0]); });
   document.getElementById('dropHint').addEventListener('click', function() { picker.click(); });
 })();
