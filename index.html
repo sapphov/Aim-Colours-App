@@ -24,29 +24,30 @@
       content: '';
       position: absolute; inset: 0; z-index: 1; pointer-events: none;
       background: linear-gradient(to bottom,
-        rgba(5,2,10,0.35) 0%, transparent 25%, transparent 45%, rgba(5,2,10,0.85) 100%);
+        rgba(5,2,10,0.35) 0%, transparent 25%, transparent 80%, rgba(5,2,10,0.4) 100%);
     }
-    .hero-text {
-      position: absolute; bottom: 56px; left: 24px; z-index: 2;
+    .hero-below {
+      position: relative; z-index: 5;
+      padding: 18px 24px 14px;
     }
     .hero-eyebrow {
       font-family: var(--sans); font-size: 9px; letter-spacing: 0.28em;
-      text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 7px;
+      text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 6px;
     }
     .hero-headline {
-      font-family: var(--serif); font-size: 36px; font-weight: 400; line-height: 1.1;
+      font-family: var(--serif); font-size: 32px; font-weight: 400; line-height: 1.1;
       color: var(--white);
     }
     .hero-headline em { font-style: italic; }
     .hero-selector {
-      position: absolute; bottom: 22px; left: 24px; z-index: 2;
+      margin-top: 10px;
       display: flex; align-items: center; gap: 8px;
-      border-bottom: 0.5px solid rgba(255,255,255,0.3); padding-bottom: 5px;
-      cursor: pointer;
+      border-bottom: 0.5px solid rgba(255,255,255,0.25); padding-bottom: 5px;
+      cursor: pointer; width: fit-content;
     }
     .hero-selector .selector-label {
       font-family: var(--sans); font-size: 9.5px; letter-spacing: 0.2em;
-      text-transform: uppercase; color: rgba(255,255,255,0.5);
+      text-transform: uppercase; color: rgba(255,255,255,0.45);
     }
     .hero-selector svg { opacity: 0.4; }
   </style>
@@ -82,13 +83,15 @@
     </div>
   </div>
 
-  <!-- Hero — full-bleed image with editorial text overlay -->
+  <!-- Hero — full-bleed image -->
   <div class="hero-full">
     <img class="hero-img" src="assets/luminora.png" alt="Luminora device" />
-    <div class="hero-text">
-      <div class="hero-eyebrow">Luminora One</div>
-      <div class="hero-headline">Welcome,<br><em>Allie</em></div>
-    </div>
+  </div>
+
+  <!-- Editorial text below image -->
+  <div class="hero-below">
+    <div class="hero-eyebrow">Luminora One</div>
+    <div class="hero-headline">Welcome,<br><em>Allie</em></div>
     <div class="hero-selector">
       <span class="selector-label">Select your device</span>
       <svg width="10" height="6" viewBox="0 0 12 7" fill="none">
