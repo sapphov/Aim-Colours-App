@@ -9,19 +9,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* ── Hero full-bleed ── */
+    /* ── Device image — floats above background ── */
     .hero-full {
       position: relative; z-index: 5;
-      width: 100%; height: 400px;
-      overflow: hidden;
+      width: 100%; height: 380px;
     }
     .hero-img {
+      position: absolute;
       width: 100%; height: 100%;
       object-fit: contain; object-position: center;
       display: block;
-      mix-blend-mode: multiply;
     }
-    .hero-full::after { content: ''; }
     .hero-below {
       position: relative; z-index: 5;
       padding: 18px 24px 50px;
