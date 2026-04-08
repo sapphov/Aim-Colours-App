@@ -17,15 +17,11 @@
     }
     .hero-img {
       width: 100%; height: 100%;
-      object-fit: cover; object-position: center 38%;
+      object-fit: contain; object-position: center;
       display: block;
+      mix-blend-mode: multiply;
     }
-    .hero-full::after {
-      content: '';
-      position: absolute; inset: 0; z-index: 1; pointer-events: none;
-      background: linear-gradient(to bottom,
-        rgba(5,2,10,0.35) 0%, transparent 25%, transparent 80%, rgba(5,2,10,0.4) 100%);
-    }
+    .hero-full::after { content: ''; }
     .hero-below {
       position: relative; z-index: 5;
       padding: 18px 24px 50px;
