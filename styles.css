@@ -44,7 +44,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: #000 url('assets/Luminora background.png') center center / cover no-repeat;
+  background: #000 url('Luminora background.png') center center / cover no-repeat;
 }
 .bg::before { content: ''; }
 .bg::after { content: ''; }

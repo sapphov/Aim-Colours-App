@@ -9,85 +9,49 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    .welcome-text {
-      position: absolute;
-      z-index: 10;
-      top: 66px;
-      left: 21px;
-      font-family: var(--sans);
-      font-size: 30px;
-      font-weight: 400;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      line-height: 1.4;
-      white-space: nowrap;
+    /* ── Hero full-bleed ── */
+    .hero-full {
+      position: relative; z-index: 5;
+      width: 100%; height: 400px;
+      overflow: hidden;
     }
-
-    .device-selector {
-      position: absolute;
-      z-index: 10;
-      top: 169px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #2f2f2f;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 20px;
-      padding: 8px 16px;
-      cursor: pointer;
-      white-space: nowrap;
+    .hero-img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 38%;
+      display: block;
     }
-    .device-selector-label {
-      font-family: var(--sans);
-      font-size: 16px;
-      font-weight: 500;
+    .hero-full::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(to bottom,
+        rgba(5,2,10,0.35) 0%, transparent 25%, transparent 80%, rgba(5,2,10,0.4) 100%);
+    }
+    .hero-below {
+      position: relative; z-index: 5;
+      padding: 18px 24px 50px;
+    }
+    .hero-eyebrow {
+      font-family: var(--sans); font-size: 9px; letter-spacing: 0.28em;
+      text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 6px;
+    }
+    .hero-headline {
+      font-family: var(--serif); font-size: 32px; font-weight: 400; line-height: 1.1;
       color: var(--white);
     }
-    .device-selector-chevron {
-      opacity: 0.5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .hero-headline em { font-style: italic; }
+    .hero-selector {
+      margin-top: 28px;
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.25); padding-bottom: 5px;
+      cursor: pointer; width: fit-content;
     }
+    .hero-selector .selector-label {
+      font-family: var(--sans); font-size: 9.5px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.45);
+    }
+    .hero-selector svg { opacity: 0.4; }
 
-    .device-image {
-      position: absolute;
-      z-index: 5;
-      top: 178px;
-      left: 9px;
-      width: 400px;
-      height: 526px;
-      object-fit: cover;
-      object-position: center;
-      pointer-events: none;
-      mix-blend-mode: multiply;
-    }
 
-    .connected-pill {
-      position: absolute;
-      z-index: 10;
-      top: 643px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 176px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(20, 20, 20, 0.75);
-      border: 0.5px solid rgba(255, 255, 255, 0.2);
-      border-radius: 18px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-    .connected-pill span {
-      font-family: var(--sans);
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--white);
-    }
   </style>
 </head>
 <body>
@@ -95,6 +59,9 @@
 
   <div class="dynamic-island"></div>
   <div class="bg"></div>
+  <div class="light-beam"></div>
+  <div class="ground-glow"></div>
+  <div class="vignette"></div>
 
   <!-- Status Bar -->
   <div class="status-bar">
@@ -106,25 +73,44 @@
     </div>
   </div>
 
-  <!-- Welcome text -->
-  <div class="welcome-text">Welcome Allie</div>
-
-  <!-- Device selector dropdown -->
-  <div class="device-selector">
-    <span class="device-selector-label">Select your Luminora</span>
-    <span class="device-selector-chevron">
-      <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-        <path d="M1 1.5L6 6.5L11 1.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </span>
+  <!-- Wordmark -->
+  <div class="top-nav">
+    <div class="wordmark">Luminora</div>
   </div>
 
-  <!-- Device image -->
-  <img class="device-image" src="assets/New luminora.png" alt="Luminora device" />
+  <!-- Hero — full-bleed image -->
+  <div class="hero-full">
+    <img class="hero-img" src="assets/luminora.png" alt="Luminora device" />
+  </div>
 
-  <!-- Connected pill -->
-  <div class="connected-pill">
-    <span>Connected</span>
+  <!-- Editorial text below image -->
+  <div class="hero-below">
+    <div class="hero-headline">Welcome,<br><em>Allie</em></div>
+  </div>
+
+  <!-- Device Status — Option B: selector lives inside the card -->
+  <div class="editorial-rule">
+    <div class="rule-line"></div>
+    <div class="rule-text">Device Status</div>
+    <div class="rule-line"></div>
+  </div>
+  <div class="status-section">
+    <div class="status-card">
+      <div>
+        <div class="status-tag">Luminora One</div>
+        <div class="status-value">Connected</div>
+        <div class="hero-selector" style="margin-top:10px;">
+          <span class="selector-label">Select your device</span>
+          <svg width="10" height="6" viewBox="0 0 12 7" fill="none">
+            <path d="M1 1l5 5 5-5" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="status-dot-wrap">
+        <div class="status-dot"></div>
+        <div class="status-cta">Manage →</div>
+      </div>
+    </div>
   </div>
 
   <!-- Tab Bar -->
@@ -151,11 +137,10 @@
       </a>
       <a class="tab active" href="index.html">
         <div class="tab-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
-            <path d="M12,12 C11,8.5 7,6 4,7.5 C2,9 4,13 12,12Z"/>
-            <path d="M12,12 C13,8.5 17,6 20,7.5 C22,9 20,13 12,12Z"/>
-            <path d="M12,12 C11,15.5 7,17.5 4,16 C2,14.5 4,11 12,12Z"/>
-            <path d="M12,12 C13,15.5 17,17.5 20,16 C22,14.5 20,11 12,12Z"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <ellipse cx="12" cy="12.5" rx="8.5" ry="6.2" transform="rotate(-8 12 12.5)" stroke-width="1.1"/>
+            <ellipse cx="12" cy="12.5" rx="5.4" ry="3.8" transform="rotate(-8 12 12.5)" stroke-width="0.85"/>
+            <ellipse cx="12" cy="12.5" rx="2.6" ry="1.8" transform="rotate(-8 12 12.5)" stroke-width="0.75"/>
           </svg>
         </div>
         <div class="tab-label">Luminora</div>
