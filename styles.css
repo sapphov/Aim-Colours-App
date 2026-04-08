@@ -46,19 +46,31 @@ body {
   z-index: 0;
   background: #000;
 }
-/* Glow positioned at ~38% from top — directly behind the device image */
+/* Tall diamond glow — bright top point, fading to black, clipped to diamond shape */
 .bg::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 55% 38% at 50% 38%,
-    rgba(110, 55, 190, 0.75) 0%,
-    rgba(80,  30, 155, 0.45) 25%,
-    rgba(50,  10, 110, 0.18) 50%,
-    transparent 70%);
-  filter: blur(4px);
+  background: radial-gradient(ellipse 60% 80% at 50% 35%,
+    rgba(130, 90, 210, 0.85) 0%,
+    rgba(90,  50, 175, 0.55) 22%,
+    rgba(55,  20, 130, 0.25) 45%,
+    rgba(20,   5,  60, 0.06) 65%,
+    transparent 80%);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  filter: blur(18px);
 }
-.bg::after { content: ''; }
+/* Second pass — softer inner glow for the bright upper point */
+.bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 25% 30% at 50% 28%,
+    rgba(170, 130, 240, 0.55) 0%,
+    rgba(110,  70, 200, 0.20) 45%,
+    transparent 70%);
+  filter: blur(10px);
+}
 
 /* ── Dynamic Island ─────────────────────────────────────── */
 .dynamic-island {
