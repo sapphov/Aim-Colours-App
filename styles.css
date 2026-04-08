@@ -44,20 +44,19 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: #04010a;
+  background: #000;
 }
-/* Single tight circular glow centred behind the device */
+/* Glow positioned at ~38% from top — directly behind the device image */
 .bg::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 48% 36% at 50% 53%,
-    rgba(148, 82, 220, 0.90) 0%,
-    rgba(110, 50, 185, 0.60) 20%,
-    rgba(70,  20, 140, 0.28) 42%,
-    rgba(30,   5,  70, 0.08) 62%,
-    transparent 75%);
-  filter: blur(6px);
+  background: radial-gradient(ellipse 55% 38% at 50% 38%,
+    rgba(110, 55, 190, 0.75) 0%,
+    rgba(80,  30, 155, 0.45) 25%,
+    rgba(50,  10, 110, 0.18) 50%,
+    transparent 70%);
+  filter: blur(4px);
 }
 .bg::after { content: ''; }
 
