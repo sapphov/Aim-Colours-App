@@ -8,15 +8,156 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Profile screen overrides ───────────────────────── */
+    .bg { background: #000 !important; }
+    .top-nav, .light-beam, .ground-glow, .vignette { display: none; }
+
+    /* ── Profile layout container ───────────────────────── */
+    .profile-screen {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      height: calc(852px - 48px - 95px); /* minus status bar and tab bar */
+      overflow: hidden;
+    }
+
+    /* ── Hamburger ───────────────────────────────────────── */
+    .profile-hamburger {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 15;
+    }
+
+    /* ── Header: info + avatar ───────────────────────────── */
+    .profile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 14px 14px 0;
+    }
+
+    .profile-info { flex: 1; }
+
+    .profile-name {
+      font-family: var(--sans);
+      font-size: 23px;
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+    }
+
+    .profile-meta {
+      font-family: var(--sans);
+      font-size: 17px;
+      font-weight: 400;
+      color: #dadada;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+    }
+
+    /* ── Avatar circle with + ────────────────────────────── */
+    .profile-avatar {
+      width: 77px;
+      height: 77px;
+      border-radius: 50%;
+      background: #2d2d2d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-left: 12px;
+      cursor: pointer;
+    }
+
+    .profile-avatar-plus {
+      font-size: 36px;
+      font-weight: 200;
+      color: #888;
+      line-height: 1;
+      margin-top: -2px;
+    }
+
+    /* ── Divider ─────────────────────────────────────────── */
+    .profile-rule {
+      height: 0.5px;
+      background: rgba(255,255,255,0.35);
+      margin: 0 14px 14px;
+    }
+
+    /* ── Stats row ───────────────────────────────────────── */
+    .profile-stats {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 14px 18px;
+    }
+
+    .profile-stat-right { text-align: right; }
+
+    .stat-label {
+      font-family: var(--sans);
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+    }
+
+    .stat-value {
+      font-family: var(--sans);
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+    }
+
+    /* ── Scrollable cards ────────────────────────────────── */
+    .profile-cards {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      padding: 0 21px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .profile-cards::-webkit-scrollbar { display: none; }
+
+    .profile-card {
+      flex-shrink: 0;
+      height: 248px;
+      background: #dadada;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .profile-card-label {
+      font-family: var(--sans);
+      font-size: 17px;
+      font-weight: 400;
+      color: #000;
+      letter-spacing: -0.02em;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+  </style>
 </head>
 <body>
 <div class="phone">
 
   <div class="dynamic-island"></div>
   <div class="bg"></div>
-  <div class="light-beam"></div>
-  <div class="ground-glow"></div>
-  <div class="vignette"></div>
 
   <!-- Status Bar -->
   <div class="status-bar">
@@ -28,25 +169,61 @@
     </div>
   </div>
 
-  <!-- Wordmark -->
-  <div class="top-nav">
-    <div class="wordmark">Luminora</div>
-    <div class="wordmark-sub">By A. C.</div>
-    <div class="nav-scroll">
-      <a class="nav-item" href="screen-closet.html">Closet</a>
-      <a class="nav-item" href="screen-explore.html">Explore</a>
-      <a class="nav-item" href="Index.html">Luminora</a>
-      <a class="nav-item active" href="screen-profile.html">Profile</a>
-      <a class="nav-item" href="screen-journal.html">Journal</a>
-    </div>
-  </div>
+  <!-- Profile Screen -->
+  <div class="profile-screen">
 
-  <!-- Screen Content -->
-  <div class="screen-placeholder">
-    <div class="placeholder-inner">
-      <div class="placeholder-name">Profile</div>
-      <div class="placeholder-sub">In design</div>
+    <!-- Hamburger menu -->
+    <button class="profile-hamburger" aria-label="Menu">
+      <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
+        <rect width="20" height="1.5" rx="0.75" fill="white"/>
+        <rect y="6.25" width="20" height="1.5" rx="0.75" fill="white"/>
+        <rect y="12.5" width="20" height="1.5" rx="0.75" fill="white"/>
+      </svg>
+    </button>
+
+    <!-- Profile header -->
+    <div class="profile-header">
+      <div class="profile-info">
+        <div class="profile-name">Allie Huerta</div>
+        <div class="profile-meta">@alliehuerta</div>
+        <div class="profile-meta">Montréal</div>
+      </div>
+      <div class="profile-avatar">
+        <span class="profile-avatar-plus">+</span>
+      </div>
     </div>
+
+    <!-- Stats -->
+    <div class="profile-stats">
+      <div class="profile-stat">
+        <div class="stat-label">Friends</div>
+        <div class="stat-value">100</div>
+      </div>
+      <div class="profile-stat profile-stat-right">
+        <div class="stat-label">Points</div>
+        <div class="stat-value">1000</div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="profile-rule"></div>
+
+    <!-- Scrollable cards -->
+    <div class="profile-cards">
+      <div class="profile-card">
+        <div class="profile-card-label">Colour Collection</div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-card-label">Your Accessories</div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-card-label">Etc.</div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-card-label">Etc.</div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Tab Bar -->
