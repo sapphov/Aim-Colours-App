@@ -11,124 +11,96 @@
   <style>
     /* ── Profile screen overrides ───────────────────────── */
     .bg { background: #000 !important; }
-    .top-nav, .light-beam, .ground-glow, .vignette { display: none; }
+    .light-beam, .ground-glow, .vignette { display: none; }
 
-    /* ── Profile layout container ───────────────────────── */
+    /* ── Outer container ────────────────────────────────── */
     .profile-screen {
       position: relative;
       z-index: 5;
       display: flex;
       flex-direction: column;
-      height: calc(852px - 48px - 95px); /* minus status bar and tab bar */
+      height: calc(852px - 48px - 95px);
       overflow: hidden;
     }
 
-    /* ── Hamburger ───────────────────────────────────────── */
-    .profile-hamburger {
-      position: absolute;
-      top: 12px;
-      right: 14px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-      z-index: 15;
-    }
+    /* ── Pane toggle ────────────────────────────────────── */
+    .profile-pane { display: flex; flex-direction: column; height: 100%; }
+    .profile-pane.hidden { display: none; }
 
-    /* ── Header: info + avatar ───────────────────────────── */
+    /* ══ SCREEN 1: PROFILE ══════════════════════════════ */
+
     .profile-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      padding: 14px 14px 0;
+      padding: 4px 14px 10px;
+      flex-shrink: 0;
     }
-
-    .profile-info { flex: 1; }
-
     .profile-name {
       font-family: var(--sans);
       font-size: 23px;
       font-weight: 400;
       color: var(--white);
       letter-spacing: -0.02em;
-      line-height: 1.35;
+      line-height: 1.4;
     }
-
     .profile-meta {
       font-family: var(--sans);
       font-size: 17px;
       font-weight: 400;
       color: #dadada;
       letter-spacing: -0.02em;
-      line-height: 1.35;
+      line-height: 1.4;
+      margin-top: 1px;
     }
-
-    /* ── Avatar circle with + ────────────────────────────── */
-    .profile-avatar {
-      width: 77px;
-      height: 77px;
-      border-radius: 50%;
-      background: #2d2d2d;
+    .profile-right {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
       flex-shrink: 0;
-      margin-left: 12px;
+    }
+    .hamburger-btn {
+      background: none;
+      border: none;
       cursor: pointer;
+      padding: 4px 0 4px 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
 
-    .profile-avatar-plus {
-      font-size: 36px;
-      font-weight: 200;
-      color: #888;
-      line-height: 1;
-      margin-top: -2px;
-    }
-
-    /* ── Divider ─────────────────────────────────────────── */
-    .profile-rule {
-      height: 0.5px;
-      background: rgba(255,255,255,0.35);
-      margin: 0 14px 14px;
-    }
-
-    /* ── Stats row ───────────────────────────────────────── */
     .profile-stats {
       display: flex;
       justify-content: space-between;
-      padding: 16px 14px 18px;
+      padding: 8px 14px 6px;
+      flex-shrink: 0;
     }
-
-    .profile-stat-right { text-align: right; }
-
-    .stat-label {
+    .stat-label, .stat-val {
       font-family: var(--sans);
       font-size: 17px;
       font-weight: 400;
       color: var(--white);
       letter-spacing: -0.02em;
-      line-height: 1.35;
+      line-height: 1.4;
+    }
+    .profile-rule {
+      height: 0.5px;
+      background: rgba(255,255,255,0.25);
+      margin: 0 14px;
+      flex-shrink: 0;
     }
 
-    .stat-value {
-      font-family: var(--sans);
-      font-size: 17px;
-      font-weight: 400;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      line-height: 1.35;
-    }
-
-    /* ── Scrollable cards ────────────────────────────────── */
     .profile-cards {
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
       scrollbar-width: none;
-      padding: 0 21px 20px;
+      padding: 12px 14px 12px;
       display: flex;
       flex-direction: column;
       gap: 15px;
+      min-height: 0;
     }
     .profile-cards::-webkit-scrollbar { display: none; }
 
@@ -137,20 +109,78 @@
       height: 248px;
       background: #dadada;
       border-radius: 10px;
-      overflow: hidden;
       position: relative;
     }
-
     .profile-card-label {
+      position: absolute;
+      top: 12px;
+      left: 10px;
       font-family: var(--sans);
       font-size: 17px;
       font-weight: 400;
       color: #000;
       letter-spacing: -0.02em;
-      position: absolute;
-      top: 10px;
-      left: 10px;
     }
+
+    /* ══ SCREEN 2: SETTINGS ══════════════════════════════ */
+
+    .settings-header {
+      padding: 10px 13px 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .settings-back {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .settings-title {
+      font-family: var(--sans);
+      font-size: 30px;
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+
+    .settings-menu {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 13px;
+      min-height: 0;
+      scrollbar-width: none;
+    }
+    .settings-menu::-webkit-scrollbar { display: none; }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      cursor: pointer;
+    }
+    .menu-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .menu-label {
+      font-family: var(--sans);
+      font-size: 19px;
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      flex: 1;
+    }
+    .menu-arrow { flex-shrink: 0; opacity: 0.7; }
+    .menu-divider { height: 0.5px; background: rgba(255,255,255,0.15); }
   </style>
 </head>
 <body>
@@ -172,56 +202,108 @@
   <!-- Profile Screen -->
   <div class="profile-screen">
 
-    <!-- Hamburger menu -->
-    <button class="profile-hamburger" aria-label="Menu">
-      <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
-        <rect width="20" height="1.5" rx="0.75" fill="white"/>
-        <rect y="6.25" width="20" height="1.5" rx="0.75" fill="white"/>
-        <rect y="12.5" width="20" height="1.5" rx="0.75" fill="white"/>
-      </svg>
-    </button>
+    <!-- ── PANE 1: Profile ── -->
+    <div class="profile-pane" id="screen1">
 
-    <!-- Profile header -->
-    <div class="profile-header">
-      <div class="profile-info">
-        <div class="profile-name">Allie Huerta</div>
-        <div class="profile-meta">@alliehuerta</div>
-        <div class="profile-meta">Montréal</div>
+      <div class="profile-header">
+        <div>
+          <div class="profile-name">Allie Huerta</div>
+          <div class="profile-meta">@alliehuerta</div>
+          <div class="profile-meta">Montréal</div>
+        </div>
+        <div class="profile-right">
+          <button class="hamburger-btn" onclick="showSettings()">
+            <svg width="22" height="16" fill="none"><line x1="0" y1="2" x2="22" y2="2" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="8" x2="22" y2="8" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="14" x2="22" y2="14" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
       </div>
-      <div class="profile-avatar">
-        <span class="profile-avatar-plus">+</span>
+
+      <div class="profile-stats">
+        <div>
+          <div class="stat-label">Friends</div>
+          <div class="stat-val">100</div>
+        </div>
+        <div style="text-align:right">
+          <div class="stat-label">Points</div>
+          <div class="stat-val">1000</div>
+        </div>
       </div>
+      <div class="profile-rule"></div>
+
+      <div class="profile-cards">
+        <div class="profile-card"><div class="profile-card-label">Colour Collection</div></div>
+        <div class="profile-card"><div class="profile-card-label">Your Accessories</div></div>
+        <div class="profile-card"><div class="profile-card-label">Etc.</div></div>
+        <div class="profile-card"><div class="profile-card-label">Etc.</div></div>
+      </div>
+
     </div>
 
-    <!-- Stats -->
-    <div class="profile-stats">
-      <div class="profile-stat">
-        <div class="stat-label">Friends</div>
-        <div class="stat-value">100</div>
-      </div>
-      <div class="profile-stat profile-stat-right">
-        <div class="stat-label">Points</div>
-        <div class="stat-value">1000</div>
-      </div>
-    </div>
+    <!-- ── PANE 2: Settings ── -->
+    <div class="profile-pane hidden" id="screen2">
 
-    <!-- Divider -->
-    <div class="profile-rule"></div>
+      <div class="settings-header">
+        <button class="settings-back" onclick="showProfile()">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="m14 26 1.41-1.41L7.83 17H28v-2H7.83l7.58-7.59L14 6 4 16z" fill="white"/></svg>
+        </button>
+        <div class="settings-title">Settings</div>
+      </div>
 
-    <!-- Scrollable cards -->
-    <div class="profile-cards">
-      <div class="profile-card">
-        <div class="profile-card-label">Colour Collection</div>
+      <div class="settings-menu">
+        <div class="menu-item">
+          <div class="menu-icon"><svg width="24" height="24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.3"/><path d="M12 11v6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="8" r="1" fill="white"/></svg></div>
+          <span class="menu-label">Account Info</span>
+          <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-item">
+          <div class="menu-icon"><svg width="24" height="24" fill="none"><circle cx="12" cy="8" r="4" stroke="white" stroke-width="1.3"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          <span class="menu-label">Edit Profile</span>
+          <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-item">
+          <div class="menu-icon"><svg width="24" height="24" fill="none"><path d="M12 2C8.7 2 6 4.7 6 8c0 5.3 6 13 6 13s6-7.7 6-13c0-3.3-2.7-6-6-6Z" stroke="white" stroke-width="1.3"/><circle cx="12" cy="8" r="2.5" stroke="white" stroke-width="1.3"/></svg></div>
+          <span class="menu-label">Preferences</span>
+          <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-item">
+          <div class="menu-icon"><svg width="24" height="24" fill="none"><path d="M6 10a6 6 0 0 1 12 0v4l2 2H4l2-2v-4Z" stroke="white" stroke-width="1.3" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          <span class="menu-label">Notifications</span>
+          <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-item">
+          <div class="menu-icon"><svg width="24" height="24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="white" stroke-width="1.3"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="white" stroke-width="1.3" stroke-linecap="round"/><circle cx="12" cy="16" r="1.5" fill="white"/></svg></div>
+          <span class="menu-label">Permissions</span>
+          <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-item">
+          <div class="menu-icon"><svg width="24" height="24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.3"/><line x1="12" y1="6.5" x2="12" y2="17.5" stroke="white" stroke-width="1.3" stroke-linecap="round"/><path d="M14.5 9.5C14.5 8.4 13.4 7.8 12 7.8H11C9.9 7.8 9 8.5 9 9.5C9 10.5 9.8 11 12 11.5C14.2 12 15 12.7 15 13.8C15 14.9 14 15.8 12.8 15.8H11C9.6 15.8 9 15 9 14" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          <span class="menu-label">Payment</span>
+          <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-item"><span class="menu-label" style="padding-left:4px">Etc.</span><svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="menu-divider"></div>
+        <div class="menu-item"><span class="menu-label" style="padding-left:4px">Etc.</span><svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="menu-divider"></div>
+        <div class="menu-item"><span class="menu-label" style="padding-left:4px">Etc.</span><svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="menu-divider"></div>
+        <div class="menu-item"><span class="menu-label" style="padding-left:4px">Etc.</span><svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="menu-divider"></div>
+        <div class="menu-item"><span class="menu-label" style="padding-left:4px">Etc.</span><svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="menu-divider"></div>
+        <div class="menu-item"><span class="menu-label" style="padding-left:4px">Etc.</span><svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="menu-divider"></div>
+        <div class="menu-item"><span class="menu-label" style="padding-left:4px">Etc.</span><svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="menu-divider"></div>
+        <div class="menu-item"><span class="menu-label" style="padding-left:4px">Etc.</span><svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="menu-divider"></div>
       </div>
-      <div class="profile-card">
-        <div class="profile-card-label">Your Accessories</div>
-      </div>
-      <div class="profile-card">
-        <div class="profile-card-label">Etc.</div>
-      </div>
-      <div class="profile-card">
-        <div class="profile-card-label">Etc.</div>
-      </div>
+
     </div>
 
   </div>
@@ -243,7 +325,7 @@
         <div class="tab-label">Explore</div>
         <div class="tab-mark"></div>
       </a>
-      <a class="tab" href="Index.html">
+      <a class="tab" href="index.html">
         <div class="tab-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <ellipse cx="12" cy="12.5" rx="7.5" ry="5.5" stroke-width="0.9"/>
@@ -268,5 +350,17 @@
   </div>
 
 </div>
+
+<script>
+  function showSettings() {
+    document.getElementById('screen1').classList.add('hidden');
+    document.getElementById('screen2').classList.remove('hidden');
+  }
+  function showProfile() {
+    document.getElementById('screen2').classList.add('hidden');
+    document.getElementById('screen1').classList.remove('hidden');
+  }
+</script>
+
 </body>
 </html>
