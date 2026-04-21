@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=393, initial-scale=1.0" />
+  <title>Aim Colours — Pendants</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Pendants screen — white theme ─────────────────────── */
+    .phone.pendants-screen { background: #fff; }
+    .pendants-screen .status-time { color: #000; }
+
+    /* Header */
+    .pendants-header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center;
+      padding: 6px 16px 10px; gap: 0;
+    }
+    .pendants-back {
+      font-size: 22px; color: #000; line-height: 1;
+      display: flex; align-items: center; flex-shrink: 0;
+    }
+    .pendants-title {
+      font-family: var(--sans);
+      font-size: 30px; font-weight: 400;
+      color: #000; letter-spacing: -0.02em;
+      flex: 1; padding-left: 6px;
+    }
+    .pendants-palette {
+      width: 32px; height: 32px; flex-shrink: 0;
+    }
+    .pendants-palette img { width: 100%; height: 100%; object-fit: contain; }
+
+    /* Scrollable content area */
+    .pendants-content {
+      position: absolute;
+      top: 88px; left: 0; right: 0; bottom: 95px;
+      overflow-y: auto; overflow-x: hidden;
+      padding: 0 0 16px;
+      scrollbar-width: none;
+    }
+    .pendants-content::-webkit-scrollbar { display: none; }
+
+    /* Section */
+    .pendant-section { margin-bottom: 0; padding-bottom: 16px; }
+    .pendant-section-label {
+      font-family: var(--sans);
+      font-size: 19px; font-weight: 400;
+      color: #000; letter-spacing: -0.02em;
+      margin-bottom: 0; padding: 4px 11px 8px;
+    }
+
+    /* Horizontally scrollable pendant row */
+    .pendant-scroll-wrap {
+      position: relative;
+      height: 141px; overflow: hidden;
+    }
+    .pendant-row {
+      position: absolute;
+      top: -6px; left: 0; right: 0;
+      display: flex;
+      gap: 43px;
+      align-items: center;
+      height: 114px;
+      overflow-x: auto; overflow-y: visible;
+      scrollbar-width: none;
+      padding-left: 41px;
+      padding-right: 20px;
+    }
+    .pendant-row::-webkit-scrollbar { display: none; }
+
+    /* Individual pendant */
+    .pendant-item {
+      flex-shrink: 0;
+      overflow: hidden; position: relative;
+    }
+    .pendant-item.type-a { width: 117px; height: 170px; }
+    .pendant-item.type-b { width: 127px; height: 170px; }
+
+    .pendant-item img {
+      position: absolute;
+      max-width: none;
+    }
+    /* Teal pendant crop */
+    .pendant-item.type-a img {
+      width: 311.25%; height: 297.67%;
+      left: -182.67%; top: -26.55%;
+    }
+    /* Pink pendant crop */
+    .pendant-item.type-b img {
+      width: 263.24%; height: 296.63%;
+      left: -15.42%; top: -25.91%;
+    }
+
+    /* Scroll indicator */
+    .pendant-track {
+      position: absolute; bottom: 4px; left: 4px; right: 4px;
+      height: 2px; background: #2f2f2f; border-radius: 1px;
+    }
+    .pendant-thumb {
+      position: absolute; bottom: 4px; left: 24px;
+      height: 2px; width: 23px;
+      background: #000; border-radius: 1px;
+      transition: left 0.1s;
+    }
+
+    /* Tab bar — light theme */
+    .pendants-screen .tab-bar {
+      background: rgba(255,255,255,0.9);
+      border-top: 0.5px solid rgba(0,0,0,0.1);
+    }
+    .pendants-screen .tab-label { color: rgba(0,0,0,0.35); }
+    .pendants-screen .tab.active .tab-label { color: #000; }
+    .pendants-screen .tab-icon svg { color: rgba(0,0,0,0.35); }
+    .pendants-screen .tab.active .tab-icon svg { color: #000; stroke: #000; }
+    .pendants-screen .tab-mark { background: #000; }
+    .pendants-screen .home-indicator-bar { background: rgba(0,0,0,0.25); }
+  </style>
+</head>
+<body>
+<div class="phone pendants-screen">
+
+  <div class="dynamic-island"></div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="black">
+        <rect x="0" y="6" width="3" height="6" rx="0.5" opacity="0.3"/>
+        <rect x="4.5" y="4" width="3" height="8" rx="0.5" opacity="0.5"/>
+        <rect x="9" y="2" width="3" height="10" rx="0.5" opacity="0.7"/>
+        <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+      </svg>
+      <svg width="16" height="12" viewBox="0 0 16 12">
+        <path d="M8 10.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" fill="black"/>
+        <path d="M4.9 7.4a4.4 4.4 0 0 1 6.2 0" stroke="black" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path d="M2.4 5a7.2 7.2 0 0 1 11.2 0" stroke="black" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.6"/>
+      </svg>
+      <svg width="25" height="12" viewBox="0 0 25 12">
+        <rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="black" stroke-width="1" fill="none" opacity="0.35"/>
+        <rect x="2" y="2" width="17" height="8" rx="1.5" fill="black"/>
+        <path d="M22.5 4v4a2 2 0 0 0 0-4z" fill="black" opacity="0.4"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <div class="pendants-header">
+    <div class="pendants-back">&#8592;</div>
+    <div class="pendants-title">Pendants</div>
+    <div class="pendants-palette">
+      <img src="https://www.figma.com/api/mcp/asset/57710e62-8de6-452c-9a41-952898636408" alt="palette" />
+    </div>
+  </div>
+
+  <!-- Scrollable Content -->
+  <div class="pendants-content">
+
+    <!-- Archive -->
+    <div class="pendant-section">
+      <div class="pendant-section-label">Archive</div>
+      <div class="pendant-scroll-wrap">
+        <div class="pendant-row" id="row-archive">
+          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
+          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
+          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
+          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
+        </div>
+        <div class="pendant-track"></div>
+        <div class="pendant-thumb" id="thumb-archive"></div>
+      </div>
+    </div>
+
+    <!-- Created by Friends -->
+    <div class="pendant-section">
+      <div class="pendant-section-label">Created by Friends</div>
+      <div class="pendant-scroll-wrap">
+        <div class="pendant-row" id="row-friends">
+          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
+          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
+          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
+          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
+        </div>
+        <div class="pendant-track"></div>
+        <div class="pendant-thumb" id="thumb-friends"></div>
+      </div>
+    </div>
+
+    <!-- Recently Worn -->
+    <div class="pendant-section">
+      <div class="pendant-section-label">Recently Worn</div>
+      <div class="pendant-scroll-wrap">
+        <div class="pendant-row" id="row-recent">
+          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
+          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
+          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
+          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
+        </div>
+        <div class="pendant-track"></div>
+        <div class="pendant-thumb" id="thumb-recent"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <div class="tabs">
+      <a class="tab active" href="screen-closet.html">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3a2 2 0 0 1 2 2c0 .74-.4 1.38-1 1.73V8l7.5 5.5A2 2 0 0 1 22 15v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a2 2 0 0 1 .5-1.5L10 8V6.73A2 2 0 0 1 12 3z"/></svg>
+        </div>
+        <div class="tab-label">Closet</div>
+        <div class="tab-mark"></div>
+      </a>
+      <a class="tab" href="screen-explore.html">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4" stroke-linecap="round"/></svg>
+        </div>
+        <div class="tab-label">Explore</div>
+        <div class="tab-mark"></div>
+      </a>
+      <a class="tab" href="index.html">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <ellipse cx="12" cy="12" rx="7.5" ry="6" stroke-width="1.2"/>
+            <ellipse cx="12" cy="12.5" rx="5" ry="3.5" stroke-width="1"/>
+            <ellipse cx="12" cy="13" rx="2.5" ry="1.5" stroke-width="0.9"/>
+          </svg>
+        </div>
+        <div class="tab-label">Luminora</div>
+        <div class="tab-mark"></div>
+      </a>
+      <a class="tab" href="screen-profile.html">
+        <div class="tab-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke-linecap="round"/></svg>
+        </div>
+        <div class="tab-label">Profile</div>
+        <div class="tab-mark"></div>
+      </a>
+    </div>
+    <div class="home-indicator"><div class="home-indicator-bar"></div></div>
+  </div>
+
+</div>
+
+<script>
+  const rows = [
+    { row: 'row-archive', thumb: 'thumb-archive' },
+    { row: 'row-friends', thumb: 'thumb-friends' },
+    { row: 'row-recent',  thumb: 'thumb-recent'  },
+  ];
+
+  rows.forEach(({ row, thumb }) => {
+    const rowEl   = document.getElementById(row);
+    const thumbEl = document.getElementById(thumb);
+    if (!rowEl || !thumbEl) return;
+
+    const trackWidth = 362; // 370px track minus left offset
+    const thumbWidth = 23;
+
+    rowEl.addEventListener('scroll', () => {
+      const scrollMax = rowEl.scrollWidth - rowEl.clientWidth;
+      const ratio     = scrollMax > 0 ? rowEl.scrollLeft / scrollMax : 0;
+      thumbEl.style.left = (24 + ratio * (trackWidth - thumbWidth)) + 'px';
+    });
+  });
+</script>
+</body>
+</html>
