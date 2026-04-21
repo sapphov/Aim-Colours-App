@@ -23,11 +23,9 @@
       gap: 0;
     }
     .nails-back {
-      width: 28px; height: 28px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+      font-size: 22px; color: #000; line-height: 1;
+      display: flex; align-items: center; flex-shrink: 0;
     }
-    .nails-back img { width: 22px; height: 22px; object-fit: contain; }
     .nails-title {
       font-family: var(--sans);
       font-size: 30px; font-weight: 400;
@@ -50,7 +48,7 @@
     .nails-content::-webkit-scrollbar { display: none; }
 
     /* Section */
-    .nail-section { margin-bottom: 20px; }
+    .nail-section { margin-bottom: 0; padding-bottom: 16px; }
     .nail-section-label {
       font-family: var(--sans);
       font-size: 19px; font-weight: 400;
@@ -79,12 +77,15 @@
       flex-shrink: 0;
       width: 65px; height: 114px;
       overflow: hidden; position: relative;
-      border-radius: 2px;
     }
     .nail-bottle img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center top;
+      position: absolute;
+      max-width: none;
     }
+    /* 3 distinct crops matching the Figma per-position offsets */
+    .nail-bottle.crop-a img { width: 320%;   height: 275.24%; left: -188.44%; top: -151.59%; }
+    .nail-bottle.crop-b img { width: 315.84%; height: 269.56%; left: -186.06%; top: -14.51%; }
+    .nail-bottle.crop-c img { width: 321.8%;  height: 274.63%; left: -27.78%;  top: -14%; }
 
     /* Scroll indicator */
     .nail-track {
@@ -96,15 +97,6 @@
       height: 2px; width: 23px;
       background: #000; border-radius: 1px;
       transition: left 0.1s;
-    }
-
-    /* Divider line between sections */
-    .nail-divider {
-      font-family: var(--sans); font-size: 25px;
-      color: #000; letter-spacing: -0.02em;
-      overflow: hidden; height: 1px;
-      border-bottom: 1px solid #000;
-      margin-bottom: 16px;
     }
 
     /* Tab bar — light theme */
@@ -150,9 +142,7 @@
 
   <!-- Page Header -->
   <div class="nails-header">
-    <div class="nails-back">
-      <img src="https://www.figma.com/api/mcp/asset/bdce16d8-6509-47ca-b65a-38d24a2d08df" alt="back" />
-    </div>
+    <div class="nails-back">&#8592;</div>
     <div class="nails-title">Nails</div>
     <div class="nails-palette">
       <img src="https://www.figma.com/api/mcp/asset/a9ad6e00-accb-448c-9fa4-5b683defbef1" alt="palette" />
@@ -167,69 +157,63 @@
       <div class="nail-section-label">Archive</div>
       <div class="nail-scroll-wrap">
         <div class="nail-row" id="row-archive">
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-a"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-b"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-b"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
         </div>
         <div class="nail-track"></div>
         <div class="nail-thumb" id="thumb-archive"></div>
       </div>
     </div>
 
-    <div class="nail-divider"></div>
-
     <!-- Created by Friends -->
     <div class="nail-section">
       <div class="nail-section-label">Created by Friends</div>
       <div class="nail-scroll-wrap">
         <div class="nail-row" id="row-friends">
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-a"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-b"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-b"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
         </div>
         <div class="nail-track"></div>
         <div class="nail-thumb" id="thumb-friends"></div>
       </div>
     </div>
 
-    <div class="nail-divider"></div>
-
     <!-- Recently Worn -->
     <div class="nail-section">
       <div class="nail-section-label">Recently Worn</div>
       <div class="nail-scroll-wrap">
         <div class="nail-row" id="row-recent">
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-a"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-b"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-b"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
         </div>
         <div class="nail-track"></div>
         <div class="nail-thumb" id="thumb-recent"></div>
       </div>
     </div>
 
-    <div class="nail-divider"></div>
-
     <!-- Recommended -->
     <div class="nail-section">
       <div class="nail-section-label">Recommended</div>
       <div class="nail-scroll-wrap">
         <div class="nail-row" id="row-recommended">
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
-          <div class="nail-bottle"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-a"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-b"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-b"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
+          <div class="nail-bottle crop-c"><img src="https://www.figma.com/api/mcp/asset/87bf6a81-bef9-4df7-9f7c-d75397e1184c" alt="nail polish" /></div>
         </div>
         <div class="nail-track"></div>
         <div class="nail-thumb" id="thumb-recommended"></div>
@@ -243,7 +227,9 @@
     <div class="tabs">
       <a class="tab active" href="screen-closet.html">
         <div class="tab-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 3a2 2 0 0 1 2 2c0 .74-.4 1.38-1 1.73V8l7.5 5.5A2 2 0 0 1 22 15v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a2 2 0 0 1 .5-1.5L10 8V6.73A2 2 0 0 1 12 3z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <path d="M12 8c-1.5-3-4.5-4-6.5-2.5S3 10 5 12c-2 1-2 3.5 0 4.5 1 .5 2 .3 3-.5 1 2 2.5 3.5 4 4 1.5-.5 3-2 4-4 1 .8 2 1 3 .5 2-1 2-3.5 0-4.5 2-2 1.5-5.5-.5-6.5S13.5 5 12 8z"/>
+          </svg>
         </div>
         <div class="tab-label">Closet</div>
         <div class="tab-mark"></div>
