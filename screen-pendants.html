@@ -236,50 +236,66 @@
 </div>
 
 <script>
-  // ── Pendant randomiser ──────────────────────────────────────
-  const SVGs = [
-    'assets/ac-floral-pendant.svg',
-    'assets/ac-flower-girl-pendant.svg',
-    'assets/ac-twirl-pendant.svg',
+  // ── Colour palette ──────────────────────────────────────────
+  const PALETTE = [
+    '#a9a29b', '#a47c81', '#9e5959', '#7f1712',
+    '#601b15', '#362344', '#766473', '#1f4786',
+    '#476e9c', '#b0ab00', '#5a7f50', '#1a5143',
   ];
 
-  // Distinct hue-rotate palettes — covers the full colour wheel
-  const palettes = [
-    'hue-rotate(0deg)',                          // original purple/rose
-    'hue-rotate(30deg)',                         // warm pink/coral
-    'hue-rotate(60deg)',                         // golden/amber
-    'hue-rotate(100deg)',                        // lime/chartreuse
-    'hue-rotate(140deg)',                        // mint/green
-    'hue-rotate(180deg)',                        // teal/cyan
-    'hue-rotate(210deg)',                        // sky blue
-    'hue-rotate(250deg)',                        // indigo/violet
-    'hue-rotate(290deg)',                        // blue-purple
-    'hue-rotate(320deg)',                        // hot pink/magenta
-    'hue-rotate(45deg)  saturate(1.4)',          // vivid salmon
-    'hue-rotate(160deg) saturate(1.3)',          // vivid seafoam
-    'hue-rotate(220deg) brightness(1.15)',       // bright periwinkle
-    'hue-rotate(340deg) saturate(1.2)',          // vivid rose
-  ];
+  // SVG files and the fill colours in each that we'll replace.
+  // #35201f (the dark outline/stroke) is intentionally left alone
+  // so the line-art definition is always preserved.
+  const SVG_FILLS = {
+    'assets/ac-floral-pendant.svg':      ['#bd97c6', '#84424c', '#deb5b9'],
+    'assets/ac-flower-girl-pendant.svg': ['#deb5b9', '#84424c', '#bd97c6', '#fdbdde', '#fd6f77'],
+    'assets/ac-twirl-pendant.svg':       ['#bd97c6', '#84424c', '#deb5b9'],
+  };
+  const SVG_URLS = Object.keys(SVG_FILLS);
 
-  // Shuffle an array in place (Fisher-Yates)
-  function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+  // Cache fetched SVG text so we only download each file once
+  const svgCache = {};
+  async function fetchSVG(url) {
+    if (!svgCache[url]) {
+      const res = await fetch(url);
+      svgCache[url] = await res.text();
     }
-    return arr;
+    return svgCache[url];
   }
 
-  // Fill each pendant slot with a random SVG + random colour
-  document.querySelectorAll('.pendant-item').forEach(el => {
-    const svg     = SVGs[Math.floor(Math.random() * SVGs.length)];
-    const palette = palettes[Math.floor(Math.random() * palettes.length)];
-    const img     = document.createElement('img');
-    img.src       = svg;
-    img.alt       = 'pendant';
-    img.style.filter = palette;
-    el.appendChild(img);
-  });
+  // Pick n distinct colours at random from the palette
+  function pickColors(n) {
+    const pool = [...PALETTE].sort(() => Math.random() - 0.5);
+    return pool.slice(0, n);
+  }
+
+  // Build one pendant: random SVG + random colour mapping → blob URL → <img>
+  async function fillSlot(slot) {
+    const svgUrl = SVG_URLS[Math.floor(Math.random() * SVG_URLS.length)];
+    const fills  = SVG_FILLS[svgUrl];
+    const colors = pickColors(fills.length);
+
+    let text = await fetchSVG(svgUrl);
+    fills.forEach((original, i) => {
+      // Replace every occurrence (split/join avoids regex escaping issues)
+      text = text.split(original).join(colors[i]);
+    });
+
+    const blob   = new Blob([text], { type: 'image/svg+xml' });
+    const objURL = URL.createObjectURL(blob);
+
+    const img = document.createElement('img');
+    img.src   = objURL;
+    img.alt   = 'pendant';
+    slot.appendChild(img);
+  }
+
+  // ── Init ────────────────────────────────────────────────────
+  async function init() {
+    const slots = document.querySelectorAll('.pendant-item');
+    await Promise.all([...slots].map(fillSlot));
+  }
+  init();
 
   // ── Scroll thumb animation ──────────────────────────────────
   const rows = [
@@ -287,15 +303,11 @@
     { row: 'row-friends', thumb: 'thumb-friends' },
     { row: 'row-recent',  thumb: 'thumb-recent'  },
   ];
-
   rows.forEach(({ row, thumb }) => {
     const rowEl   = document.getElementById(row);
     const thumbEl = document.getElementById(thumb);
     if (!rowEl || !thumbEl) return;
-
-    const trackWidth = 362;
-    const thumbWidth = 23;
-
+    const trackWidth = 362, thumbWidth = 23;
     rowEl.addEventListener('scroll', () => {
       const scrollMax = rowEl.scrollWidth - rowEl.clientWidth;
       const ratio     = scrollMax > 0 ? rowEl.scrollLeft / scrollMax : 0;
