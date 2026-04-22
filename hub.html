@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aim Colours — Screen Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; color: inherit; }
+
+    body {
+      background: #0a0a0a;
+      min-height: 100vh;
+      font-family: 'Inter', Helvetica, Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px 80px;
+    }
+
+    /* Wordmark */
+    .hub-wordmark {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 10px;
+    }
+    .hub-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 38px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: #fff;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .hub-sub {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 56px;
+    }
+
+    /* Grid */
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    /* Card */
+    .hub-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 28px 24px;
+      border: 0.5px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+    .hub-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.28);
+      transform: translateY(-2px);
+    }
+
+    /* Featured card (sunglasses) */
+    .hub-card.featured {
+      border-color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.06);
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 36px;
+    }
+    .hub-card.featured .card-left { display: flex; flex-direction: column; gap: 8px; }
+    .hub-card.featured .card-arrow {
+      font-size: 26px;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.2s, transform 0.2s;
+    }
+    .hub-card.featured:hover .card-arrow {
+      color: #fff;
+      transform: translateX(4px);
+    }
+
+    .card-icon {
+      font-size: 22px;
+      margin-bottom: 2px;
+      opacity: 0.85;
+    }
+    .card-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .card-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+    .hub-card.featured .card-name { font-size: 28px; }
+    .card-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+
+    /* Section label */
+    .hub-section-label {
+      width: 100%;
+      max-width: 860px;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      margin-bottom: 12px;
+      margin-top: 40px;
+    }
+    .hub-section-label:first-of-type { margin-top: 0; }
+
+    /* Footer */
+    .hub-footer {
+      margin-top: 64px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hub-wordmark">Aim Colours</div>
+  <h1 class="hub-title">Screen Hub</h1>
+  <p class="hub-sub">Open a screen to preview it</p>
+
+  <!-- Featured -->
+  <div class="hub-section-label">New</div>
+  <div class="hub-grid" style="margin-bottom: 0;">
+    <a class="hub-card featured" href="screen-sunglasses.html">
+      <div class="card-left">
+        <div class="card-label">Closet · New</div>
+        <div class="card-name">Sunglasses</div>
+        <div class="card-desc">Archive, Created by Friends, Recently Worn</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- Closet sub-screens -->
+  <div class="hub-section-label">Closet screens</div>
+  <div class="hub-grid">
+    <a class="hub-card" href="screen-pendants.html">
+      <div class="card-icon">🪬</div>
+      <div class="card-label">Closet</div>
+      <div class="card-name">Pendants</div>
+    </a>
+    <a class="hub-card" href="screen-nails.html">
+      <div class="card-icon">💅</div>
+      <div class="card-label">Closet</div>
+      <div class="card-name">Nails</div>
+    </a>
+    <a class="hub-card" href="screen-closet.html">
+      <div class="card-icon">🪞</div>
+      <div class="card-label">Closet</div>
+      <div class="card-name">Studio</div>
+    </a>
+  </div>
+
+  <!-- Main app screens -->
+  <div class="hub-section-label">App screens</div>
+  <div class="hub-grid">
+    <a class="hub-card" href="index.html">
+      <div class="card-icon">✦</div>
+      <div class="card-label">Home</div>
+      <div class="card-name">Luminora</div>
+    </a>
+    <a class="hub-card" href="screen-explore.html">
+      <div class="card-icon">◎</div>
+      <div class="card-label">Tab</div>
+      <div class="card-name">Explore</div>
+    </a>
+    <a class="hub-card" href="screen-profile.html">
+      <div class="card-icon">◯</div>
+      <div class="card-label">Tab</div>
+      <div class="card-name">Profile</div>
+    </a>
+    <a class="hub-card" href="screen-journal.html">
+      <div class="card-icon">◫</div>
+      <div class="card-label">Tab</div>
+      <div class="card-name">Journal</div>
+    </a>
+  </div>
+
+  <div class="hub-footer">Aim Colours App — 2026</div>
+
+</body>
+</html>

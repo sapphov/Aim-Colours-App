@@ -96,6 +96,30 @@
       outline-offset: 1px;
     }
 
+    /* Category nav links */
+    .closet-categories {
+      display: flex;
+      gap: 10px;
+      padding: 0 18px 12px;
+      flex-shrink: 0;
+    }
+    .closet-category-link {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      border: 0.5px solid rgba(255,255,255,0.25);
+      border-radius: 100px;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .closet-category-link:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.7);
+    }
+
     /* Transfer button */
     .closet-cta-wrap {
       padding: 14px 22px 0;
@@ -154,6 +178,13 @@
           <path d="M4 2H16C16.6 2 17 2.4 17 3V20L10 16L3 20V3C3 2.4 3.4 2 4 2Z" stroke="white" stroke-width="1.3" stroke-linejoin="round"/>
         </svg>
       </div>
+    </div>
+
+    <!-- Category links -->
+    <div class="closet-categories">
+      <a class="closet-category-link" href="screen-sunglasses.html">Sunglasses</a>
+      <a class="closet-category-link" href="screen-pendants.html">Pendants</a>
+      <a class="closet-category-link" href="screen-nails.html">Nails</a>
     </div>
 
     <!-- Pendant / Canvas -->
