@@ -56,43 +56,27 @@
     /* Horizontally scrollable pendant row */
     .pendant-scroll-wrap {
       position: relative;
-      height: 141px; overflow: hidden;
+      height: 150px; overflow: hidden;
     }
     .pendant-row {
-      position: absolute;
-      top: -6px; left: 0; right: 0;
       display: flex;
-      gap: 43px;
+      gap: 28px;
       align-items: center;
-      height: 114px;
-      overflow-x: auto; overflow-y: visible;
+      height: 150px;
+      overflow-x: auto; overflow-y: hidden;
       scrollbar-width: none;
-      padding-left: 41px;
-      padding-right: 20px;
+      padding: 0 20px 0 16px;
     }
     .pendant-row::-webkit-scrollbar { display: none; }
 
     /* Individual pendant */
     .pendant-item {
       flex-shrink: 0;
-      overflow: hidden; position: relative;
+      width: 110px;
     }
-    .pendant-item.type-a { width: 117px; height: 170px; }
-    .pendant-item.type-b { width: 127px; height: 170px; }
-
     .pendant-item img {
-      position: absolute;
-      max-width: none;
-    }
-    /* Teal pendant crop — top shifted down to hide chain */
-    .pendant-item.type-a img {
-      width: 311.25%; height: 297.67%;
-      left: -182.67%; top: -65%;
-    }
-    /* Pink pendant crop — top shifted down to hide chain */
-    .pendant-item.type-b img {
-      width: 263.24%; height: 296.63%;
-      left: -15.42%; top: -65%;
+      width: 100%; height: auto;
+      display: block;
     }
 
     /* Scroll indicator */
@@ -165,10 +149,11 @@
       <div class="pendant-section-label">Archive</div>
       <div class="pendant-scroll-wrap">
         <div class="pendant-row" id="row-archive">
-          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
-          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
-          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
-          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
         </div>
         <div class="pendant-track"></div>
         <div class="pendant-thumb" id="thumb-archive"></div>
@@ -180,10 +165,11 @@
       <div class="pendant-section-label">Created by Friends</div>
       <div class="pendant-scroll-wrap">
         <div class="pendant-row" id="row-friends">
-          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
-          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
-          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
-          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
         </div>
         <div class="pendant-track"></div>
         <div class="pendant-thumb" id="thumb-friends"></div>
@@ -195,10 +181,11 @@
       <div class="pendant-section-label">Recently Worn</div>
       <div class="pendant-scroll-wrap">
         <div class="pendant-row" id="row-recent">
-          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
-          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
-          <div class="pendant-item type-a"><img src="https://www.figma.com/api/mcp/asset/0aa6e63b-0dd8-4321-8f29-e84ee7b2b116" alt="pendant" /></div>
-          <div class="pendant-item type-b"><img src="https://www.figma.com/api/mcp/asset/2c9e6c8e-5e9e-40a7-a4b5-6b07d9a27536" alt="pendant" /></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
         </div>
         <div class="pendant-track"></div>
         <div class="pendant-thumb" id="thumb-recent"></div>
@@ -249,6 +236,52 @@
 </div>
 
 <script>
+  // ── Pendant randomiser ──────────────────────────────────────
+  const SVGs = [
+    'assets/ac-floral-pendant.svg',
+    'assets/ac-flower-girl-pendant.svg',
+    'assets/ac-twirl-pendant.svg',
+  ];
+
+  // Distinct hue-rotate palettes — covers the full colour wheel
+  const palettes = [
+    'hue-rotate(0deg)',                          // original purple/rose
+    'hue-rotate(30deg)',                         // warm pink/coral
+    'hue-rotate(60deg)',                         // golden/amber
+    'hue-rotate(100deg)',                        // lime/chartreuse
+    'hue-rotate(140deg)',                        // mint/green
+    'hue-rotate(180deg)',                        // teal/cyan
+    'hue-rotate(210deg)',                        // sky blue
+    'hue-rotate(250deg)',                        // indigo/violet
+    'hue-rotate(290deg)',                        // blue-purple
+    'hue-rotate(320deg)',                        // hot pink/magenta
+    'hue-rotate(45deg)  saturate(1.4)',          // vivid salmon
+    'hue-rotate(160deg) saturate(1.3)',          // vivid seafoam
+    'hue-rotate(220deg) brightness(1.15)',       // bright periwinkle
+    'hue-rotate(340deg) saturate(1.2)',          // vivid rose
+  ];
+
+  // Shuffle an array in place (Fisher-Yates)
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  // Fill each pendant slot with a random SVG + random colour
+  document.querySelectorAll('.pendant-item').forEach(el => {
+    const svg     = SVGs[Math.floor(Math.random() * SVGs.length)];
+    const palette = palettes[Math.floor(Math.random() * palettes.length)];
+    const img     = document.createElement('img');
+    img.src       = svg;
+    img.alt       = 'pendant';
+    img.style.filter = palette;
+    el.appendChild(img);
+  });
+
+  // ── Scroll thumb animation ──────────────────────────────────
   const rows = [
     { row: 'row-archive', thumb: 'thumb-archive' },
     { row: 'row-friends', thumb: 'thumb-friends' },
@@ -260,7 +293,7 @@
     const thumbEl = document.getElementById(thumb);
     if (!rowEl || !thumbEl) return;
 
-    const trackWidth = 362; // 370px track minus left offset
+    const trackWidth = 362;
     const thumbWidth = 23;
 
     rowEl.addEventListener('scroll', () => {
