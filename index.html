@@ -47,8 +47,6 @@
     }
     .hero-selector svg { opacity: 0.4; }
 
-    /* ── Status bar — match studio-02 exactly ── */
-    .status-bar { height: 44px; position: relative; flex-shrink: 0; display: block; padding: 0; }
 
     /* ── Tab bar — match studio-02 ── */
     .tab-bar { background: none; border: none; }
@@ -81,9 +79,13 @@
   <div class="vignette"></div>
 
   <!-- Status Bar -->
-  <div class="status-bar">
-    <img src="status-time.svg" alt="9:41" style="position:absolute;left:21px;top:12px;width:54px;height:21px;filter:brightness(0) invert(1)"/>
-    <img src="status-icons.svg?v=2" alt="status icons" style="position:absolute;right:14.67px;top:17.33px;width:66.661px;height:11.336px;filter:brightness(0) invert(1)"/>
+  <div style="height:44px;position:relative;flex-shrink:0;">
+    <span style="position:absolute;left:21px;top:12px;font-family:-apple-system,'Helvetica Neue',Inter,sans-serif;font-size:15px;font-weight:600;color:#fff;line-height:1;">9:41</span>
+    <div style="position:absolute;right:14.67px;top:17.33px;display:flex;align-items:center;gap:5px;">
+      <svg width="17" height="11" viewBox="0 0 17 12" fill="white"><rect x="0" y="6" width="3" height="6" rx="0.5"/><rect x="4.5" y="4" width="3" height="8" rx="0.5"/><rect x="9" y="2" width="3" height="10" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5"/></svg>
+      <svg width="16" height="11" viewBox="0 0 16 12" fill="none"><path d="M8 10.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" fill="white"/><path d="M4.9 7.4a4.4 4.4 0 0 1 6.2 0" stroke="white" stroke-width="1.4" stroke-linecap="round"/><path d="M2.4 5a7.2 7.2 0 0 1 11.2 0" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <svg width="25" height="11" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="white" stroke-width="1"/><rect x="2" y="2" width="17" height="8" rx="1.5" fill="white"/><path d="M22.5 4v4a2 2 0 0 0 0-4z" fill="white"/></svg>
+    </div>
   </div>
 
 
