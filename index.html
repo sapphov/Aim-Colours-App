@@ -48,6 +48,11 @@
     .hero-selector svg { opacity: 0.4; }
 
 
+    /* ── Status bar — copied verbatim from studio-02 ── */
+    .status{height:44px;position:relative;flex-shrink:0}
+    .time{font-size:15px;font-weight:500;color:#fff}
+    .icons{display:flex;align-items:center;gap:6px}
+
     /* ── Tab bar — match studio-02 ── */
     .tab-bar { background: none; border: none; }
     .tabs { height: 72px; border-top: 0.5px solid rgba(255,255,255,.15); display: flex; align-items: center; justify-content: space-evenly; padding: 0 8px; flex-shrink: 0; }
@@ -78,8 +83,8 @@
   <div class="ground-glow"></div>
   <div class="vignette"></div>
 
-  <!-- Status Bar -->
-  <div style="height:44px;position:relative;flex-shrink:0;">
+  <!-- STATUS (shared) -->
+  <div class="status">
     <img src="status-time.svg" alt="9:41" style="position:absolute;left:21px;top:12px;width:54px;height:21px;filter:brightness(0) invert(1)"/>
     <img src="status-icons.svg" alt="status icons" style="position:absolute;right:14.67px;top:17.33px;width:66.661px;height:11.336px;filter:brightness(0) invert(1)"/>
   </div>
