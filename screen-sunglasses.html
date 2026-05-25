@@ -99,20 +99,32 @@
       transition: left 0.1s;
     }
 
-    /* Tab bar — dark theme matching studio */
+    /* Tab bar — exact match to studio-02 */
     .sunglasses-screen .tab-bar {
       background: #0d0d0d;
+      border-top: none;
+      padding: 0;
+    }
+    .sunglasses-screen .tabs {
+      height: 72px;
       border-top: 0.5px solid rgba(255,255,255,0.15);
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 0 8px;
     }
+    .sunglasses-screen .tab { gap: 3px; }
+    .sunglasses-screen .tab-icon { width: 24px; height: 24px; }
+    .sunglasses-screen .tab-icon svg { width: 22px; height: 22px; stroke: none; fill: white; }
     .sunglasses-screen .tab-label {
-      color: rgba(255,255,255,0.5);
-      font-size: 7px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500;
+      font-size: 7px; letter-spacing: 0.18em; font-weight: 500; color: #fff;
     }
-    .sunglasses-screen .tab.active .tab-label { color: #fff; opacity: 1; }
-    .sunglasses-screen .tab-icon svg { color: rgba(255,255,255,0.5); fill: rgba(255,255,255,0.5); }
-    .sunglasses-screen .tab.active .tab-icon svg { color: #fff; fill: #fff; }
     .sunglasses-screen .tab-mark { display: none; }
-    .sunglasses-screen .home-indicator-bar { background: rgba(255,255,255,0.3); }
+    .sunglasses-screen .home-indicator {
+      height: 34px; padding: 0; align-items: center;
+    }
+    .sunglasses-screen .home-indicator-bar {
+      height: 5px; border-radius: 3px; background: rgba(255,255,255,0.3);
+    }
   </style>
 </head>
 <body>
