@@ -75,6 +75,8 @@
     /* Individual glasses item */
     .glasses-item {
       flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
     }
     .glasses-item.type-a,
     .glasses-item.type-b,
@@ -83,6 +85,23 @@
     .glasses-item img {
       width: 100%; height: 100%;
       object-fit: contain;
+    }
+
+    /* Colour overlay — blends palette colours into the lenses */
+    .glasses-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg,
+        #a47c81 0%,
+        #601b15 22%,
+        #362344 44%,
+        #1f4786 66%,
+        #5a7f50 88%,
+        #1a5143 100%
+      );
+      mix-blend-mode: screen;
+      pointer-events: none;
     }
 
     /* Scroll indicator */
