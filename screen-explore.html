@@ -6,10 +6,14 @@
   <title>Luminora — Explore</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* studio-02 tab bar */
+    /* ── Black background ───────────────────────────────────── */
+    .bg { background: #0d0d0d; }
+    .light-beam, .ground-glow, .vignette { display: none; }
+
+    /* ── studio-02 tab bar ───────────────────────────────────── */
     .tabs { height: 72px; border-top: none; display: flex; align-items: center; justify-content: space-evenly; padding: 0 8px; }
     .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; }
     .tab-ic { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
@@ -17,6 +21,131 @@
     .tab-lbl { font-size: 7px; letter-spacing: .18em; text-transform: uppercase; color: #fff; font-weight: 500; }
     .home-bar { height: 34px; display: flex; align-items: center; justify-content: center; }
     .hb { width: 134px; height: 5px; border-radius: 3px; background: rgba(255,255,255,.3); }
+
+    /* ── Explore scrollable content ─────────────────────────── */
+    .explore-content {
+      position: absolute;
+      top: 48px; bottom: 106px; left: 0; right: 0;
+      overflow-y: auto; overflow-x: hidden;
+      scrollbar-width: none;
+      z-index: 5;
+    }
+    .explore-content::-webkit-scrollbar { display: none; }
+
+    /* Search bar */
+    .exp-search {
+      display: flex; align-items: center; gap: 10px;
+      margin: 14px 18px 0;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 4px;
+      padding: 11px 14px;
+      background: rgba(255,255,255,0.04);
+    }
+    .exp-search-placeholder {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; letter-spacing: 0.22em;
+      text-transform: uppercase; color: rgba(255,255,255,0.4);
+    }
+
+    .exp-divider {
+      height: 0.5px;
+      background: rgba(255,255,255,0.15);
+      margin: 18px 0 0;
+    }
+
+    /* Section headings */
+    .exp-section-head {
+      padding: 16px 18px 10px;
+    }
+    .exp-section-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 27px; font-weight: 400;
+      letter-spacing: .04em; text-transform: uppercase;
+      color: #fff; line-height: 1.2;
+    }
+
+    /* ── Feature cards ───────────────────────────────────────── */
+    .exp-cards-scroll {
+      display: flex; gap: 10px;
+      overflow-x: auto; overflow-y: hidden;
+      scrollbar-width: none;
+      padding: 4px 18px 18px;
+    }
+    .exp-cards-scroll::-webkit-scrollbar { display: none; }
+
+    .exp-card {
+      flex-shrink: 0;
+      width: 230px;
+      display: flex; flex-direction: column;
+    }
+    .exp-card-img {
+      width: 230px; height: 290px;
+      border-radius: 2px;
+      position: relative; overflow: hidden;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+    .exp-card-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--purple, #7B52C8);
+      font-family: 'Inter', sans-serif;
+      font-size: 8px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: #fff; padding: 5px 9px;
+    }
+    .exp-card-pendant {
+      width: 140px; opacity: 0.85;
+      filter: drop-shadow(0 4px 24px rgba(123,82,200,0.4));
+      margin-bottom: 12px;
+    }
+    .exp-card-body {
+      padding: 10px 0 0;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .exp-card-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: #fff; line-height: 1.4;
+    }
+    .exp-card-btn {
+      align-self: flex-start;
+      background: transparent;
+      border: 1.5px solid #fff;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 8px; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      padding: 8px 14px; cursor: pointer;
+      border-radius: 2px;
+    }
+
+    /* ── Topics list ─────────────────────────────────────────── */
+    .exp-topics { padding: 0 0 8px; }
+
+    .exp-topic-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 0 18px;
+      height: 82px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.12);
+    }
+    .exp-topic-thumb {
+      width: 66px; height: 66px;
+      border-radius: 2px; flex-shrink: 0;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .exp-topic-thumb img {
+      width: 54px; height: 54px;
+      filter: drop-shadow(0 2px 8px rgba(123,82,200,0.5));
+    }
+    .exp-topic-name {
+      flex: 1;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: #fff;
+    }
+    .exp-topic-arrow { flex-shrink: 0; opacity: 0.7; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -38,26 +167,124 @@
     </div>
   </div>
 
-  <!-- Wordmark -->
-  <div class="top-nav">
-    <div class="wordmark">Luminora</div>
-    <div class="wordmark-sub">By A. C.</div>
-    <div class="nav-scroll">
-      <a class="nav-item" href="screen-closet.html">Closet</a>
-      <a class="nav-item active" href="screen-explore.html">Explore</a>
-      <a class="nav-item" href="Index.html">Luminora</a>
-      <a class="nav-item" href="screen-profile.html">Profile</a>
-      <a class="nav-item" href="screen-journal.html">Journal</a>
-    </div>
-  </div>
+  <!-- Explore Content -->
+  <div class="explore-content">
 
-  <!-- Screen Content -->
-  <div class="screen-placeholder">
-    <div class="placeholder-inner">
-      <div class="placeholder-name">Explore</div>
-      <div class="placeholder-sub">In design</div>
+    <!-- Search bar -->
+    <div class="exp-search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <span class="exp-search-placeholder">Search</span>
     </div>
-  </div>
+
+    <div class="exp-divider"></div>
+
+    <!-- Colour Stories cards -->
+    <div class="exp-section-head">
+      <h2 class="exp-section-title">Colour Stories</h2>
+    </div>
+
+    <div class="exp-cards-scroll">
+
+      <!-- Card 1 — Floral -->
+      <div class="exp-card">
+        <div class="exp-card-img" style="background: linear-gradient(160deg, #2a1040 0%, #5a2880 50%, #1a0828 100%); align-items: center; padding-top: 32px;">
+          <span class="exp-card-badge">Spring 2026</span>
+          <img class="exp-card-pendant" src="assets/ac-floral-pendant.svg" alt="Floral pendant" style="width: 190px; margin-bottom: 0;">
+        </div>
+        <div class="exp-card-body">
+          <div class="exp-card-title">The Dusty Rose Edit</div>
+          <button class="exp-card-btn">Explore</button>
+        </div>
+      </div>
+
+      <!-- Card 2 — Twirl -->
+      <div class="exp-card">
+        <div class="exp-card-img" style="background: linear-gradient(160deg, #1a1a3a 0%, #2a3a6a 50%, #0a0a1e 100%); align-items: center; padding-top: 32px;">
+          <span class="exp-card-badge">Colour Guide</span>
+          <img class="exp-card-pendant" src="assets/ac-twirl-pendant.svg" alt="Twirl pendant" style="width: 190px; margin-bottom: 0;">
+        </div>
+        <div class="exp-card-body">
+          <div class="exp-card-title">Pairing Your Palette</div>
+          <button class="exp-card-btn">Discover</button>
+        </div>
+      </div>
+
+      <!-- Card 3 — Flower Girl -->
+      <div class="exp-card">
+        <div class="exp-card-img" style="background: linear-gradient(160deg, #2a1828 0%, #5a2848 50%, #1a0818 100%); align-items: center; padding-top: 32px;">
+          <span class="exp-card-badge">Behind the Craft</span>
+          <img class="exp-card-pendant" src="assets/ac-flower-girl-pendant.svg" alt="Flower Girl pendant" style="width: 190px; margin-bottom: 0;">
+        </div>
+        <div class="exp-card-body">
+          <div class="exp-card-title">Hand-Finished in Gold</div>
+          <button class="exp-card-btn">Watch</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="exp-divider"></div>
+
+    <!-- Explore Topics -->
+    <div class="exp-section-head">
+      <h2 class="exp-section-title">Explore</h2>
+    </div>
+
+    <div class="exp-topics">
+
+      <div class="exp-topic-row">
+        <div class="exp-topic-thumb" style="background: linear-gradient(135deg, #3a1060 0%, #6a2890 100%);">
+          <img src="assets/ac-floral-pendant.svg" alt="">
+        </div>
+        <span class="exp-topic-name">Pendants</span>
+        <svg class="exp-topic-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="exp-topic-row">
+        <div class="exp-topic-thumb" style="background: linear-gradient(135deg, #3a1828 0%, #6a2848 100%);">
+          <img src="assets/ac-twirl-pendant.svg" alt="">
+        </div>
+        <span class="exp-topic-name">Colour Stories</span>
+        <svg class="exp-topic-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="exp-topic-row">
+        <div class="exp-topic-thumb" style="background: linear-gradient(135deg, #102838 0%, #204860 100%);">
+          <img src="assets/ac-flower-girl-pendant.svg" alt="">
+        </div>
+        <span class="exp-topic-name">Styling Guides</span>
+        <svg class="exp-topic-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="exp-topic-row">
+        <div class="exp-topic-thumb" style="background: linear-gradient(135deg, #102010 0%, #204020 100%);">
+          <img src="assets/ac-floral-pendant-with-loop.svg" alt="">
+        </div>
+        <span class="exp-topic-name">The Collection</span>
+        <svg class="exp-topic-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="exp-topic-row">
+        <div class="exp-topic-thumb" style="background: linear-gradient(135deg, #281010 0%, #502020 100%);">
+          <img src="assets/ac-twirl-pendant.svg" alt="">
+        </div>
+        <span class="exp-topic-name">Care &amp; Wear</span>
+        <svg class="exp-topic-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="exp-topic-row">
+        <div class="exp-topic-thumb" style="background: linear-gradient(135deg, #1a1a1a 0%, #303030 100%);">
+          <img src="assets/ac-flower-girl-pendant.svg" alt="">
+        </div>
+        <span class="exp-topic-name">About Aim</span>
+        <svg class="exp-topic-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+    </div>
+
+  </div><!-- /explore-content -->
 
   <!-- Tab Bar -->
   <div class="tab-bar">
