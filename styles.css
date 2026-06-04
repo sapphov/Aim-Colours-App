@@ -16,7 +16,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 body {
-  background: #000;
+  background: #151718;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,7 +29,7 @@ body {
   position: relative;
   width: 393px;
   height: 852px;
-  background: #000;
+  background: #151718;
   overflow: hidden;
   border-radius: 54px;
   border: 1.5px solid rgba(255,255,255,0.1);
@@ -44,7 +44,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: #000 url('assets/luminora-background.png') center center / cover no-repeat;
+  background: #151718 url('assets/luminora-background.png') center center / cover no-repeat;
 }
 .bg::before { content: ''; }
 .bg::after { content: ''; }
