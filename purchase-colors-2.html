@@ -7,7 +7,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:#151718;display:flex;justify-content:center;align-items:flex-start;padding:40px 20px;font-family:'Inter',sans-serif;min-height:100vh}
 
-  .phone{width:393px;height:852px;background:#151718;border-radius:50px;overflow:hidden;box-shadow:0 0 0 1px #1a1a1a,0 24px 80px rgba(0,0,0,.9);display:flex;flex-direction:column;flex-shrink:0}
+  .phone{width:393px;height:852px;background:#151718;border-radius:50px;overflow:hidden;box-shadow:0 0 0 1px #1a1a1a,0 24px 80px rgba(0,0,0,.9);display:flex;flex-direction:column;flex-shrink:0;position:relative}
 
   /* STATUS */
   .status{height:44px;position:relative;flex-shrink:0}
@@ -24,9 +24,17 @@
 
   /* PALETTE SECTION */
   .palette-header{padding:18px 22px 0;flex-shrink:0}
-  .palette-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:5px}
+  .palette-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px}
+
+  /* Editorial scarcity tag */
+  .palette-editorial{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:6px;}
+
   .missing-summary{font-size:12px;font-weight:400;color:#fff;letter-spacing:.08em;text-transform:uppercase}
   .missing-count{color:rgba(255,255,255,.55)}
+
+  /* Collection progress — quiet, no bar */
+  .collection-progress{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:5px;transition:color .4s ease}
+  .collection-progress.updated{color:rgba(255,255,255,.55)}
 
   .divider{height:.5px;background:rgba(255,255,255,.1);margin:14px 22px 0;flex-shrink:0}
 
@@ -34,7 +42,14 @@
   .color-list{padding:0 22px;flex-shrink:0}
   .color-row{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:.5px solid rgba(255,255,255,.07)}
   .color-row:last-child{border-bottom:none}
-  .swatch{width:34px;height:34px;border-radius:3px;flex-shrink:0}
+
+  .swatch{width:34px;height:34px;border-radius:3px;flex-shrink:0;transition:transform .4s cubic-bezier(0.34,1.56,0.64,1),box-shadow .4s ease}
+  .swatch.just-added{animation:swatchReveal .45s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes swatchReveal{
+    0%{transform:scale(.7);opacity:.3}
+    100%{transform:scale(1);opacity:1}
+  }
+
   .color-info{flex:1;min-width:0}
   .color-name{font-size:11px;font-weight:500;color:#fff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
   .color-hex{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.08em}
@@ -43,17 +58,26 @@
   .owned-tag{display:flex;align-items:center;gap:5px;flex-shrink:0}
   .owned-tag span{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3)}
 
-  /* Unowned state */
+  /* Unowned / add state */
   .unowned-action{display:flex;align-items:center;gap:10px;flex-shrink:0}
-  .price{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.04em}
-  .add-btn{border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:5px 12px;border-radius:100px;cursor:pointer}
+  .price{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.04em;transition:opacity .3s ease}
+
+  .add-btn{border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:5px 12px;border-radius:100px;cursor:pointer;transition:all .35s ease;white-space:nowrap;min-width:54px}
+  .add-btn.added{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.4);letter-spacing:.14em}
 
   /* CTA */
   .cta-section{padding:16px 22px 22px;flex-shrink:0}
   .total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;padding:0 2px}
   .total-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3)}
-  .total-amount{font-size:15px;font-weight:400;color:#fff;letter-spacing:.04em}
-  .cta-btn{width:100%;border:1.5px solid rgba(255,255,255,1);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:13px;border-radius:100px;text-align:center;cursor:pointer}
+  .total-amount{font-size:15px;font-weight:400;color:#fff;letter-spacing:.04em;transition:opacity .2s ease}
+
+  .cta-btn{width:100%;border:1.5px solid rgba(255,255,255,1);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:13px;border-radius:100px;text-align:center;cursor:pointer;transition:all .4s ease}
+  .cta-btn.purchased{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.4);letter-spacing:.2em}
+
+  /* Toast notification */
+  .toast{position:absolute;bottom:122px;left:22px;right:22px;background:rgba(30,30,30,.96);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:11px 16px;font-size:11px;color:rgba(255,255,255,.8);letter-spacing:.06em;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease;z-index:50}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast-name{color:#fff;font-weight:500}
 
   /* TAB BAR */
   .tabs{height:72px;border-top:.5px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-evenly;padding:0 8px;flex-shrink:0}
@@ -86,14 +110,13 @@
 
   <!-- PENDANT -->
   <div class="pendant-section">
-    <div class="design-label">Selected design</div>
-    <img src="assets/ac-floral-pendant-with-loop.svg" alt="Floral pendant"/>
+<img src="assets/ac-floral-pendant-with-loop.svg" alt="Floral pendant"/>
   </div>
 
   <!-- PALETTE HEADER -->
   <div class="palette-header">
-    <div class="palette-label">Design palette</div>
-    <div class="missing-summary"><span class="missing-count">2 colors</span> not in your collection</div>
+    <div class="palette-editorial">Dusty Rose Palette</div>
+    <div class="collection-progress" id="collection-progress">1 of 5 colors in your collection</div>
   </div>
 
   <div class="divider"></div>
@@ -115,28 +138,28 @@
     </div>
 
     <!-- Not owned -->
-    <div class="color-row">
-      <div class="swatch" style="background:#a47c81"></div>
+    <div class="color-row" id="row-dusty-rose">
+      <div class="swatch" id="swatch-dusty-rose" style="background:#a47c81"></div>
       <div class="color-info">
         <div class="color-name">Dusty Rose</div>
         <div class="color-hex">#a47c81</div>
       </div>
       <div class="unowned-action">
-        <span class="price">$2.99</span>
-        <button class="add-btn">Add</button>
+        <span class="price" id="price-dusty-rose">$2.99</span>
+        <button class="add-btn" id="btn-dusty-rose" onclick="addColor('dusty-rose', 'Dusty Rose', 2.99)">Add</button>
       </div>
     </div>
 
     <!-- Not owned -->
-    <div class="color-row">
-      <div class="swatch" style="background:#362344"></div>
+    <div class="color-row" id="row-deep-plum">
+      <div class="swatch" id="swatch-deep-plum" style="background:#362344"></div>
       <div class="color-info">
         <div class="color-name">Deep Plum</div>
         <div class="color-hex">#362344</div>
       </div>
       <div class="unowned-action">
-        <span class="price">$2.99</span>
-        <button class="add-btn">Add</button>
+        <span class="price" id="price-deep-plum">$2.99</span>
+        <button class="add-btn" id="btn-deep-plum" onclick="addColor('deep-plum', 'Deep Plum', 2.99)">Add</button>
       </div>
     </div>
 
@@ -146,9 +169,9 @@
   <div class="cta-section">
     <div class="total-row">
       <span class="total-label">Total</span>
-      <span class="total-amount">$5.98</span>
+      <span class="total-amount" id="total-amount">$5.98</span>
     </div>
-    <div class="cta-btn">Purchase Missing Colors</div>
+    <div class="cta-btn" id="cta-btn" onclick="purchase()">Purchase Missing Colors</div>
   </div>
 
   <!-- TAB BAR -->
@@ -185,6 +208,103 @@
 
   <div class="home-bar"><div class="hb"></div></div>
 
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
 </div>
+
+<script>
+  const PALETTE_TOTAL = 5;
+  const cart = {};
+  let owned = 1; // Stone already owned
+
+  function addColor(id, name, price) {
+    const btn = document.getElementById('btn-' + id);
+    const priceEl = document.getElementById('price-' + id);
+    const swatch = document.getElementById('swatch-' + id);
+
+    if (cart[id]) {
+      // Toggle off
+      delete cart[id];
+      btn.textContent = 'Add';
+      btn.classList.remove('added');
+      priceEl.style.opacity = '1';
+    } else {
+      // Add to cart
+      cart[id] = price;
+      btn.textContent = '✓  Added';
+      btn.classList.add('added');
+      priceEl.style.opacity = '0';
+
+      // Swatch reveal animation
+      swatch.classList.remove('just-added');
+      void swatch.offsetWidth; // reflow to restart animation
+      swatch.classList.add('just-added');
+
+      // Named acquisition toast
+      showToast('<span class="toast-name">' + name + '</span> added to your collection.');
+    }
+
+    updateTotal();
+    updateProgress();
+  }
+
+  function updateTotal() {
+    const total = Object.values(cart).reduce((s, v) => s + v, 0);
+    const el = document.getElementById('total-amount');
+    const ctaBtn = document.getElementById('cta-btn');
+
+    el.style.opacity = '0.4';
+    setTimeout(() => {
+      el.textContent = total > 0 ? '$' + total.toFixed(2) : '$0.00';
+      el.style.opacity = '1';
+    }, 150);
+
+    // Dim CTA if nothing selected
+    ctaBtn.style.opacity = total > 0 ? '1' : '0.4';
+  }
+
+  function updateProgress() {
+    const added = Object.keys(cart).length;
+    const total = owned + added;
+    const el = document.getElementById('collection-progress');
+    el.textContent = total + ' of ' + PALETTE_TOTAL + ' colors in your collection';
+    el.classList.add('updated');
+    setTimeout(() => el.classList.remove('updated'), 1200);
+  }
+
+  function purchase() {
+    if (Object.keys(cart).length === 0) return;
+    const btn = document.getElementById('cta-btn');
+    btn.textContent = 'Adding to your collection…';
+    btn.style.opacity = '0.5';
+    setTimeout(() => {
+      btn.textContent = 'Collection updated';
+      btn.classList.add('purchased');
+
+      // Mark all cart items as owned
+      Object.keys(cart).forEach(id => {
+        const addBtn = document.getElementById('btn-' + id);
+        const priceEl = document.getElementById('price-' + id);
+        const action = addBtn.closest('.unowned-action');
+        action.innerHTML = '<div class="owned-tag"><svg width="11" height="11" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>Owned</span></div>';
+        owned++;
+      });
+
+      Object.keys(cart).forEach(k => delete cart[k]);
+      updateTotal();
+      document.getElementById('collection-progress').textContent = owned + ' of ' + PALETTE_TOTAL + ' colors in your collection';
+      showToast('Your collection has been updated.');
+    }, 900);
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.innerHTML = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+</script>
 </body>
 </html>
