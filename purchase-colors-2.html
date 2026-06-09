@@ -133,7 +133,7 @@
       </div>
       <div class="owned-tag">
         <svg width="11" height="11" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        <span>Owned</span>
+        <span>In your collection</span>
       </div>
     </div>
 
@@ -287,7 +287,7 @@
         const addBtn = document.getElementById('btn-' + id);
         const priceEl = document.getElementById('price-' + id);
         const action = addBtn.closest('.unowned-action');
-        action.innerHTML = '<div class="owned-tag"><svg width="11" height="11" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>Owned</span></div>';
+        action.innerHTML = '<div class="owned-tag"><svg width="11" height="11" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>';
         owned++;
       });
 
