@@ -70,7 +70,7 @@
   .cta-btn.purchased{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.4);letter-spacing:.2em}
 
   /* Toast */
-  .toast{position:absolute;top:50%;left:22px;right:22px;background:rgba(30,30,30,.96);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:16px 20px;font-size:11px;color:rgba(255,255,255,.85);letter-spacing:.06em;text-align:center;pointer-events:none;opacity:0;transform:translate(0,-50%) scale(.95);transition:opacity .3s ease,transform .3s ease;z-index:50}
+  .toast{position:absolute;top:50%;left:22px;right:22px;background:rgba(30,30,30,.96);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:16px 20px;font-size:11px;color:rgba(255,255,255,.85);letter-spacing:.12em;text-transform:uppercase;text-align:center;pointer-events:none;opacity:0;transform:translate(0,-50%) scale(.95);transition:opacity .3s ease,transform .3s ease;z-index:50}
   .toast.show{opacity:1;transform:translate(0,-50%) scale(1)}
   .toast-name{color:#fff;font-weight:500}
 
@@ -239,7 +239,7 @@
       void swatch.offsetWidth;
       swatch.classList.add('just-added');
 
-      showToast('<span class="toast-name">' + name + '</span> added to your collection.', swatch.style.background);
+      showToast('<span class="toast-name">' + name + '</span> was added to your collection.', swatch.style.background);
     }
 
     updateTotal();
