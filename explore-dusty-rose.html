@@ -73,6 +73,8 @@
   .toast{position:absolute;top:50%;left:22px;right:22px;background:rgba(30,30,30,.96);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:16px 20px;font-size:11px;color:rgba(255,255,255,.85);letter-spacing:.12em;text-transform:uppercase;text-align:center;pointer-events:none;opacity:0;transform:translate(0,-50%) scale(.95);transition:opacity .3s ease,transform .3s ease;z-index:50}
   .toast.show{opacity:1;transform:translate(0,-50%) scale(1)}
   .toast-name{color:#fff;font-weight:500}
+  .toast.dark-text{color:rgba(0,0,0,.7)}
+  .toast.dark-text .toast-name{color:#000}
 
   /* TAB BAR */
   .tabs{height:72px;border-top:.5px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-evenly;padding:0 8px;flex-shrink:0}
@@ -291,7 +293,7 @@
       Object.keys(cart).forEach(k => delete cart[k]);
       updateTotal();
       document.getElementById('collection-progress').textContent = owned + ' of ' + PALETTE_TOTAL + ' colors in your collection';
-      showToast('Your collection has been updated');
+      showToast('Your collection has been updated', '#fff');
     }, 900);
   }
 
@@ -299,6 +301,7 @@
     const t = document.getElementById('toast');
     t.innerHTML = msg;
     t.style.background = bgColor || 'rgba(30,30,30,.96)';
+    t.classList.toggle('dark-text', bgColor === '#fff');
     t.classList.add('show');
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.remove('show'), 2600);
