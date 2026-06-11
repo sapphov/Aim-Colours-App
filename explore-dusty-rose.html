@@ -239,7 +239,7 @@
       void swatch.offsetWidth;
       swatch.classList.add('just-added');
 
-      showToast('<span class="toast-name">' + name + '</span> was added to your collection.', swatch.style.background);
+      showToast('<span class="toast-name">' + name + '</span> was added to your collection', swatch.style.background);
     }
 
     updateTotal();
@@ -291,7 +291,7 @@
       Object.keys(cart).forEach(k => delete cart[k]);
       updateTotal();
       document.getElementById('collection-progress').textContent = owned + ' of ' + PALETTE_TOTAL + ' colors in your collection';
-      showToast('Your collection has been updated.');
+      showToast('Your collection has been updated');
     }, 900);
   }
 
