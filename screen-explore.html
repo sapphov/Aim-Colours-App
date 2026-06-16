@@ -57,17 +57,12 @@
     /* Section headings */
     .exp-section-head {
       padding: 16px 18px 10px;
-      overflow: hidden;
-      transition: height 0.15s ease-out, padding-top 0.15s ease-out, padding-bottom 0.15s ease-out;
     }
     .exp-section-title {
       font-family: 'Inter', sans-serif;
       font-size: 27px; font-weight: 400;
       letter-spacing: .04em; text-transform: uppercase;
       color: #fff; line-height: 1.2;
-    }
-    #featured-title {
-      transition: opacity 0.15s ease-out;
     }
 
     /* ── Featured (pinned, shrinks on scroll) ──────────────────── */
@@ -82,7 +77,8 @@
       overflow-x: auto; overflow-y: hidden;
       scrollbar-width: none;
       padding: 4px 18px 0;
-      transition: padding-top 0.15s ease-out;
+      position: relative; z-index: 2;
+      background: #151718;
     }
     .exp-cards-scroll::-webkit-scrollbar { display: none; }
 
@@ -235,7 +231,7 @@
 
       </div>
 
-      <div class="exp-divider" style="margin-top:16px;margin-bottom:0"></div>
+      <div id="explore-divider" class="exp-divider" style="margin-top:16px;margin-bottom:0"></div>
 
     </div>
 
@@ -339,6 +335,7 @@
   const exploreContent = document.querySelector('.explore-content');
   const featuredTitle = document.getElementById('featured-title');
   const sectionHead = document.querySelector('.featured-sticky .exp-section-head');
+  const exploreDivider = document.getElementById('explore-divider');
   const cardImgs = document.querySelectorAll('.exp-card-img');
   const pendants = document.querySelectorAll('.exp-card-pendant');
   const cardBadges = document.querySelectorAll('.exp-card-badge');
@@ -347,23 +344,19 @@
   const MAX_H = 290, MIN_H = 130;
   const PENDANT_MAX = 190;
 
-  const sectionHeadFullH = sectionHead.offsetHeight;
-  const sectionHeadPadTop = parseFloat(getComputedStyle(sectionHead).paddingTop);
-  const sectionHeadPadBottom = parseFloat(getComputedStyle(sectionHead).paddingBottom);
   const cardsScroll = document.querySelector('.exp-cards-scroll');
   const RANGE = Math.max(80, exploreContent.scrollHeight - exploreContent.clientHeight - 10);
+  const lift_total = cardsScroll.getBoundingClientRect().top - sectionHead.getBoundingClientRect().top + 2;
 
   exploreContent.addEventListener('scroll', () => {
     const progress = Math.min(exploreContent.scrollTop / RANGE, 1);
     const h = MAX_H - (MAX_H - MIN_H) * progress;
+    const lift = lift_total * progress;
     cardImgs.forEach(img => img.style.height = h + 'px');
     pendants.forEach(p => p.style.width = (PENDANT_MAX * (h / MAX_H)) + 'px');
     cardBadges.forEach(badge => badge.style.opacity = 1 - progress);
-    featuredTitle.style.opacity = 1 - progress;
-    sectionHead.style.height = (sectionHeadFullH * (1 - progress)) + 'px';
-    sectionHead.style.paddingTop = (sectionHeadPadTop * (1 - progress)) + 'px';
-    sectionHead.style.paddingBottom = (sectionHeadPadBottom * (1 - progress)) + 'px';
-    cardsScroll.style.paddingTop = (4 * (1 - progress)) + 'px';
+    cardsScroll.style.transform = 'translateY(-' + lift + 'px)';
+    exploreDivider.style.transform = 'translateY(-' + lift + 'px)';
 
     cardTitles.forEach(t => t.style.fontSize = (11 - 2 * progress) + 'px');
     cardBodies.forEach(body => {
