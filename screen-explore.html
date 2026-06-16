@@ -57,12 +57,23 @@
     /* Section headings */
     .exp-section-head {
       padding: 16px 18px 10px;
+      overflow: hidden;
+      transition: height 0.15s ease-out, padding-top 0.15s ease-out, padding-bottom 0.15s ease-out;
     }
     .exp-section-title {
       font-family: 'Inter', sans-serif;
       font-size: 27px; font-weight: 400;
       letter-spacing: .04em; text-transform: uppercase;
       color: #fff; line-height: 1.2;
+    }
+    #featured-title {
+      transition: opacity 0.15s ease-out;
+    }
+
+    /* ── Featured (pinned, shrinks on scroll) ──────────────────── */
+    .featured-sticky {
+      position: sticky; top: 0; z-index: 6;
+      background: #151718;
     }
 
     /* ── Feature cards ───────────────────────────────────────── */
@@ -71,6 +82,7 @@
       overflow-x: auto; overflow-y: hidden;
       scrollbar-width: none;
       padding: 4px 18px 0;
+      transition: padding-top 0.15s ease-out;
     }
     .exp-cards-scroll::-webkit-scrollbar { display: none; }
 
@@ -84,6 +96,7 @@
       border-radius: 2px;
       position: relative; overflow: hidden;
       display: flex; align-items: flex-end; justify-content: center;
+      transition: height 0.15s ease-out;
     }
     .exp-card-badge {
       position: absolute; top: 12px; left: 12px;
@@ -92,32 +105,25 @@
       font-size: 8px; font-weight: 600;
       letter-spacing: 0.2em; text-transform: uppercase;
       color: #000; padding: 5px 9px;
+      transition: opacity 0.15s ease-out;
     }
     .exp-card-pendant {
       width: 140px; opacity: 0.85;
       filter: drop-shadow(0 4px 24px rgba(123,82,200,0.4));
       margin-bottom: 12px;
+      transition: width 0.15s ease-out;
     }
     .exp-card-body {
       padding: 10px 0 0;
       display: flex; flex-direction: column; gap: 10px;
+      transition: gap 0.15s ease-out, padding 0.15s ease-out;
     }
     .exp-card-title {
       font-family: 'Inter', sans-serif;
       font-size: 11px; font-weight: 400;
       letter-spacing: .08em; text-transform: uppercase;
       color: #fff; line-height: 1.4;
-    }
-    .exp-card-btn {
-      align-self: flex-start;
-      background: transparent;
-      border: 1.5px solid #fff;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 8px; font-weight: 600;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      padding: 8px 14px; cursor: pointer;
-      border-radius: 2px;
+      transition: font-size 0.15s ease-out;
     }
 
     /* ── Topics list ─────────────────────────────────────────── */
@@ -174,62 +180,64 @@
   <!-- Explore Content -->
   <div class="explore-content">
 
-    <!-- Search bar -->
-    <div class="exp-search">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round">
-        <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <span class="exp-search-placeholder">Search</span>
-    </div>
+    <!-- Featured (pinned, shrinks on scroll) -->
+    <div class="featured-sticky">
 
-    <div class="exp-divider"></div>
-
-    <!-- Colour Stories cards -->
-    <div class="exp-section-head">
-      <h2 class="exp-section-title">Featured</h2>
-    </div>
-
-    <div class="exp-cards-scroll">
-
-      <!-- Card 1 — Floral -->
-      <div class="exp-card">
-        <div class="exp-card-img">
-          <img src="monet-waterlilies.jpg" alt="Monet — Impression, Sunrise" style="width:100%;height:100%;object-fit:cover;object-position:top right">
-          <span class="exp-card-badge">Spring 2026</span>
-        </div>
-        <div class="exp-card-body">
-          <div class="exp-card-title">The Dusty Rose Edit</div>
-          <a href="explore-dusty-rose.html" class="exp-card-btn" style="text-decoration:none;display:inline-block">Explore</a>
-        </div>
+      <!-- Search bar -->
+      <div class="exp-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <span class="exp-search-placeholder">Search</span>
       </div>
 
-      <!-- Card 2 — Twirl -->
-      <div class="exp-card">
-        <div class="exp-card-img" style="background: linear-gradient(160deg, #1a1a3a 0%, #2a3a6a 50%, #0a0a1e 100%); align-items: center; padding-top: 32px;">
-          <span class="exp-card-badge">Colour Guide</span>
-          <img class="exp-card-pendant" src="assets/ac-twirl-pendant.svg" alt="Twirl pendant" style="width: 190px; margin-bottom: 0;">
-        </div>
-        <div class="exp-card-body">
-          <div class="exp-card-title">Pairing Your Palette</div>
-          <button class="exp-card-btn">Discover</button>
-        </div>
+      <div class="exp-divider"></div>
+
+      <!-- Colour Stories cards -->
+      <div class="exp-section-head">
+        <h2 class="exp-section-title" id="featured-title">Featured</h2>
       </div>
 
-      <!-- Card 3 — Flower Girl -->
-      <div class="exp-card">
-        <div class="exp-card-img" style="background: linear-gradient(160deg, #2a1828 0%, #5a2848 50%, #1a0818 100%); align-items: center; padding-top: 32px;">
-          <span class="exp-card-badge">Behind the Craft</span>
-          <img class="exp-card-pendant" src="assets/ac-flower-girl-pendant.svg" alt="Flower Girl pendant" style="width: 190px; margin-bottom: 0;">
+      <div class="exp-cards-scroll">
+
+        <!-- Card 1 — Floral -->
+        <a class="exp-card" href="explore-dusty-rose.html">
+          <div class="exp-card-img">
+            <img src="monet-waterlilies.jpg" alt="Monet — Impression, Sunrise" style="position:absolute;top:0;right:0;width:230px;height:290px;object-fit:cover;object-position:top right">
+            <span class="exp-card-badge">Spring 2026</span>
+          </div>
+          <div class="exp-card-body">
+            <div class="exp-card-title">The Dusty Rose Edit</div>
+          </div>
+        </a>
+
+        <!-- Card 2 — Twirl -->
+        <div class="exp-card" style="cursor:pointer">
+          <div class="exp-card-img" style="background: linear-gradient(160deg, #1a1a3a 0%, #2a3a6a 50%, #0a0a1e 100%); align-items: center; justify-content: center;">
+            <span class="exp-card-badge">Colour Guide</span>
+            <img class="exp-card-pendant" src="assets/ac-twirl-pendant.svg" alt="Twirl pendant" style="width: 190px; margin-bottom: 0;">
+          </div>
+          <div class="exp-card-body">
+            <div class="exp-card-title">Pairing Your Palette</div>
+          </div>
         </div>
-        <div class="exp-card-body">
-          <div class="exp-card-title">Hand-Finished in Gold</div>
-          <button class="exp-card-btn">Watch</button>
+
+        <!-- Card 3 — Flower Girl -->
+        <div class="exp-card" style="cursor:pointer">
+          <div class="exp-card-img" style="background: linear-gradient(160deg, #2a1828 0%, #5a2848 50%, #1a0818 100%); align-items: center; justify-content: center;">
+            <span class="exp-card-badge">Behind the Craft</span>
+            <img class="exp-card-pendant" src="assets/ac-flower-girl-pendant.svg" alt="Flower Girl pendant" style="width: 190px; margin-bottom: 0;">
+          </div>
+          <div class="exp-card-body">
+            <div class="exp-card-title">Hand-Finished in Gold</div>
+          </div>
         </div>
+
       </div>
+
+      <div class="exp-divider" style="margin-top:16px;margin-bottom:0"></div>
 
     </div>
-
-    <div class="exp-divider" style="margin-top:16px"></div>
 
     <!-- Explore Topics -->
     <div class="exp-section-head">
@@ -326,5 +334,43 @@
   </div>
 
 </div>
+
+<script>
+  const exploreContent = document.querySelector('.explore-content');
+  const featuredTitle = document.getElementById('featured-title');
+  const sectionHead = document.querySelector('.featured-sticky .exp-section-head');
+  const cardImgs = document.querySelectorAll('.exp-card-img');
+  const pendants = document.querySelectorAll('.exp-card-pendant');
+  const cardBadges = document.querySelectorAll('.exp-card-badge');
+  const cardBodies = document.querySelectorAll('.exp-card-body');
+  const cardTitles = document.querySelectorAll('.exp-card-title');
+  const MAX_H = 290, MIN_H = 130;
+  const PENDANT_MAX = 190;
+
+  const sectionHeadFullH = sectionHead.offsetHeight;
+  const sectionHeadPadTop = parseFloat(getComputedStyle(sectionHead).paddingTop);
+  const sectionHeadPadBottom = parseFloat(getComputedStyle(sectionHead).paddingBottom);
+  const cardsScroll = document.querySelector('.exp-cards-scroll');
+  const RANGE = Math.max(80, exploreContent.scrollHeight - exploreContent.clientHeight - 10);
+
+  exploreContent.addEventListener('scroll', () => {
+    const progress = Math.min(exploreContent.scrollTop / RANGE, 1);
+    const h = MAX_H - (MAX_H - MIN_H) * progress;
+    cardImgs.forEach(img => img.style.height = h + 'px');
+    pendants.forEach(p => p.style.width = (PENDANT_MAX * (h / MAX_H)) + 'px');
+    cardBadges.forEach(badge => badge.style.opacity = 1 - progress);
+    featuredTitle.style.opacity = 1 - progress;
+    sectionHead.style.height = (sectionHeadFullH * (1 - progress)) + 'px';
+    sectionHead.style.paddingTop = (sectionHeadPadTop * (1 - progress)) + 'px';
+    sectionHead.style.paddingBottom = (sectionHeadPadBottom * (1 - progress)) + 'px';
+    cardsScroll.style.paddingTop = (4 * (1 - progress)) + 'px';
+
+    cardTitles.forEach(t => t.style.fontSize = (11 - 2 * progress) + 'px');
+    cardBodies.forEach(body => {
+      body.style.gap = (10 - 4 * progress) + 'px';
+      body.style.paddingTop = (10 - 4 * progress) + 'px';
+    });
+  });
+</script>
 </body>
 </html>
