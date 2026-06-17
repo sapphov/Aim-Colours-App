@@ -77,6 +77,7 @@
     .featured-sticky {
       position: sticky; top: 0; z-index: 6;
       background: #151718;
+      padding-top: 18px;
     }
 
     /* ── Feature cards ───────────────────────────────────────── */
@@ -241,7 +242,7 @@
 
       </div>
 
-      <div id="explore-divider" class="exp-divider" style="margin-top:16px;margin-bottom:0"></div>
+      <div id="explore-divider" class="exp-divider" style="margin-top:18px;margin-bottom:0"></div>
 
     </div>
 
@@ -362,7 +363,7 @@
   const cardsScroll = document.querySelector('.exp-cards-scroll');
   const exploreSection = document.getElementById('explore-section');
   const ANIM_RANGE = 200;
-  const lift_total = cardsScroll.getBoundingClientRect().top - sectionHead.getBoundingClientRect().top + 2;
+  const lift_total = cardsScroll.getBoundingClientRect().top - sectionHead.getBoundingClientRect().top;
 
   exploreContent.addEventListener('scroll', () => {
     const progress = Math.min(exploreContent.scrollTop / ANIM_RANGE, 1);
