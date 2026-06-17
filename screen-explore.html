@@ -23,10 +23,18 @@
     .home-bar { height: 34px; display: flex; align-items: center; justify-content: center; }
     .hb { width: 134px; height: 5px; border-radius: 3px; background: rgba(255,255,255,.3); }
 
+    /* ── Pinned search bar (always visible, never scrolls) ─── */
+    .exp-search-pinned {
+      position: absolute;
+      top: 48px; left: 0; right: 0;
+      background: #151718;
+      z-index: 10;
+    }
+
     /* ── Explore scrollable content ─────────────────────────── */
     .explore-content {
       position: absolute;
-      top: 48px; bottom: 106px; left: 0; right: 0;
+      top: 121px; bottom: 106px; left: 0; right: 0;
       overflow-y: auto; overflow-x: hidden;
       scrollbar-width: none;
       z-index: 5;
@@ -101,7 +109,6 @@
       font-size: 8px; font-weight: 600;
       letter-spacing: 0.2em; text-transform: uppercase;
       color: #000; padding: 5px 9px;
-      transition: opacity 0.15s ease-out;
     }
     .exp-card-pendant {
       width: 140px; opacity: 0.85;
@@ -121,6 +128,8 @@
       color: #fff; line-height: 1.4;
       transition: font-size 0.15s ease-out;
     }
+
+    .explore-bottom-spacer { height: 220px; }
 
     /* ── Topics list ─────────────────────────────────────────── */
     .exp-topics { padding: 0 0 8px; }
@@ -173,21 +182,22 @@
     </div>
   </div>
 
+  <!-- Search bar — pinned above scroll, never moves -->
+  <div class="exp-search-pinned">
+    <div class="exp-search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <span class="exp-search-placeholder">Search</span>
+    </div>
+    <div class="exp-divider"></div>
+  </div>
+
   <!-- Explore Content -->
   <div class="explore-content">
 
     <!-- Featured (pinned, shrinks on scroll) -->
     <div class="featured-sticky">
-
-      <!-- Search bar -->
-      <div class="exp-search">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round">
-          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
-        <span class="exp-search-placeholder">Search</span>
-      </div>
-
-      <div class="exp-divider"></div>
 
       <!-- Colour Stories cards -->
       <div class="exp-section-head">
@@ -234,6 +244,8 @@
       <div id="explore-divider" class="exp-divider" style="margin-top:16px;margin-bottom:0"></div>
 
     </div>
+
+    <div id="explore-section">
 
     <!-- Explore Topics -->
     <div class="exp-section-head">
@@ -292,6 +304,9 @@
 
     </div>
 
+    </div><!-- /explore-section -->
+    <div class="explore-bottom-spacer"></div>
+
   </div><!-- /explore-content -->
 
   <!-- Tab Bar -->
@@ -345,16 +360,18 @@
   const PENDANT_MAX = 190;
 
   const cardsScroll = document.querySelector('.exp-cards-scroll');
-  const RANGE = Math.max(80, exploreContent.scrollHeight - exploreContent.clientHeight - 10);
+  const exploreSection = document.getElementById('explore-section');
+  const ANIM_RANGE = 200;
   const lift_total = cardsScroll.getBoundingClientRect().top - sectionHead.getBoundingClientRect().top + 2;
 
   exploreContent.addEventListener('scroll', () => {
-    const progress = Math.min(exploreContent.scrollTop / RANGE, 1);
+    const progress = Math.min(exploreContent.scrollTop / ANIM_RANGE, 1);
+    exploreSection.style.transform = 'translateY(' + Math.min(exploreContent.scrollTop, ANIM_RANGE) + 'px)';
     const h = MAX_H - (MAX_H - MIN_H) * progress;
     const lift = lift_total * progress;
     cardImgs.forEach(img => img.style.height = h + 'px');
     pendants.forEach(p => p.style.width = (PENDANT_MAX * (h / MAX_H)) + 'px');
-    cardBadges.forEach(badge => badge.style.opacity = 1 - progress);
+    cardBadges.forEach(badge => badge.style.opacity = progress >= 0.4 ? '0' : String(Math.max(0, 1 - progress * 2.5)));
     cardsScroll.style.transform = 'translateY(-' + lift + 'px)';
     exploreDivider.style.transform = 'translateY(-' + lift + 'px)';
 
@@ -363,6 +380,11 @@
       body.style.gap = (10 - 4 * progress) + 'px';
       body.style.paddingTop = (10 - 4 * progress) + 'px';
     });
+  });
+
+  exploreContent.addEventListener('scrollend', () => {
+    const progress = Math.min(exploreContent.scrollTop / ANIM_RANGE, 1);
+    if (progress >= 0.4) cardBadges.forEach(badge => badge.style.opacity = '0');
   });
 </script>
 </body>
