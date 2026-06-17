@@ -49,7 +49,6 @@
 
   .color-info{flex:1;min-width:0}
   .color-name{font-size:11px;font-weight:500;color:#fff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
-  .color-hex{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.08em}
 
   /* Owned */
   .owned-tag{display:flex;align-items:center;gap:5px;flex-shrink:0}
@@ -63,9 +62,6 @@
 
   /* CTA */
   .cta-section{padding:2px 22px 18px;flex-shrink:0}
-  .total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;padding:0 2px}
-  .total-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3)}
-  .total-amount{font-size:15px;font-weight:400;color:#fff;letter-spacing:.04em;transition:opacity .2s ease}
   .cta-btn{width:100%;border:1.5px solid rgba(255,255,255,1);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:13px;border-radius:100px;text-align:center;cursor:pointer;transition:all .4s ease}
   .cta-btn.purchased{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.4);letter-spacing:.2em}
 
@@ -88,6 +84,33 @@
     0%{opacity:1;transform:translate(0,0) scale(1)}
     100%{opacity:0;transform:translate(var(--px),var(--py)) scale(.3)}
   }
+
+  /* CART ICON + BADGE */
+  .cart-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#fff;padding:4px;display:flex;align-items:center}
+  .cart-badge{position:absolute;top:-4px;right:-6px;background:#fff;color:#000;font-family:'Inter',sans-serif;font-size:7px;font-weight:700;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;letter-spacing:0;opacity:0;transform:scale(0);transition:opacity .2s ease,transform .25s cubic-bezier(0.34,1.56,0.64,1)}
+  .cart-badge.visible{opacity:1;transform:scale(1)}
+
+  /* CART PANEL */
+  .cart-overlay{position:absolute;top:88px;left:0;right:0;bottom:0;z-index:19;display:none}
+  .cart-overlay.open{display:block}
+  .cart-panel{position:absolute;top:88px;left:0;right:0;background:#151718;border-bottom:.5px solid rgba(255,255,255,.12);z-index:20;padding:18px 22px 20px;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .22s ease,transform .22s ease}
+  .cart-panel.open{opacity:1;transform:translateY(0);pointer-events:all}
+  .cart-panel-empty{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28);text-align:center;padding:6px 0 14px}
+  .cart-panel-items{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+  .cart-panel-item{display:flex;align-items:center;gap:12px}
+  .cart-panel-swatch{width:26px;height:26px;border-radius:3px;flex-shrink:0}
+  .cart-panel-name{flex:1;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+  .cart-panel-price{font-size:10px;color:rgba(255,255,255,.38);letter-spacing:.04em}
+  .cart-panel-divider{height:.5px;background:rgba(255,255,255,.1);margin-bottom:14px}
+  .cart-panel-total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+  .cart-panel-total-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+  .cart-panel-total-amt{font-size:14px;font-weight:400;color:#fff;letter-spacing:.04em}
+  .cart-panel-purchase{width:100%;border:1.5px solid #fff;background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.28em;text-transform:uppercase;padding:12px;border-radius:100px;cursor:pointer;transition:all .3s ease}
+  .cart-panel-purchase:disabled{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.28);cursor:default}
+
+  /* SCROLL AREA */
+  .scroll-area{flex:1;overflow-y:auto;min-height:0;scrollbar-width:none}
+  .scroll-area::-webkit-scrollbar{display:none}
 
   /* TAB BAR */
   .tabs{height:72px;border-top:.5px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-evenly;padding:0 8px;flex-shrink:0}
@@ -120,7 +143,27 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="white" d="m10 18l-6-6l6-6l1.4 1.45L7.85 11H20v2H7.85l3.55 3.55z"/></svg>
     </a>
     <div class="header-title">Dusty Rose Edit</div>
+    <button class="cart-btn" id="cart-btn" onclick="toggleCart()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5.588 21.413Q5 20.825 5 20t.588-1.412T7 18t1.413.588T9 20t-.587 1.413T7 22t-1.412-.587m10 0Q15 20.825 15 20t.588-1.412T17 18t1.413.588T19 20t-.587 1.413T17 22t-1.412-.587M5.2 4h14.75q.575 0 .875.513t.025 1.037l-3.55 6.4q-.275.5-.737.775T15.55 13H8.1L7 15h12v2H7q-1.125 0-1.7-.987t-.05-1.963L6.6 11.6L3 4H1V2h3.25z"/></svg>
+      <span class="cart-badge" id="cart-badge"></span>
+    </button>
   </div>
+
+  <!-- CART PANEL -->
+  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+  <div class="cart-panel" id="cart-panel">
+    <div class="cart-panel-items" id="cart-panel-items">
+      <div class="cart-panel-empty">Your cart is empty</div>
+    </div>
+    <div class="cart-panel-divider"></div>
+    <div class="cart-panel-total-row">
+      <span class="cart-panel-total-label">Total</span>
+      <span class="cart-panel-total-amt" id="cart-panel-total-amt">$0.00</span>
+    </div>
+    <button class="cart-panel-purchase" id="cart-panel-purchase" onclick="purchase()" disabled>Purchase</button>
+  </div>
+
+  <div class="scroll-area">
 
   <!-- HERO -->
   <div class="hero">
@@ -149,7 +192,6 @@
       <div class="swatch" style="background:#aca299"></div>
       <div class="color-info">
         <div class="color-name">Stone</div>
-        <div class="color-hex">#aca299</div>
       </div>
       <div class="owned-tag"><svg width="11" height="11" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span>
       </div>
@@ -159,7 +201,6 @@
       <div class="swatch" id="swatch-dusty-rose" style="background:#987f87"></div>
       <div class="color-info">
         <div class="color-name">Dusty Rose</div>
-        <div class="color-hex">#987f87</div>
       </div>
       <div class="unowned-action">
         <span class="price" id="price-dusty-rose">$2.99</span>
@@ -171,7 +212,6 @@
       <div class="swatch" id="swatch-rose-wood" style="background:#a77b6f"></div>
       <div class="color-info">
         <div class="color-name">Rose Wood</div>
-        <div class="color-hex">#a77b6f</div>
       </div>
       <div class="unowned-action">
         <span class="price" id="price-rose-wood">$2.99</span>
@@ -179,16 +219,36 @@
       </div>
     </div>
 
+    <div class="color-row" id="row-sage">
+      <div class="swatch" id="swatch-sage" style="background:#708e77"></div>
+      <div class="color-info">
+        <div class="color-name">Sage</div>
+      </div>
+      <div class="unowned-action">
+        <span class="price" id="price-sage">$2.99</span>
+        <button class="add-btn" id="btn-sage" onclick="addColor('sage', 'Sage', 2.99)">Add</button>
+      </div>
+    </div>
+
+    <div class="color-row" id="row-slate">
+      <div class="swatch" id="swatch-slate" style="background:#6e8ba3"></div>
+      <div class="color-info">
+        <div class="color-name">Azure Haze</div>
+      </div>
+      <div class="unowned-action">
+        <span class="price" id="price-slate">$2.99</span>
+        <button class="add-btn" id="btn-slate" onclick="addColor('slate', 'Azure Haze', 2.99)">Add</button>
+      </div>
+    </div>
+
   </div>
 
   <!-- CTA -->
   <div class="cta-section">
-    <div class="total-row">
-      <span class="total-label">Total</span>
-      <span class="total-amount" id="total-amount">$5.98</span>
-    </div>
-    <div class="cta-btn" id="cta-btn" onclick="purchase()">Purchase Missing Colors</div>
+    <div class="cta-btn" id="cta-btn" onclick="purchasePalette()">Purchase Palette</div>
   </div>
+
+  </div><!-- /scroll-area -->
 
   <!-- TAB BAR -->
   <div class="tabs">
@@ -234,6 +294,48 @@
   const cart = {};
   let owned = 1; // Stone already owned
 
+  function toggleCart() {
+    const panel = document.getElementById('cart-panel');
+    const overlay = document.getElementById('cart-overlay');
+    const isOpen = panel.classList.contains('open');
+    panel.classList.toggle('open', !isOpen);
+    overlay.classList.toggle('open', !isOpen);
+  }
+
+  function closeCart() {
+    document.getElementById('cart-panel').classList.remove('open');
+    document.getElementById('cart-overlay').classList.remove('open');
+  }
+
+  function updateCartPanel() {
+    const ids = Object.keys(cart);
+    const itemsEl = document.getElementById('cart-panel-items');
+    const totalEl = document.getElementById('cart-panel-total-amt');
+    const purchaseBtn = document.getElementById('cart-panel-purchase');
+    const badge = document.getElementById('cart-badge');
+
+    badge.textContent = ids.length || '';
+    badge.classList.toggle('visible', ids.length > 0);
+    purchaseBtn.disabled = ids.length === 0;
+
+    const total = Object.values(cart).reduce((s, v) => s + v, 0);
+    totalEl.textContent = total > 0 ? '$' + total.toFixed(2) : '$0.00';
+
+    if (ids.length === 0) {
+      itemsEl.innerHTML = '<div class="cart-panel-empty">Your cart is empty</div>';
+      return;
+    }
+    itemsEl.innerHTML = ids.map(id => {
+      const color = document.getElementById('swatch-' + id).style.background;
+      const name = document.getElementById('row-' + id).querySelector('.color-name').textContent;
+      return `<div class="cart-panel-item">
+        <div class="cart-panel-swatch" style="background:${color}"></div>
+        <span class="cart-panel-name">${name}</span>
+        <span class="cart-panel-price">$${cart[id].toFixed(2)}</span>
+      </div>`;
+    }).join('');
+  }
+
   function addColor(id, name, price) {
     const btn = document.getElementById('btn-' + id);
     const priceEl = document.getElementById('price-' + id);
@@ -259,28 +361,36 @@
 
     updateTotal();
     updateProgress();
+    updateCartPanel();
   }
 
   function updateTotal() {
-    const total = Object.values(cart).reduce((s, v) => s + v, 0);
-    const el = document.getElementById('total-amount');
-    const ctaBtn = document.getElementById('cta-btn');
+    const hasUnowned = document.querySelectorAll('.unowned-action .add-btn').length > 0;
+    document.getElementById('cta-btn').style.opacity = hasUnowned ? '1' : '0.4';
+  }
 
-    el.style.opacity = '0.4';
-    setTimeout(() => {
-      el.textContent = total > 0 ? '$' + total.toFixed(2) : '$0.00';
-      el.style.opacity = '1';
-    }, 150);
-
-    ctaBtn.style.opacity = total > 0 ? '1' : '0.4';
+  function purchasePalette() {
+    document.querySelectorAll('.unowned-action').forEach(action => {
+      const btn = action.querySelector('.add-btn');
+      if (!btn) return;
+      const id = btn.id.replace('btn-', '');
+      if (!cart[id]) {
+        const priceText = document.getElementById('price-' + id).textContent;
+        cart[id] = parseFloat(priceText.replace('$', ''));
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span style="letter-spacing:.14em">Added</span>';
+        btn.classList.add('added');
+        document.getElementById('price-' + id).style.opacity = '0';
+      }
+    });
+    purchase();
   }
 
   function updateProgress() {
     const added = Object.keys(cart).length;
     const total = owned + added;
     const el = document.getElementById('collection-progress');
-    const allOwned = total >= PALETTE_TOTAL || (owned + added) >= 3;
-    el.textContent = allOwned && added === 2
+    const allOwned = owned + added >= PALETTE_TOTAL;
+    el.textContent = allOwned
       ? 'All colors in your collection'
       : total + ' of ' + PALETTE_TOTAL + ' colors in your collection';
     el.classList.add('updated');
@@ -305,6 +415,8 @@
 
       Object.keys(cart).forEach(k => delete cart[k]);
       updateTotal();
+      updateCartPanel();
+      closeCart();
       document.getElementById('collection-progress').textContent = owned + ' of ' + PALETTE_TOTAL + ' colors in your collection';
       showToast('Your collection has been updated', '#fff');
       celebrate();
