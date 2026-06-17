@@ -368,13 +368,13 @@
   const ANIM_RANGE = 200;
   const lift_total = cardsScroll.getBoundingClientRect().top - sectionHead.getBoundingClientRect().top;
 
-  // During animation, featured-sticky shrinks as card images collapse (290→130px)
-  // and card body padding/font also reduce. Explore-section's DOM position shifts
-  // upward by this total amount, so the counter-scroll must offset both the scroll
-  // AND the layout shift to keep explore-section stationary during phase 1.
-  const LAYOUT_SHRINKAGE = (MAX_H - MIN_H) + (10 - 6) + Math.round((11 - 9) * 1.4); // ~167px
-  const PHASE1_FACTOR = 1 + LAYOUT_SHRINKAGE / ANIM_RANGE;
-  const MAX_TRANSLATE = ANIM_RANGE + LAYOUT_SHRINKAGE;
+  // Explore must track the featured bottom exactly during phase 1.
+  // At each scroll pixel: featured_bottom moves at (1 + lift_total/ANIM_RANGE),
+  // explore without transform moves at (1 + LAYOUT_SHRINKAGE/ANIM_RANGE).
+  // To make explore follow featured bottom: translateY = scrollTop * (1 - lift_total/ANIM_RANGE).
+  // The layout shrinkage cancels out — only lift_total matters.
+  const PHASE1_FACTOR = 1 - lift_total / ANIM_RANGE;
+  const MAX_TRANSLATE = ANIM_RANGE - lift_total;
 
   exploreContent.addEventListener('scroll', () => {
     const progress = Math.min(exploreContent.scrollTop / ANIM_RANGE, 1);
