@@ -203,8 +203,8 @@
         <div class="color-name">Dusty Rose</div>
       </div>
       <div class="unowned-action">
-        <span class="price" id="price-dusty-rose">$2.99</span>
-        <button class="add-btn" id="btn-dusty-rose" onclick="addColor('dusty-rose', 'Dusty Rose', 2.99)">Add</button>
+        <span class="price" id="price-dusty-rose">$5.99</span>
+        <button class="add-btn" id="btn-dusty-rose" onclick="addColor('dusty-rose', 'Dusty Rose', 5.99)">Add</button>
       </div>
     </div>
 
@@ -214,8 +214,8 @@
         <div class="color-name">Rose Wood</div>
       </div>
       <div class="unowned-action">
-        <span class="price" id="price-rose-wood">$2.99</span>
-        <button class="add-btn" id="btn-rose-wood" onclick="addColor('rose-wood', 'Rose Wood', 2.99)">Add</button>
+        <span class="price" id="price-rose-wood">$5.99</span>
+        <button class="add-btn" id="btn-rose-wood" onclick="addColor('rose-wood', 'Rose Wood', 5.99)">Add</button>
       </div>
     </div>
 
@@ -225,8 +225,8 @@
         <div class="color-name">Sage</div>
       </div>
       <div class="unowned-action">
-        <span class="price" id="price-sage">$2.99</span>
-        <button class="add-btn" id="btn-sage" onclick="addColor('sage', 'Sage', 2.99)">Add</button>
+        <span class="price" id="price-sage">$5.99</span>
+        <button class="add-btn" id="btn-sage" onclick="addColor('sage', 'Sage', 5.99)">Add</button>
       </div>
     </div>
 
@@ -236,8 +236,8 @@
         <div class="color-name">Azure Haze</div>
       </div>
       <div class="unowned-action">
-        <span class="price" id="price-slate">$2.99</span>
-        <button class="add-btn" id="btn-slate" onclick="addColor('slate', 'Azure Haze', 2.99)">Add</button>
+        <span class="price" id="price-slate">$5.99</span>
+        <button class="add-btn" id="btn-slate" onclick="addColor('slate', 'Azure Haze', 5.99)">Add</button>
       </div>
     </div>
 
@@ -291,6 +291,7 @@
 
 <script>
   const PALETTE_TOTAL = 5;
+  const PALETTE_PRICE = 19.99;
   const cart = {};
   let owned = 1; // Stone already owned
 
@@ -370,17 +371,20 @@
   }
 
   function purchasePalette() {
-    document.querySelectorAll('.unowned-action').forEach(action => {
-      const btn = action.querySelector('.add-btn');
-      if (!btn) return;
-      const id = btn.id.replace('btn-', '');
-      if (!cart[id]) {
-        const priceText = document.getElementById('price-' + id).textContent;
-        cart[id] = parseFloat(priceText.replace('$', ''));
-        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span style="letter-spacing:.14em">Added</span>';
-        btn.classList.add('added');
-        document.getElementById('price-' + id).style.opacity = '0';
-      }
+    const actions = Array.from(document.querySelectorAll('.unowned-action'));
+    const unownedIds = actions.map(a => {
+      const btn = a.querySelector('.add-btn');
+      return btn ? btn.id.replace('btn-', '') : null;
+    }).filter(Boolean).filter(id => !cart[id]);
+
+    const priceEach = unownedIds.length > 0 ? PALETTE_PRICE / unownedIds.length : 0;
+
+    unownedIds.forEach(id => {
+      cart[id] = priceEach;
+      const btn = document.getElementById('btn-' + id);
+      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span style="letter-spacing:.14em">Added</span>';
+      btn.classList.add('added');
+      document.getElementById('price-' + id).style.opacity = '0';
     });
     purchase();
   }
