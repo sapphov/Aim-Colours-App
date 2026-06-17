@@ -214,7 +214,7 @@
   <!-- PALETTE HEADER -->
   <div class="palette-header">
     <div class="palette-editorial">Dusty Rose Palette</div>
-    <div class="collection-progress" id="collection-progress">1 of 5 colors in your collection</div>
+    <div class="collection-progress" id="collection-progress">0 of 5 colors in your collection</div>
   </div>
 
   <div class="divider"></div>
@@ -222,12 +222,14 @@
   <!-- COLOR ROWS -->
   <div class="color-list">
 
-    <div class="color-row">
-      <div class="swatch" style="background:#aca299"></div>
+    <div class="color-row" id="row-stone">
+      <div class="swatch" id="swatch-stone" style="background:#aca299"></div>
       <div class="color-info">
         <div class="color-name">Stone</div>
       </div>
-      <div class="owned-tag"><svg width="11" height="11" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span>
+      <div class="unowned-action">
+        <span class="price" id="price-stone">$5.99</span>
+        <button class="add-btn" id="btn-stone" onclick="addColor('stone', 'Stone', 5.99)">Add</button>
       </div>
     </div>
 
@@ -327,7 +329,7 @@
   const PALETTE_TOTAL = 5;
   const PALETTE_PRICE = 19.99;
   const cart = {};
-  let owned = 1; // Stone already owned
+  let owned = 0;
 
   function toggleCart() {
     const panel = document.getElementById('cart-panel');
