@@ -163,7 +163,7 @@
     <a href="screen-explore.html" class="back-btn">
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="white" d="m10 18l-6-6l6-6l1.4 1.45L7.85 11H20v2H7.85l3.55 3.55z"/></svg>
     </a>
-    <div class="header-title">Pearl Edit</div>
+    <div class="header-title">The Pearl Edit</div>
     <button class="cart-btn" id="cart-btn" onclick="toggleCart()">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5.588 21.413Q5 20.825 5 20t.588-1.412T7 18t1.413.588T9 20t-.587 1.413T7 22t-1.412-.587m10 0Q15 20.825 15 20t.588-1.412T17 18t1.413.588T19 20t-.587 1.413T17 22t-1.412-.587M5.2 4h14.75q.575 0 .875.513t.025 1.037l-3.55 6.4q-.275.5-.737.775T15.55 13H8.1L7 15h12v2H7q-1.125 0-1.7-.987t-.05-1.963L6.6 11.6L3 4H1V2h3.25z"/></svg>
       <span class="cart-badge" id="cart-badge"></span>
@@ -202,7 +202,7 @@
   <!-- HERO -->
   <div class="hero">
     <img src="assets/pearl-edit-hero.jpg" alt="The Pearl Edit">
-    <span class="hero-badge">Spring 2026</span>
+    <span class="hero-badge">Winter 2026</span>
   </div>
 
   <!-- ABOUT -->
@@ -214,7 +214,7 @@
   <!-- PALETTE HEADER -->
   <div class="palette-header">
     <div class="palette-editorial">Pearl Palette</div>
-    <div class="collection-progress" id="collection-progress">0 of 5 colors in your collection</div>
+    <div class="collection-progress" id="collection-progress">0 of 3 colours in your collection</div>
   </div>
 
   <div class="divider"></div>
@@ -466,8 +466,8 @@
     const el = document.getElementById('collection-progress');
     const allOwned = owned + added >= PALETTE_TOTAL;
     el.textContent = allOwned
-      ? 'All colors in your collection'
-      : total + ' of ' + PALETTE_TOTAL + ' colors in your collection';
+      ? 'All colours in your collection'
+      : total + ' of ' + PALETTE_TOTAL + ' colours in your collection';
     el.classList.add('updated');
     setTimeout(() => el.classList.remove('updated'), 1200);
   }
@@ -492,7 +492,7 @@
       updateTotal();
       updateCartPanel();
       closeCart();
-      document.getElementById('collection-progress').textContent = owned + ' of ' + PALETTE_TOTAL + ' colors in your collection';
+      document.getElementById('collection-progress').textContent = owned + ' of ' + PALETTE_TOTAL + ' colours in your collection';
       showToast('The Pearl Palette has been added to your collection', '#fff');
       celebrate();
     }, 900);
