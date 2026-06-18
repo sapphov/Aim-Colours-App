@@ -222,8 +222,19 @@
   <!-- COLOR ROWS -->
   <div class="color-list">
 
+    <div class="color-row" id="row-dune">
+      <div class="swatch" id="swatch-dune" style="background:#aca18f"></div>
+      <div class="color-info">
+        <div class="color-name">Dune</div>
+      </div>
+      <div class="unowned-action">
+        <span class="price" id="price-dune">$5.99</span>
+        <button class="add-btn" id="btn-dune" onclick="addColor('dune', 'Dune', 5.99)">Add</button>
+      </div>
+    </div>
+
     <div class="color-row" id="row-pearl">
-      <div class="swatch" id="swatch-pearl" style="background:#ede8e2"></div>
+      <div class="swatch" id="swatch-pearl" style="background:#9ca4a8"></div>
       <div class="color-info">
         <div class="color-name">Pearl</div>
       </div>
@@ -233,47 +244,14 @@
       </div>
     </div>
 
-    <div class="color-row" id="row-ivory">
-      <div class="swatch" id="swatch-ivory" style="background:#e0d8cc"></div>
+    <div class="color-row" id="row-mocha">
+      <div class="swatch" id="swatch-mocha" style="background:#423026"></div>
       <div class="color-info">
-        <div class="color-name">Ivory</div>
+        <div class="color-name">Mocha</div>
       </div>
       <div class="unowned-action">
-        <span class="price" id="price-ivory">$5.99</span>
-        <button class="add-btn" id="btn-ivory" onclick="addColor('ivory', 'Ivory', 5.99)">Add</button>
-      </div>
-    </div>
-
-    <div class="color-row" id="row-champagne">
-      <div class="swatch" id="swatch-champagne" style="background:#c8b48e"></div>
-      <div class="color-info">
-        <div class="color-name">Champagne</div>
-      </div>
-      <div class="unowned-action">
-        <span class="price" id="price-champagne">$5.99</span>
-        <button class="add-btn" id="btn-champagne" onclick="addColor('champagne', 'Champagne', 5.99)">Add</button>
-      </div>
-    </div>
-
-    <div class="color-row" id="row-oyster">
-      <div class="swatch" id="swatch-oyster" style="background:#c4b8b0"></div>
-      <div class="color-info">
-        <div class="color-name">Oyster</div>
-      </div>
-      <div class="unowned-action">
-        <span class="price" id="price-oyster">$5.99</span>
-        <button class="add-btn" id="btn-oyster" onclick="addColor('oyster', 'Oyster', 5.99)">Add</button>
-      </div>
-    </div>
-
-    <div class="color-row" id="row-pewter">
-      <div class="swatch" id="swatch-pewter" style="background:#9aaba8"></div>
-      <div class="color-info">
-        <div class="color-name">Pewter</div>
-      </div>
-      <div class="unowned-action">
-        <span class="price" id="price-pewter">$5.99</span>
-        <button class="add-btn" id="btn-pewter" onclick="addColor('pewter', 'Pewter', 5.99)">Add</button>
+        <span class="price" id="price-mocha">$5.99</span>
+        <button class="add-btn" id="btn-mocha" onclick="addColor('mocha', 'Mocha', 5.99)">Add</button>
       </div>
     </div>
 
@@ -326,7 +304,7 @@
 </div>
 
 <script>
-  const PALETTE_TOTAL = 5;
+  const PALETTE_TOTAL = 3;
   const PALETTE_PRICE = 19.99;
   const cart = {};
   let owned = 0;
@@ -526,7 +504,7 @@
     void t.offsetWidth;
     t.classList.add('celebrate');
 
-    const colors = ['#ede8e2', '#c8b48e', '#c4b8b0', '#9aaba8'];
+    const colors = ['#aca18f', '#9ca4a8', '#423026', '#fff'];
     const phone = document.querySelector('.phone');
     const cx = phone.clientWidth / 2;
     const cy = phone.clientHeight / 2;
