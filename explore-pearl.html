@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#151718;display:flex;justify-content:center;align-items:flex-start;padding:40px 20px;font-family:'Inter',sans-serif;min-height:100vh}
+
+  .phone{width:393px;height:852px;background:#151718;border-radius:50px;overflow:hidden;box-shadow:0 0 0 1px #1a1a1a,0 24px 80px rgba(0,0,0,.9);display:flex;flex-direction:column;flex-shrink:0;position:relative}
+
+  /* STATUS */
+  .status{height:44px;position:relative;flex-shrink:0}
+
+  /* HEADER */
+  .header{height:44px;padding:0 22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative}
+  .back-btn{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0}
+  .header-title{font-size:15px;font-weight:500;color:#fff;letter-spacing:.18em;text-transform:uppercase}
+
+  /* HERO */
+  .hero{flex-shrink:0;height:190px;position:relative;overflow:hidden}
+  .hero img{width:100%;height:100%;object-fit:cover;object-position:top left}
+  .hero-badge{position:absolute;top:14px;left:16px;background:#fff;font-size:8px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#000;padding:5px 10px}
+
+  /* ABOUT */
+  .about{padding:12px 22px 10px;flex-shrink:0;border-bottom:.5px solid rgba(255,255,255,.08)}
+  .about-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px}
+  .about-text{font-size:12px;font-weight:300;color:rgba(255,255,255,.7);line-height:1.6;letter-spacing:.02em}
+
+  /* PALETTE SECTION */
+  .palette-header{padding:14px 22px 0;flex-shrink:0}
+  .palette-editorial{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:6px}
+  .collection-progress{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:4px;transition:color .4s ease}
+  .collection-progress.updated{color:rgba(255,255,255,.55)}
+
+  .divider{height:.5px;background:rgba(255,255,255,.1);margin:12px 22px 0;flex-shrink:0}
+
+  /* COLOR ROWS */
+  .color-list{padding:0 22px;flex-shrink:0}
+  .color-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:.5px solid rgba(255,255,255,.07)}
+  .color-row:last-child{border-bottom:none;padding-bottom:0}
+
+  .swatch{width:34px;height:34px;border-radius:3px;flex-shrink:0;transition:transform .4s cubic-bezier(0.34,1.56,0.64,1)}
+  .swatch.just-added{animation:swatchReveal .45s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes swatchReveal{
+    0%{transform:scale(.7);opacity:.3}
+    100%{transform:scale(1);opacity:1}
+  }
+
+  .color-info{flex:1;min-width:0}
+  .color-name{font-size:11px;font-weight:500;color:#fff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+
+  /* Owned */
+  .owned-tag{display:flex;align-items:center;gap:5px;flex-shrink:0}
+  .owned-tag span{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+
+  /* Unowned */
+  .unowned-action{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .price{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.04em;transition:opacity .3s ease}
+  .add-btn{border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:5px 12px;border-radius:100px;cursor:pointer;transition:all .35s ease;white-space:nowrap;min-width:54px}
+  .add-btn.added{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.4);letter-spacing:.14em}
+
+  /* CTA */
+  .cta-section{padding:18px 22px 18px;flex-shrink:0}
+  .cta-btn{width:100%;border:1.5px solid rgba(255,255,255,1);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:13px;border-radius:100px;text-align:center;cursor:pointer;transition:all .4s ease}
+  .cta-btn.purchased{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.4);letter-spacing:.2em}
+
+  /* Toast */
+  .toast{position:absolute;top:50%;left:22px;right:22px;background:rgba(30,30,30,.96);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:16px 20px;font-size:11px;color:rgba(255,255,255,.85);letter-spacing:.12em;text-transform:uppercase;text-align:center;pointer-events:none;opacity:0;transform:translate(0,-50%) scale(.95);transition:opacity .3s ease,transform .3s ease;z-index:50}
+  .toast.show{opacity:1;transform:translate(0,-50%) scale(1)}
+  .toast-name{color:#fff;font-weight:500}
+  .toast.dark-text{color:rgba(0,0,0,.7)}
+  .toast.dark-text .toast-name{color:#000}
+  .toast.celebrate{animation:toastGlow 1.4s ease}
+  @keyframes toastGlow{
+    0%{box-shadow:0 0 0 0 rgba(255,255,255,.5)}
+    45%{box-shadow:0 0 0 16px rgba(255,255,255,0)}
+    100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
+  }
+
+  /* Celebration particles */
+  .particle{position:absolute;border-radius:50%;pointer-events:none;opacity:0;z-index:60;animation:particleBurst .9s ease-out forwards}
+  @keyframes particleBurst{
+    0%{opacity:1;transform:translate(0,0) scale(1)}
+    100%{opacity:0;transform:translate(var(--px),var(--py)) scale(.3)}
+  }
+
+  /* CART ICON + BADGE */
+  .cart-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#fff;padding:4px;display:flex;align-items:center}
+  .cart-badge{position:absolute;top:-4px;right:-6px;background:#fff;color:#000;font-family:'Inter',sans-serif;font-size:7px;font-weight:700;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;letter-spacing:0;opacity:0;transform:scale(0);transition:opacity .2s ease,transform .25s cubic-bezier(0.34,1.56,0.64,1)}
+  .cart-badge.visible{opacity:1;transform:scale(1)}
+
+  /* CART PANEL */
+  .cart-overlay{position:absolute;top:88px;left:0;right:0;bottom:0;z-index:19;display:none}
+  .cart-overlay.open{display:block}
+  .cart-panel{position:absolute;top:88px;left:0;right:0;background:#151718;border-radius:0 0 24px 24px;border-bottom:1px solid rgba(255,255,255,.25);z-index:20;padding:18px 22px 20px;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .22s ease,transform .22s ease}
+  .cart-panel.open{opacity:1;transform:translateY(0);pointer-events:all}
+  .cart-panel-empty{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28);text-align:center;padding:6px 0 14px}
+  .cart-panel-items{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+  .cart-panel-item{display:flex;align-items:center;gap:12px}
+  .cart-panel-swatch{width:26px;height:26px;border-radius:3px;flex-shrink:0}
+  .cart-panel-name{flex:1;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+  .cart-panel-price{font-size:10px;color:rgba(255,255,255,.38);letter-spacing:.04em}
+  .cart-panel-divider{height:.5px;background:rgba(255,255,255,.1);margin-bottom:14px}
+  .cart-panel-total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+  .cart-panel-total-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+  .cart-panel-total-amt{font-size:14px;font-weight:400;color:#fff;letter-spacing:.04em}
+  .cart-panel-purchase{width:100%;border:1.5px solid #fff;background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.28em;text-transform:uppercase;padding:12px;border-radius:100px;cursor:pointer;transition:all .3s ease}
+  .cart-panel-purchase:disabled{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.28);cursor:default}
+
+  /* SCROLL AREA */
+  .scroll-area{flex:1;overflow-y:auto;min-height:0;scrollbar-width:none}
+  .scroll-area::-webkit-scrollbar{display:none}
+
+  /* TAB BAR */
+  .tabs{height:72px;border-top:.5px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-evenly;padding:0 8px;flex-shrink:0}
+  .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none}
+  .tab-ic{width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+  .tab-ic svg{height:22px;width:22px}
+  .tab-lbl{font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:#fff;font-weight:500}
+
+  /* HOME BAR */
+  .home-bar{height:34px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .hb{width:134px;height:5px;border-radius:3px;background:rgba(255,255,255,.3)}
+
+  /* CONFIRM SHEET */
+  .confirm-overlay{position:absolute;inset:0;background:rgba(0,0,0,0);pointer-events:none;transition:background .3s;z-index:48}
+  .confirm-overlay.open{background:rgba(0,0,0,.65);pointer-events:auto}
+  .confirm-sheet{position:absolute;left:0;right:0;bottom:0;background:#1c1820;border-radius:24px 24px 0 0;padding:20px 24px 40px;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,.72,0,1);z-index:49}
+  .confirm-sheet.open{transform:translateY(0)}
+  .confirm-handle{width:36px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin:14px auto 20px}
+  .confirm-title{font-family:'Inter',sans-serif;font-size:12px;font-style:normal;font-weight:500;color:#fff;letter-spacing:.2em;text-transform:uppercase;text-align:center;margin-bottom:22px}
+  .confirm-items{display:flex;flex-direction:column;gap:11px;margin-bottom:18px}
+  .confirm-item{display:flex;align-items:center;gap:12px}
+  .confirm-swatch{width:26px;height:26px;border-radius:50%;flex-shrink:0}
+  .confirm-name{flex:1;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+  .confirm-price{font-size:11px;letter-spacing:.06em;color:rgba(255,255,255,.4)}
+  .confirm-divider{height:.5px;background:rgba(255,255,255,.12);margin:0 0 16px}
+  .confirm-total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px}
+  .confirm-total-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+  .confirm-total-amt{font-family:'Inter',sans-serif;font-size:14px;font-weight:400;font-style:normal;color:#fff;letter-spacing:.04em}
+  .confirm-btn{width:100%;border:1.5px solid rgba(255,255,255,1);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:13px;border-radius:100px;text-align:center;cursor:pointer;margin-bottom:14px;transition:background .2s}
+  .confirm-btn:hover{background:rgba(255,255,255,.06)}
+  .confirm-cancel{text-align:center;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);cursor:pointer;padding:4px 0;transition:color .2s}
+  .confirm-cancel:hover{color:rgba(255,255,255,.55)}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <!-- STATUS BAR -->
+  <div class="status">
+    <span style="position:absolute;left:28px;top:14px;font-size:15px;font-weight:600;color:#fff;letter-spacing:.02em">9:41</span>
+    <div style="position:absolute;right:18px;top:16px;display:flex;align-items:center;gap:6px">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="white"><rect x="0" y="6" width="3" height="6" rx="0.5" opacity="0.3"/><rect x="4.5" y="4" width="3" height="8" rx="0.5" opacity="0.5"/><rect x="9" y="2" width="3" height="10" rx="0.5" opacity="0.7"/><rect x="13.5" y="0" width="3" height="12" rx="0.5"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 10.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" fill="white"/><path d="M4.9 7.4a4.4 4.4 0 0 1 6.2 0" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M2.4 5a7.2 7.2 0 0 1 11.2 0" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.6"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="white" stroke-width="1" fill="none" opacity="0.35"/><rect x="2" y="2" width="17" height="8" rx="1.5" fill="white"/><path d="M22.5 4v4a2 2 0 0 0 0-4z" fill="white" opacity="0.4"/></svg>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <a href="screen-explore.html" class="back-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="white" d="m10 18l-6-6l6-6l1.4 1.45L7.85 11H20v2H7.85l3.55 3.55z"/></svg>
+    </a>
+    <div class="header-title">Pearl Edit</div>
+    <button class="cart-btn" id="cart-btn" onclick="toggleCart()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5.588 21.413Q5 20.825 5 20t.588-1.412T7 18t1.413.588T9 20t-.587 1.413T7 22t-1.412-.587m10 0Q15 20.825 15 20t.588-1.412T17 18t1.413.588T19 20t-.587 1.413T17 22t-1.412-.587M5.2 4h14.75q.575 0 .875.513t.025 1.037l-3.55 6.4q-.275.5-.737.775T15.55 13H8.1L7 15h12v2H7q-1.125 0-1.7-.987t-.05-1.963L6.6 11.6L3 4H1V2h3.25z"/></svg>
+      <span class="cart-badge" id="cart-badge"></span>
+    </button>
+  </div>
+
+  <!-- CONFIRM SHEET -->
+  <div class="confirm-overlay" id="confirm-overlay" onclick="cancelConfirm()"></div>
+  <div class="confirm-sheet" id="confirm-sheet">
+    <div class="confirm-items" id="confirm-items"></div>
+    <div class="confirm-divider"></div>
+    <div class="confirm-total-row">
+      <span class="confirm-total-label">Total</span>
+      <span class="confirm-total-amt" id="confirm-total-amt">$0.00</span>
+    </div>
+    <div class="confirm-btn" onclick="confirmPurchase()">Confirm Purchase</div>
+    <div class="confirm-cancel" onclick="cancelConfirm()">Cancel</div>
+  </div>
+
+  <!-- CART PANEL -->
+  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+  <div class="cart-panel" id="cart-panel">
+    <div class="cart-panel-items" id="cart-panel-items">
+      <div class="cart-panel-empty">Your cart is empty</div>
+    </div>
+    <div class="cart-panel-divider"></div>
+    <div class="cart-panel-total-row">
+      <span class="cart-panel-total-label">Total</span>
+      <span class="cart-panel-total-amt" id="cart-panel-total-amt">$0.00</span>
+    </div>
+    <button class="cart-panel-purchase" id="cart-panel-purchase" onclick="showConfirm('cart')" disabled>Purchase</button>
+  </div>
+
+  <div class="scroll-area">
+
+  <!-- HERO -->
+  <div class="hero">
+    <img src="monet-waterlilies.jpg" alt="Pearl Edit hero">
+    <span class="hero-badge">Spring 2026</span>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="about">
+    <div class="about-label">About the edit</div>
+    <div class="about-text">A luminous, ethereal palette inspired by the iridescent surface of natural pearls. The Pearl Palette layers soft cream, champagne, and cool oyster tones — designed to feel radiant, refined, and quietly opulent.</div>
+  </div>
+
+  <!-- PALETTE HEADER -->
+  <div class="palette-header">
+    <div class="palette-editorial">Pearl Palette</div>
+    <div class="collection-progress" id="collection-progress">0 of 5 colors in your collection</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- COLOR ROWS -->
+  <div class="color-list">
+
+    <div class="color-row" id="row-pearl">
+      <div class="swatch" id="swatch-pearl" style="background:#ede8e2"></div>
+      <div class="color-info">
+        <div class="color-name">Pearl</div>
+      </div>
+      <div class="unowned-action">
+        <span class="price" id="price-pearl">$5.99</span>
+        <button class="add-btn" id="btn-pearl" onclick="addColor('pearl', 'Pearl', 5.99)">Add</button>
+      </div>
+    </div>
+
+    <div class="color-row" id="row-ivory">
+      <div class="swatch" id="swatch-ivory" style="background:#e0d8cc"></div>
+      <div class="color-info">
+        <div class="color-name">Ivory</div>
+      </div>
+      <div class="unowned-action">
+        <span class="price" id="price-ivory">$5.99</span>
+        <button class="add-btn" id="btn-ivory" onclick="addColor('ivory', 'Ivory', 5.99)">Add</button>
+      </div>
+    </div>
+
+    <div class="color-row" id="row-champagne">
+      <div class="swatch" id="swatch-champagne" style="background:#c8b48e"></div>
+      <div class="color-info">
+        <div class="color-name">Champagne</div>
+      </div>
+      <div class="unowned-action">
+        <span class="price" id="price-champagne">$5.99</span>
+        <button class="add-btn" id="btn-champagne" onclick="addColor('champagne', 'Champagne', 5.99)">Add</button>
+      </div>
+    </div>
+
+    <div class="color-row" id="row-oyster">
+      <div class="swatch" id="swatch-oyster" style="background:#c4b8b0"></div>
+      <div class="color-info">
+        <div class="color-name">Oyster</div>
+      </div>
+      <div class="unowned-action">
+        <span class="price" id="price-oyster">$5.99</span>
+        <button class="add-btn" id="btn-oyster" onclick="addColor('oyster', 'Oyster', 5.99)">Add</button>
+      </div>
+    </div>
+
+    <div class="color-row" id="row-pewter">
+      <div class="swatch" id="swatch-pewter" style="background:#9aaba8"></div>
+      <div class="color-info">
+        <div class="color-name">Pewter</div>
+      </div>
+      <div class="unowned-action">
+        <span class="price" id="price-pewter">$5.99</span>
+        <button class="add-btn" id="btn-pewter" onclick="addColor('pewter', 'Pewter', 5.99)">Add</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-btn" id="cta-btn" onclick="purchasePalette()">Purchase Palette &middot; $19.99</div>
+  </div>
+
+  </div><!-- /scroll-area -->
+
+  <!-- TAB BAR -->
+  <div class="tabs">
+    <a class="tab" href="screen-closet.html">
+      <div class="tab-ic">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 16 16" style="opacity:.5"><path fill="white" d="M8 3a1 1 0 0 0-.943.667a.5.5 0 0 1-.942-.334a2 2 0 1 1 3.22 2.157l-.041.037c-.22.197-.419.374-.57.566c-.16.198-.223.359-.223.503c0 .219.12.42.313.524L14.16 10a1.596 1.596 0 0 1-.757 3H2.595a1.595 1.595 0 0 1-.755-3l4.423-2.38a.5.5 0 0 1 .474.88l-4.424 2.38A.595.595 0 0 0 2.595 12h10.81a.596.596 0 0 0 .282-1.12L8.34 8a1.6 1.6 0 0 1-.84-1.404c0-.462.212-.839.44-1.126c.208-.261.468-.493.674-.677l.054-.048A1 1 0 0 0 8 3"/></svg>
+      </div>
+      <span class="tab-lbl" style="opacity:.5">Closet</span>
+    </a>
+    <a class="tab" href="screen-explore.html">
+      <div class="tab-ic">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="white" d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14"/></svg>
+      </div>
+      <span class="tab-lbl">Explore</span>
+    </a>
+    <a class="tab" href="Index.html">
+      <div class="tab-ic">
+        <svg width="22" height="22" fill="none" style="transform:rotate(-30deg);opacity:.5">
+          <ellipse cx="11" cy="11" rx="9" ry="6.5" stroke="white" stroke-width="1.3"/>
+          <ellipse cx="11" cy="11" rx="5.5" ry="4" stroke="white" stroke-width="1.3"/>
+          <ellipse cx="11" cy="11" rx="2" ry="1.5" stroke="white" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <span class="tab-lbl" style="opacity:.5">Luminora</span>
+    </a>
+    <a class="tab" href="screen-profile.html">
+      <div class="tab-ic">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 16 16" style="opacity:.5"><path fill="white" d="M8 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0a2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1s1-4 6-4s6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/></svg>
+      </div>
+      <span class="tab-lbl" style="opacity:.5">Profile</span>
+    </a>
+  </div>
+
+  <div class="home-bar"><div class="hb"></div></div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+</div>
+
+<script>
+  const PALETTE_TOTAL = 5;
+  const PALETTE_PRICE = 19.99;
+  const cart = {};
+  let owned = 0;
+
+  function toggleCart() {
+    const panel = document.getElementById('cart-panel');
+    const overlay = document.getElementById('cart-overlay');
+    const isOpen = panel.classList.contains('open');
+    panel.classList.toggle('open', !isOpen);
+    overlay.classList.toggle('open', !isOpen);
+  }
+
+  function closeCart() {
+    document.getElementById('cart-panel').classList.remove('open');
+    document.getElementById('cart-overlay').classList.remove('open');
+  }
+
+  function updateCartPanel() {
+    const ids = Object.keys(cart);
+    const itemsEl = document.getElementById('cart-panel-items');
+    const totalEl = document.getElementById('cart-panel-total-amt');
+    const purchaseBtn = document.getElementById('cart-panel-purchase');
+    const badge = document.getElementById('cart-badge');
+
+    badge.textContent = ids.length || '';
+    badge.classList.toggle('visible', ids.length > 0);
+    purchaseBtn.disabled = ids.length === 0;
+
+    const total = Object.values(cart).reduce((s, v) => s + v, 0);
+    totalEl.textContent = total > 0 ? '$' + total.toFixed(2) : '$0.00';
+
+    if (ids.length === 0) {
+      itemsEl.innerHTML = '<div class="cart-panel-empty">Your cart is empty</div>';
+      return;
+    }
+    itemsEl.innerHTML = ids.map(id => {
+      const color = document.getElementById('swatch-' + id).style.background;
+      const name = document.getElementById('row-' + id).querySelector('.color-name').textContent;
+      return `<div class="cart-panel-item">
+        <div class="cart-panel-swatch" style="background:${color}"></div>
+        <span class="cart-panel-name">${name}</span>
+        <span class="cart-panel-price">$${cart[id].toFixed(2)}</span>
+      </div>`;
+    }).join('');
+  }
+
+  function addColor(id, name, price) {
+    const btn = document.getElementById('btn-' + id);
+    const priceEl = document.getElementById('price-' + id);
+    const swatch = document.getElementById('swatch-' + id);
+
+    if (cart[id]) {
+      delete cart[id];
+      btn.textContent = 'Add';
+      btn.classList.remove('added');
+      priceEl.style.opacity = '1';
+    } else {
+      cart[id] = price;
+      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span style="letter-spacing:.14em">Added</span>';
+      btn.classList.add('added');
+      priceEl.style.opacity = '0';
+
+      swatch.classList.remove('just-added');
+      void swatch.offsetWidth;
+      swatch.classList.add('just-added');
+
+      showToast('<span class="toast-name">' + name + '</span> was added to your cart', swatch.style.background);
+    }
+
+    updateTotal();
+    updateProgress();
+    updateCartPanel();
+  }
+
+  function updateTotal() {
+    const hasUnowned = document.querySelectorAll('.unowned-action .add-btn').length > 0;
+    document.getElementById('cta-btn').style.opacity = hasUnowned ? '1' : '0.4';
+  }
+
+  let pendingPurchaseMode = null;
+  let pendingPaletteIds = [];
+
+  function purchasePalette() {
+    const actions = Array.from(document.querySelectorAll('.unowned-action'));
+    pendingPaletteIds = actions.map(a => {
+      const btn = a.querySelector('.add-btn');
+      return btn ? btn.id.replace('btn-', '') : null;
+    }).filter(Boolean);
+    if (pendingPaletteIds.length === 0) return;
+    showConfirm('palette');
+  }
+
+  function showConfirm(mode) {
+    pendingPurchaseMode = mode;
+    const itemsEl = document.getElementById('confirm-items');
+    const totalEl = document.getElementById('confirm-total-amt');
+
+    if (mode === 'palette') {
+      itemsEl.innerHTML = pendingPaletteIds.map(id => {
+        const swatch = document.getElementById('swatch-' + id);
+        const name = document.getElementById('row-' + id).querySelector('.color-name').textContent;
+        return `<div class="confirm-item">
+          <div class="confirm-swatch" style="background:${swatch.style.background}"></div>
+          <span class="confirm-name">${name}</span>
+        </div>`;
+      }).join('');
+      totalEl.textContent = '$' + PALETTE_PRICE.toFixed(2);
+    } else {
+      const ids = Object.keys(cart);
+      itemsEl.innerHTML = ids.map(id => {
+        const swatch = document.getElementById('swatch-' + id);
+        const name = document.getElementById('row-' + id).querySelector('.color-name').textContent;
+        return `<div class="confirm-item">
+          <div class="confirm-swatch" style="background:${swatch.style.background}"></div>
+          <span class="confirm-name">${name}</span>
+          <span class="confirm-price">$${cart[id].toFixed(2)}</span>
+        </div>`;
+      }).join('');
+      const total = Object.values(cart).reduce((s, v) => s + v, 0);
+      totalEl.textContent = '$' + total.toFixed(2);
+    }
+
+    closeCart();
+    document.getElementById('confirm-overlay').classList.add('open');
+    document.getElementById('confirm-sheet').classList.add('open');
+  }
+
+  function cancelConfirm() {
+    document.getElementById('confirm-overlay').classList.remove('open');
+    document.getElementById('confirm-sheet').classList.remove('open');
+    pendingPurchaseMode = null;
+    pendingPaletteIds = [];
+  }
+
+  function confirmPurchase() {
+    document.getElementById('confirm-overlay').classList.remove('open');
+    document.getElementById('confirm-sheet').classList.remove('open');
+
+    if (pendingPurchaseMode === 'palette') {
+      const priceEach = pendingPaletteIds.length > 0 ? PALETTE_PRICE / pendingPaletteIds.length : 0;
+      pendingPaletteIds.forEach(id => {
+        cart[id] = priceEach;
+        const btn = document.getElementById('btn-' + id);
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span style="letter-spacing:.14em">Added</span>';
+        btn.classList.add('added');
+        document.getElementById('price-' + id).style.opacity = '0';
+      });
+      updateCartPanel();
+      pendingPaletteIds = [];
+    }
+
+    pendingPurchaseMode = null;
+    executePurchase();
+  }
+
+  function updateProgress() {
+    const added = Object.keys(cart).length;
+    const total = owned + added;
+    const el = document.getElementById('collection-progress');
+    const allOwned = owned + added >= PALETTE_TOTAL;
+    el.textContent = allOwned
+      ? 'All colors in your collection'
+      : total + ' of ' + PALETTE_TOTAL + ' colors in your collection';
+    el.classList.add('updated');
+    setTimeout(() => el.classList.remove('updated'), 1200);
+  }
+
+  function executePurchase() {
+    if (Object.keys(cart).length === 0) return;
+    const btn = document.getElementById('cta-btn');
+    btn.textContent = 'Adding to your collection…';
+    btn.style.opacity = '0.5';
+    setTimeout(() => {
+      btn.textContent = 'Collection updated';
+      btn.classList.add('purchased');
+
+      Object.keys(cart).forEach(id => {
+        const addBtn = document.getElementById('btn-' + id);
+        const action = addBtn.closest('.unowned-action');
+        action.innerHTML = '<div class="owned-tag"><svg width="11" height="11" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>';
+        owned++;
+      });
+
+      Object.keys(cart).forEach(k => delete cart[k]);
+      updateTotal();
+      updateCartPanel();
+      closeCart();
+      document.getElementById('collection-progress').textContent = owned + ' of ' + PALETTE_TOTAL + ' colors in your collection';
+      showToast('The Pearl Palette has been added to your collection', '#fff');
+      celebrate();
+    }, 900);
+  }
+
+  function celebrate() {
+    const t = document.getElementById('toast');
+    t.classList.remove('celebrate');
+    void t.offsetWidth;
+    t.classList.add('celebrate');
+
+    const colors = ['#ede8e2', '#c8b48e', '#c4b8b0', '#9aaba8'];
+    const phone = document.querySelector('.phone');
+    const cx = phone.clientWidth / 2;
+    const cy = phone.clientHeight / 2;
+
+    for (let i = 0; i < 16; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 40 + Math.random() * 80;
+      const size = 3 + Math.random() * 5;
+      p.style.setProperty('--px', (Math.cos(angle) * dist) + 'px');
+      p.style.setProperty('--py', (Math.sin(angle) * dist) + 'px');
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = (cx - size / 2) + 'px';
+      p.style.top = (cy - size / 2) + 'px';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.animationDelay = (Math.random() * 0.15) + 's';
+      phone.appendChild(p);
+      setTimeout(() => p.remove(), 1300);
+    }
+  }
+
+  function showToast(msg, bgColor) {
+    const t = document.getElementById('toast');
+    t.innerHTML = msg;
+    t.style.background = bgColor || 'rgba(30,30,30,.96)';
+    t.classList.toggle('dark-text', bgColor === '#fff');
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+</script>
+</body>
+</html>
