@@ -38,6 +38,7 @@
       overflow-y: auto; overflow-x: hidden;
       scrollbar-width: none;
       z-index: 5;
+      display: flex; flex-direction: column;
     }
     .explore-content::-webkit-scrollbar { display: none; }
 
@@ -81,6 +82,7 @@
       position: sticky; top: 0; z-index: 6;
       background: #151718;
       padding-top: 18px;
+      flex-shrink: 0;
     }
 
     /* ── Feature cards ───────────────────────────────────────── */
@@ -136,7 +138,7 @@
     .explore-bottom-spacer { height: 220px; }
 
     /* ── Topics list ─────────────────────────────────────────── */
-    #explore-section { display: flex; flex-direction: column; }
+    #explore-section { display: flex; flex-direction: column; flex: 1; }
     #explore-section .exp-section-head { flex-shrink: 0; }
     #explore-section .exp-topics { flex: 1; }
 
