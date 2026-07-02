@@ -28,83 +28,52 @@
 
     /* ══ SCREEN 1: PROFILE ══════════════════════════════ */
 
-    /* Top bar: hamburger only */
-    .profile-top-bar {
+    .profile-header {
       display: flex;
-      justify-content: flex-end;
-      padding: 6px 14px 4px;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 4px 14px 8px;
       flex-shrink: 0;
-    }
-    .hamburger-btn {
-      background: none; border: none; cursor: pointer;
-      padding: 4px; display: flex; flex-direction: column; gap: 5px;
-    }
-
-    /* Avatar + info row */
-    .profile-info-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 4px 16px 16px;
-      flex-shrink: 0;
-    }
-    .profile-avatar {
-      width: 58px; height: 58px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--sans);
-      font-size: 19px; font-weight: 300;
-      color: rgba(255,255,255,0.7);
-      flex-shrink: 0;
-      letter-spacing: 0;
-    }
-    .profile-details { display: flex; flex-direction: column; gap: 2px; }
-    .profile-handle {
-      font-family: var(--sans);
-      font-size: 14px; font-weight: 500;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      color: #fff;
     }
     .profile-name {
       font-family: var(--sans);
-      font-size: 12px; font-weight: 400;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.02em;
+      font-size: 19px; font-weight: 400;
+      color: var(--white); letter-spacing: -0.02em; line-height: 1.4;
     }
-    .profile-location {
+    .profile-meta {
       font-family: var(--sans);
-      font-size: 11px; font-weight: 400;
-      color: rgba(255,255,255,0.35);
-      letter-spacing: 0.04em;
+      font-size: 14px; font-weight: 400;
+      color: #dadada; letter-spacing: -0.02em; line-height: 1.4;
+      margin-top: 1px;
+    }
+    .profile-right {
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 10px; flex-shrink: 0;
+    }
+    .hamburger-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 4px 0 4px 4px;
+      display: flex; flex-direction: column; gap: 5px;
     }
 
     /* Stats row */
     .profile-stats {
       display: flex;
-      padding: 0 16px 16px;
-      gap: 28px;
+      justify-content: space-between;
+      padding: 6px 14px 6px;
       flex-shrink: 0;
     }
-    .stat-item { display: flex; flex-direction: column; gap: 1px; }
-    .stat-val {
+    .stat-label, .stat-val {
       font-family: var(--sans);
-      font-size: 20px; font-weight: 400;
-      color: #fff; letter-spacing: -0.02em;
-    }
-    .stat-label {
-      font-family: var(--sans);
-      font-size: 8px; font-weight: 500;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
+      font-size: 14px; font-weight: 400;
+      color: var(--white); letter-spacing: -0.02em; line-height: 1.4;
     }
 
     /* Divider */
     .profile-rule {
       height: 0.5px;
-      background: rgba(255,255,255,0.15);
-      margin: 0 16px;
+      background: rgba(255,255,255,0.25);
+      margin: 0 14px;
       flex-shrink: 0;
     }
 
@@ -266,32 +235,29 @@
     <!-- ── PANE 1: Profile ── -->
     <div class="profile-pane" id="screen1">
 
-      <!-- Hamburger -->
-      <div class="profile-top-bar">
-        <button class="hamburger-btn" onclick="showSettings()">
-          <svg width="22" height="16" fill="none"><line x1="0" y1="2" x2="22" y2="2" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="8" x2="22" y2="8" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="14" x2="22" y2="14" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </button>
-      </div>
-
-      <!-- Avatar + Info -->
-      <div class="profile-info-row">
-        <div class="profile-avatar">AH</div>
-        <div class="profile-details">
-          <div class="profile-handle">@alliehuerta</div>
+      <!-- Header: name/meta left, hamburger right -->
+      <div class="profile-header">
+        <div>
           <div class="profile-name">Allie Huerta</div>
-          <div class="profile-location">Montréal</div>
+          <div class="profile-meta">@alliehuerta</div>
+          <div class="profile-meta">Montréal</div>
+        </div>
+        <div class="profile-right">
+          <button class="hamburger-btn" onclick="showSettings()">
+            <svg width="22" height="16" fill="none"><line x1="0" y1="2" x2="22" y2="2" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="8" x2="22" y2="8" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="14" x2="22" y2="14" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
         </div>
       </div>
 
       <!-- Stats -->
       <div class="profile-stats">
-        <div class="stat-item">
-          <div class="stat-val">100</div>
+        <div>
           <div class="stat-label">Friends</div>
+          <div class="stat-val">100</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-val">1000</div>
+        <div style="text-align:right">
           <div class="stat-label">Points</div>
+          <div class="stat-val">1000</div>
         </div>
       </div>
 
