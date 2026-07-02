@@ -50,12 +50,8 @@
   .nm-swatch{width:22px;height:22px;border-radius:2px;flex-shrink:0}
   .nm-count{font-family:'Inter',sans-serif;font-size:8px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
 
-  .nm-divider{height:.5px;background:rgba(255,255,255,.1);margin:16px 22px 0;flex-shrink:0}
-
-  .nm-label{font-family:'Inter',sans-serif;font-size:8px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:20px 22px 10px;flex-shrink:0}
-
-  .nm-input{background:none;border:none;border-bottom:0.5px solid rgba(255,255,255,.15);color:#fff;font-family:'Inter',sans-serif;font-size:22px;font-weight:300;letter-spacing:.02em;padding:0 22px 12px;width:100%;outline:none;flex-shrink:0}
-  .nm-input::placeholder{color:rgba(255,255,255,.18)}
+  .nm-input{background:none;border:none;color:#fff;font-family:'Inter',sans-serif;font-size:22px;font-weight:300;letter-spacing:.02em;padding:20px 22px 0;width:100%;outline:none;flex-shrink:0}
+  .nm-input::placeholder{color:rgba(255,255,255,.2)}
 
   .nm-spacer{flex:1}
 
@@ -141,9 +137,7 @@
       <span class="nm-count" id="nm-count"></span>
     </div>
 
-    <div class="nm-divider"></div>
-    <div class="nm-label">Collection Name</div>
-    <input class="nm-input" id="nm-input" type="text" placeholder="e.g. Summer Palette" oninput="updateCreate()">
+    <input class="nm-input" id="nm-input" type="text" placeholder="Name your collection" oninput="updateCreate()">
 
     <div class="nm-create-wrap">
       <button class="nm-create" id="create-btn" onclick="createCollection()" disabled>Create Collection</button>
