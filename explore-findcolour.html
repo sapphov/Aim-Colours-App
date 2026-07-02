@@ -243,29 +243,19 @@
       </div>
     </div>
 
-    <div class="boutique-row" id="boutique-reykjavik" onclick="openBoutique('reykjavik')">
+    <div class="boutique-row" id="boutique-helsinki" onclick="openBoutique('helsinki')">
       <div class="boutique-icon">
-        <svg viewBox="0 0 56 56">
-          <defs><linearGradient id="sky-reykjavik" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#0e2233"/><stop offset="100%" stop-color="#2c5a52"/>
-          </linearGradient></defs>
-          <rect width="56" height="56" fill="url(#sky-reykjavik)"/>
-          <path d="M0 30c6-3 10 2 16-1s8-6 14-4 10 5 16 2 10-4 10-4v33H0z" fill="#3a7a8c" opacity=".55"/>
-          <path d="M4 38l9-14 7 7 9-16 9 14 7-4 5 13z" fill="#16384a"/>
-          <ellipse cx="28" cy="50" rx="24" ry="6" fill="#5fa9b8"/>
-          <path d="M21 46c-3-4.4-3-8 0-13.4c3 5.4 3 9 0 13.4z" fill="#dff0f2" opacity=".9"/>
-          <path d="M33 46c-2.6-3.8-2.6-7 0-11.4c2.6 4.4 2.6 7.6 0 11.4z" fill="#dff0f2" opacity=".75"/>
-        </svg>
+        <img src="assets/Helsinki Picture.jpeg" style="width:100%;height:100%;object-fit:cover;display:block">
         <div class="boutique-lock-badge">
           <svg viewBox="0 0 24 24"><path fill="rgba(255,255,255,.6)" d="M12 17a2 2 0 0 0 2-2a2 2 0 0 0-2-2a2 2 0 0 0-2 2a2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3"/></svg>
         </div>
       </div>
       <div class="boutique-info">
-        <div class="boutique-city">Reykjavík, Iceland</div>
+        <div class="boutique-city">Helsinki, Finland</div>
         <div class="boutique-name">Undisclosed</div>
-        <div class="boutique-sub">Blue Lagoon · 3,313 km away</div>
+        <div class="boutique-sub">Helsinki Cathedral · 2,113 km away</div>
       </div>
-      <div class="boutique-action" id="action-reykjavik">
+      <div class="boutique-action" id="action-helsinki">
         <button class="open-btn">Open</button>
       </div>
     </div>
@@ -364,7 +354,7 @@
     dubai:     { city: 'Dubai, UAE',            landmark: 'Burj Khalifa',          name: 'Desert Gold',      hex: '#c4a44a', rarity: '1 of 175' },
     mykonos:   { city: 'Mykonos, Greece',       landmark: 'Little Venice',         name: 'Aegean White',     hex: '#c8cfd4', rarity: '1 of 180' },
     newyork:   { city: 'New York, USA',        landmark: 'The Met',               name: 'Gotham Stone',     hex: '#8a848c', rarity: '1 of 220' },
-    reykjavik: { city: 'Reykjavík, Iceland',   landmark: 'Blue Lagoon',           name: 'Glacier Mist',     hex: '#9ea7a6', rarity: '1 of 130' },
+    helsinki:  { city: 'Helsinki, Finland',     landmark: 'Helsinki Cathedral',    name: 'Nordic Frost',     hex: '#b8c4cc', rarity: '1 of 130' },
   };
 
   let currentId = null;
