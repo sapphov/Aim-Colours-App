@@ -122,6 +122,43 @@
       letter-spacing: -0.02em;
     }
 
+    /* ── Colour Collection card ──────────────────────────── */
+    .cc-card {
+      background: #1a1a1e !important;
+      padding: 14px 14px 16px;
+      height: auto;
+      min-height: 248px;
+    }
+    .cc-card .profile-card-label {
+      position: relative;
+      top: auto; left: auto;
+      color: rgba(255,255,255,0.4);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .cc-palettes { display: flex; flex-direction: column; gap: 18px; }
+    .cc-palette-row { display: flex; align-items: center; gap: 12px; }
+    .cc-palette-name {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      width: 68px;
+      flex-shrink: 0;
+    }
+    .cc-swatches { display: flex; gap: 7px; }
+    .cc-swatch {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
     /* ══ SCREEN 2: SETTINGS ══════════════════════════════ */
 
     .settings-header {
@@ -231,7 +268,42 @@
       <div class="profile-rule"></div>
 
       <div class="profile-cards">
-        <div class="profile-card"><div class="profile-card-label">Colour Collection</div></div>
+        <div class="profile-card cc-card">
+          <div class="profile-card-label">Colour Collection</div>
+          <div class="cc-palettes">
+
+            <div class="cc-palette-row">
+              <div class="cc-palette-name">Dusty Rose</div>
+              <div class="cc-swatches">
+                <div class="cc-swatch" style="background:#aca299"></div>
+                <div class="cc-swatch" style="background:#987f87"></div>
+                <div class="cc-swatch" style="background:#a77b6f"></div>
+                <div class="cc-swatch" style="background:#708e77"></div>
+                <div class="cc-swatch" style="background:#6e8ba3"></div>
+              </div>
+            </div>
+
+            <div class="cc-palette-row">
+              <div class="cc-palette-name">Pearl</div>
+              <div class="cc-swatches">
+                <div class="cc-swatch" style="background:#aca18f"></div>
+                <div class="cc-swatch" style="background:#9ca4a8"></div>
+                <div class="cc-swatch" style="background:#423026"></div>
+              </div>
+            </div>
+
+            <div class="cc-palette-row">
+              <div class="cc-palette-name">Illusions</div>
+              <div class="cc-swatches">
+                <div class="cc-swatch" style="background:#a8a09b"></div>
+                <div class="cc-swatch" style="background:#466e9b"></div>
+                <div class="cc-swatch" style="background:#5a7e50"></div>
+                <div class="cc-swatch" style="background:#a27f11"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
         <div class="profile-card"><div class="profile-card-label">Your Accessories</div></div>
         <div class="profile-card"><div class="profile-card-label">Etc.</div></div>
         <div class="profile-card"><div class="profile-card-label">Etc.</div></div>
