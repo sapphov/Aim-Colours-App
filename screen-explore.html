@@ -136,11 +136,16 @@
     .explore-bottom-spacer { height: 220px; }
 
     /* ── Topics list ─────────────────────────────────────────── */
-    .exp-topics { padding: 0 0 8px; }
+    #explore-section { display: flex; flex-direction: column; }
+    #explore-section .exp-section-head { flex-shrink: 0; }
+    #explore-section .exp-topics { flex: 1; }
+
+    .exp-topics { padding: 0; display: flex; flex-direction: column; }
 
     .exp-topic-row {
       display: flex; align-items: center; gap: 14px;
-      padding: 18px 18px;
+      padding: 0 18px;
+      flex: 1;
       border-bottom: 0.5px solid rgba(255,255,255,0.12);
     }
     .exp-topic-row:last-child {
@@ -264,6 +269,11 @@
 
       <div class="exp-topic-row">
         <span class="exp-topic-name">Colour Stories</span>
+        <svg class="exp-topic-arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="white" d="M12.6 12L8 7.4L9.4 6l6 6l-6 6L8 16.6z"/></svg>
+      </div>
+
+      <div class="exp-topic-row">
+        <span class="exp-topic-name">Styling Guides</span>
         <svg class="exp-topic-arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="white" d="M12.6 12L8 7.4L9.4 6l6 6l-6 6L8 16.6z"/></svg>
       </div>
 
