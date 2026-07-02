@@ -213,7 +213,7 @@
   <!-- PALETTE HEADER -->
   <div class="palette-header">
     <div class="palette-editorial">Lace Palette</div>
-    <div class="collection-progress" id="collection-progress">0 of 5 colors in your collection</div>
+    <div class="collection-progress" id="collection-progress">0 of 4 colors in your collection</div>
   </div>
 
   <div class="divider"></div>
@@ -222,7 +222,7 @@
   <div class="color-list">
 
     <div class="color-row" id="row-silver">
-      <div class="swatch" id="swatch-silver" style="background:#b8c4cc"></div>
+      <div class="swatch" id="swatch-silver" style="background:#aca18f"></div>
       <div class="color-info">
         <div class="color-name">Silver</div>
       </div>
@@ -233,7 +233,7 @@
     </div>
 
     <div class="color-row" id="row-fog">
-      <div class="swatch" id="swatch-fog" style="background:#a0adb8"></div>
+      <div class="swatch" id="swatch-fog" style="background:#9ca4a8"></div>
       <div class="color-info">
         <div class="color-name">Fog</div>
       </div>
@@ -244,7 +244,7 @@
     </div>
 
     <div class="color-row" id="row-slate">
-      <div class="swatch" id="swatch-slate" style="background:#6e8090"></div>
+      <div class="swatch" id="swatch-slate" style="background:#8d828a"></div>
       <div class="color-info">
         <div class="color-name">Slate</div>
       </div>
@@ -255,24 +255,13 @@
     </div>
 
     <div class="color-row" id="row-sage">
-      <div class="swatch" id="swatch-sage" style="background:#8a9e94"></div>
+      <div class="swatch" id="swatch-sage" style="background:#423026"></div>
       <div class="color-info">
         <div class="color-name">Sage</div>
       </div>
       <div class="unowned-action">
         <span class="price" id="price-sage">$50</span>
         <button class="add-btn" id="btn-sage" onclick="addColor('sage', 'Sage', 50)">Add</button>
-      </div>
-    </div>
-
-    <div class="color-row" id="row-ash">
-      <div class="swatch" id="swatch-ash" style="background:#c0c8cc"></div>
-      <div class="color-info">
-        <div class="color-name">Ash</div>
-      </div>
-      <div class="unowned-action">
-        <span class="price" id="price-ash">$50</span>
-        <button class="add-btn" id="btn-ash" onclick="addColor('ash', 'Ash', 50)">Add</button>
       </div>
     </div>
 
@@ -325,7 +314,7 @@
 </div>
 
 <script>
-  const PALETTE_TOTAL = 5;
+  const PALETTE_TOTAL = 4;
   const PALETTE_PRICE = 200;
   const cart = {};
   let owned = 0;
@@ -525,7 +514,7 @@
     void t.offsetWidth;
     t.classList.add('celebrate');
 
-    const colors = ['#b8c4cc', '#a0adb8', '#6e8090', '#8a9e94', '#c0c8cc'];
+    const colors = ['#aca18f', '#9ca4a8', '#8d828a', '#423026'];
     const phone = document.querySelector('.phone');
     const cx = phone.clientWidth / 2;
     const cy = phone.clientHeight / 2;
