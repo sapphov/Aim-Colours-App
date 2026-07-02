@@ -115,52 +115,46 @@
     .tab-pane::-webkit-scrollbar { display: none; }
     .tab-pane.hidden { display: none; }
 
-    /* ── COLOURS tab ────────────────────────────────────── */
-    .coll-section { padding: 20px 16px 4px; }
-    .coll-section-meta {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 14px;
+    /* ── COLOURS tab — board grid ───────────────────────── */
+    .boards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 12px;
     }
-    .coll-section-name {
+    .board-card {
+      position: relative;
+      border-radius: 3px;
+      overflow: hidden;
+      height: 210px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .board-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+    .board-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
+    }
+    .board-card-info {
+      position: absolute;
+      bottom: 10px; left: 10px; right: 10px;
+    }
+    .board-card-name {
       font-family: var(--sans);
-      font-size: 10px; font-weight: 500;
+      font-size: 8.5px; font-weight: 600;
       letter-spacing: 0.18em; text-transform: uppercase;
-      color: #fff;
+      color: #fff; display: block;
     }
-    .coll-section-badge {
+    .board-card-meta {
       font-family: var(--sans);
-      font-size: 7.5px; font-weight: 600;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      border: 0.5px solid rgba(255,255,255,0.18);
-      padding: 3px 7px;
-    }
-    .coll-colors { display: flex; flex-direction: column; }
-    .coll-color-row {
-      display: flex; align-items: center; gap: 12px;
-      padding: 10px 0;
-      border-bottom: 0.5px solid rgba(255,255,255,0.07);
-    }
-    .coll-color-row:last-child { border-bottom: none; padding-bottom: 2px; }
-    .coll-swatch { width: 28px; height: 28px; border-radius: 3px; flex-shrink: 0; }
-    .coll-color-name {
-      font-family: var(--sans);
-      font-size: 10px; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: #fff; flex: 1;
-    }
-    .coll-owned {
-      display: flex; align-items: center; gap: 4px; flex-shrink: 0;
-    }
-    .coll-owned span {
-      font-family: var(--sans);
-      font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase;
-      color: rgba(255,255,255,0.28);
-    }
-    .coll-divider {
-      height: 0.5px;
-      background: rgba(255,255,255,0.1);
-      margin: 4px 16px 0;
+      font-size: 7.5px; font-weight: 400;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-top: 3px; display: block;
     }
 
     /* ── Placeholder tabs ───────────────────────────────── */
@@ -283,101 +277,36 @@
       <!-- COLOURS tab -->
       <div class="tab-pane" id="tab-colours">
 
-        <!-- Dusty Rose Edit -->
-        <div class="coll-section">
-          <div class="coll-section-meta">
-            <span class="coll-section-name">The Dusty Rose Edit</span>
-            <span class="coll-section-badge">SS26</span>
-          </div>
-          <div class="coll-colors">
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#aca299"></div>
-              <span class="coll-color-name">Stone</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
+        <div class="boards-grid">
+
+          <a class="board-card" href="explore-dusty-rose.html">
+            <img src="assets/monet-waterlilies.jpg" alt="The Dusty Rose Edit" style="object-position:top left">
+            <div class="board-card-overlay"></div>
+            <div class="board-card-info">
+              <span class="board-card-name">Dusty Rose</span>
+              <span class="board-card-meta">5 colours · SS26</span>
             </div>
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#987f87"></div>
-              <span class="coll-color-name">Dusty Rose</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
+          </a>
+
+          <a class="board-card" href="explore-pearl.html">
+            <img src="assets/pearl-edit-hero.jpg" alt="The Pearl Edit" style="object-position:center top;margin-top:-45px;height:calc(100% + 45px)">
+            <div class="board-card-overlay"></div>
+            <div class="board-card-info">
+              <span class="board-card-name">Pearl</span>
+              <span class="board-card-meta">3 colours · FW26</span>
             </div>
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#a77b6f"></div>
-              <span class="coll-color-name">Rose Wood</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
+          </a>
+
+          <a class="board-card" href="explore-illusions.html">
+            <img src="assets/illusion-edit-hero.jpg" alt="The Illusions Edit" style="object-position:center;margin-top:-100px;height:calc(100% + 100px)">
+            <div class="board-card-overlay"></div>
+            <div class="board-card-info">
+              <span class="board-card-name">Illusions</span>
+              <span class="board-card-meta">4 colours · SS27</span>
             </div>
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#708e77"></div>
-              <span class="coll-color-name">Sage</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
-            </div>
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#6e8ba3"></div>
-              <span class="coll-color-name">Azure Haze</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
-            </div>
-          </div>
+          </a>
+
         </div>
-
-        <div class="coll-divider"></div>
-
-        <!-- Pearl Edit -->
-        <div class="coll-section">
-          <div class="coll-section-meta">
-            <span class="coll-section-name">The Pearl Edit</span>
-            <span class="coll-section-badge">FW26</span>
-          </div>
-          <div class="coll-colors">
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#aca18f"></div>
-              <span class="coll-color-name">Dune</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
-            </div>
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#9ca4a8"></div>
-              <span class="coll-color-name">Pearl</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
-            </div>
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#423026"></div>
-              <span class="coll-color-name">Mocha</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="coll-divider"></div>
-
-        <!-- Illusions Edit -->
-        <div class="coll-section">
-          <div class="coll-section-meta">
-            <span class="coll-section-name">The Illusions Edit</span>
-            <span class="coll-section-badge">SS27</span>
-          </div>
-          <div class="coll-colors">
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#a8a09b"></div>
-              <span class="coll-color-name">Sandstone</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
-            </div>
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#466e9b"></div>
-              <span class="coll-color-name">Azure Haze</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
-            </div>
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#5a7e50"></div>
-              <span class="coll-color-name">Lilypad</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
-            </div>
-            <div class="coll-color-row">
-              <div class="coll-swatch" style="background:#a27f11"></div>
-              <span class="coll-color-name">Golden</span>
-              <div class="coll-owned"><svg width="10" height="10" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.3)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>In your collection</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="coll-divider" style="margin-bottom:16px"></div>
 
       </div><!-- /tab-colours -->
 
