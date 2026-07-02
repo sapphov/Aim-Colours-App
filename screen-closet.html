@@ -447,8 +447,10 @@
     var p = _palettes[idx];
     document.getElementById('pal-name').textContent = p.name;
     var row1 = p.colors.slice(0,5), row2 = p.colors.slice(5,10);
+    var phantom = '<div class="sw" style="background:transparent;pointer-events:none"></div>';
     var html = '<div class="row">' + row1.map(function(c){ return '<div class="sw" style="background:'+c+'" data-color="'+c+'"></div>'; }).join('') + '</div>';
-    if (row2.length) html += '<div class="row">' + row2.map(function(c){ return '<div class="sw" style="background:'+c+'" data-color="'+c+'"></div>'; }).join('') + '</div>';
+    var row2Cells = row2.length ? row2.map(function(c){ return '<div class="sw" style="background:'+c+'" data-color="'+c+'"></div>'; }).join('') : Array(5).fill(phantom).join('');
+    html += '<div class="row">' + row2Cells + '</div>';
     var sw2 = document.getElementById('swatches2');
     sw2.innerHTML = html;
     var first = sw2.querySelector('.sw');
