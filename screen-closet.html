@@ -47,7 +47,7 @@
   .sw.sel{outline:1.5px solid rgba(255,255,255,.85);outline-offset:1px;border-radius:2px}
 
   #screen2{overflow:visible}
-  .pal-sel{position:relative;top:5px;flex:1;display:flex;justify-content:center}
+  .pal-sel{position:relative;flex:1;display:flex;justify-content:center;align-items:center}
   .pal-trigger{display:flex;align-items:center;gap:6px;cursor:pointer;padding:4px 10px}
   .pal-trigger-name{font-family:'Inter',sans-serif;font-size:15px;line-height:1;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .pal-chevron{flex-shrink:0;transition:transform .2s}
@@ -170,7 +170,7 @@
     </div>
 
     <div style="display:flex;align-items:center;padding:0 22px 8px;flex-shrink:0;position:relative">
-      <svg id="btn-undo" xmlns="http://www.w3.org/2000/svg" onclick="pendantUndo()" width="27" height="27" viewBox="0 0 24 24" style="cursor:pointer;position:relative;top:5px;opacity:.5;transition:opacity 150ms ease;flex-shrink:0"><path fill="white" d="M7 19v-2h7.1q1.575 0 2.738-1T18 13.5T16.838 11T14.1 10H7.8l2.6 2.6L9 14L4 9l5-5l1.4 1.4L7.8 8h6.3q2.425 0 4.163 1.575T20 13.5t-1.737 3.925T14.1 19z"/></svg>
+      <svg id="btn-undo" xmlns="http://www.w3.org/2000/svg" onclick="pendantUndo()" width="27" height="27" viewBox="0 0 24 24" style="cursor:pointer;opacity:.5;transition:opacity 150ms ease;flex-shrink:0"><path fill="white" d="M7 19v-2h7.1q1.575 0 2.738-1T18 13.5T16.838 11T14.1 10H7.8l2.6 2.6L9 14L4 9l5-5l1.4 1.4L7.8 8h6.3q2.425 0 4.163 1.575T20 13.5t-1.737 3.925T14.1 19z"/></svg>
 
       <div class="pal-sel" id="pal-sel">
         <div class="pal-trigger" onclick="togglePalDrop()">
@@ -180,7 +180,7 @@
         <div class="pal-drop" id="pal-drop"></div>
       </div>
 
-      <svg id="btn-redo" xmlns="http://www.w3.org/2000/svg" onclick="pendantRedo()" width="27" height="27" viewBox="0 0 24 24" style="cursor:pointer;position:relative;top:5px;opacity:.5;transition:opacity 150ms ease;flex-shrink:0"><path fill="white" d="M9.9 19q-2.425 0-4.163-1.575T4 13.5t1.738-3.925T9.9 8h6.3l-2.6-2.6L15 4l5 5l-5 5l-1.4-1.4l2.6-2.6H9.9q-1.575 0-2.738 1T6 13.5T7.163 16T9.9 17H17v2z"/></svg>
+      <svg id="btn-redo" xmlns="http://www.w3.org/2000/svg" onclick="pendantRedo()" width="27" height="27" viewBox="0 0 24 24" style="cursor:pointer;opacity:.5;transition:opacity 150ms ease;flex-shrink:0"><path fill="white" d="M9.9 19q-2.425 0-4.163-1.575T4 13.5t1.738-3.925T9.9 8h6.3l-2.6-2.6L15 4l5 5l-5 5l-1.4-1.4l2.6-2.6H9.9q-1.575 0-2.738 1T6 13.5T7.163 16T9.9 17H17v2z"/></svg>
     </div>
 
     <div class="swatches" id="swatches2">
