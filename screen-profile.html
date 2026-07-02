@@ -124,38 +124,54 @@
 
     /* ── Colour Collection card ──────────────────────────── */
     .cc-card {
-      background: #1a1a1e !important;
-      padding: 14px 14px 16px;
+      background: #151718 !important;
+      border-radius: 4px !important;
+      padding: 16px 16px 18px;
       height: auto;
       min-height: 248px;
+      border: 0.5px solid rgba(255,255,255,0.1) !important;
     }
     .cc-card .profile-card-label {
       position: relative;
       top: auto; left: auto;
-      color: rgba(255,255,255,0.4);
-      font-size: 9px;
-      letter-spacing: 0.22em;
+      color: rgba(255,255,255,0.3);
+      font-size: 8px;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      font-family: var(--sans);
+      font-weight: 400;
       display: block;
+      margin-bottom: 12px;
     }
-    .cc-palettes { display: flex; flex-direction: column; gap: 18px; }
-    .cc-palette-row { display: flex; align-items: center; gap: 12px; }
+    .cc-header-rule {
+      height: 0.5px;
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 16px;
+    }
+    .cc-palettes { display: flex; flex-direction: column; }
+    .cc-palette-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 0;
+      border-bottom: 0.5px solid rgba(255,255,255,0.08);
+    }
+    .cc-palette-row:last-child { border-bottom: none; }
     .cc-palette-name {
       font-family: var(--sans);
-      font-size: 9px;
+      font-size: 8.5px;
       font-weight: 500;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
-      width: 68px;
+      color: rgba(255,255,255,0.5);
+      width: 72px;
       flex-shrink: 0;
     }
-    .cc-swatches { display: flex; gap: 7px; }
+    .cc-swatches { display: flex; gap: 6px; }
     .cc-swatch {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      border-radius: 3px;
       flex-shrink: 0;
     }
 
@@ -270,6 +286,7 @@
       <div class="profile-cards">
         <div class="profile-card cc-card">
           <div class="profile-card-label">Colour Collection</div>
+          <div class="cc-header-rule"></div>
           <div class="cc-palettes">
 
             <div class="cc-palette-row">
