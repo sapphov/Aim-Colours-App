@@ -303,10 +303,7 @@
             </div>
           </a>
 
-          <a class="board-card" href="screen-colour-browser.html" style="background:#2a2a2c;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" style="color:rgba(255,255,255,0.45);flex-shrink:0"><path d="M0 0h24v24H0z" fill="none"/><path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>
-            <span style="position:absolute;top:calc(50% + 18px);left:0;right:0;font-family:'Inter',sans-serif;font-size:7.5px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-align:center">New Collection</span>
-          </a>
+          <div id="custom-boards"></div>
 
         </div>
 
@@ -419,6 +416,28 @@
 </div>
 
 <script>
+  // Render custom collections + NEW COLLECTION card
+  function renderCollections() {
+    const container = document.getElementById('custom-boards');
+    const collections = JSON.parse(localStorage.getItem('aim_collections') || '[]');
+    const newCardHTML = `
+      <a class="board-card" href="screen-colour-browser.html" style="background:#2a2a2c;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" style="color:rgba(255,255,255,0.45);flex-shrink:0"><path d="M0 0h24v24H0z" fill="none"/><path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>
+        <span style="position:absolute;top:calc(50% + 18px);left:0;right:0;font-family:'Inter',sans-serif;font-size:7.5px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-align:center">New Collection</span>
+      </a>`;
+    const customHTML = collections.map((col, i) => `
+      <a class="board-card" href="view-collection.html?i=${i}" style="text-decoration:none;">
+        <div style="position:absolute;inset:0;background:${col.gradient}"></div>
+        <div class="board-card-overlay"></div>
+        <div class="board-card-info">
+          <span class="board-card-name">${col.name}</span>
+          <span class="board-card-meta">${col.colours.length} colour${col.colours.length !== 1 ? 's' : ''}</span>
+        </div>
+      </a>`).join('');
+    container.innerHTML = customHTML + newCardHTML;
+  }
+  renderCollections();
+
   function showSettings() {
     document.getElementById('screen1').classList.add('hidden');
     document.getElementById('screen2').classList.remove('hidden');

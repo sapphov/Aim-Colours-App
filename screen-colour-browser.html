@@ -158,40 +158,51 @@
 <script src="colours.js"></script>
 <script>
   const MAX = 10;
-  const selected = new Set();
+  const selectedMap = new Map(); // key → { hex, lab, code, family }
   let currentFamily = 'all';
+
+  // Build a lookup: hex+code → { ...colour, family }
+  const colourLookup = new Map();
+  AIM_COLOURS.families.forEach(fam => {
+    AIM_COLOURS[fam].forEach((c, i) => {
+      const key = `${c.hex}-${c.code || fam + i}`;
+      colourLookup.set(key, { ...c, family: fam });
+    });
+  });
 
   function renderGrid() {
     const grid = document.getElementById('swatch-grid');
     const colours = currentFamily === 'all'
       ? AIM_COLOURS.all
       : AIM_COLOURS[currentFamily] || [];
+    const fam = currentFamily === 'all' ? null : currentFamily;
 
     grid.innerHTML = colours.map((c, i) => {
-      const id = c.code || `${currentFamily}-${i}`;
-      const key = `${c.hex}-${id}`;
-      const isSel = selected.has(key);
-      return `<div class="cb-swatch${isSel ? ' selected' : ''}" onclick="toggleSwatch('${key}','${c.hex}',this)" data-key="${key}">
+      const famTag = fam || AIM_COLOURS.families.find(f => AIM_COLOURS[f].includes(c)) || 'all';
+      const key = `${c.hex}-${c.code || famTag + i}`;
+      const isSel = selectedMap.has(key);
+      return `<div class="cb-swatch${isSel ? ' selected' : ''}" onclick="toggleSwatch('${key}',this)" data-key="${key}">
         <div class="cb-swatch-inner" style="background:${c.hex}"></div>
         <div class="cb-check"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round"><path d="M5 12l5 5L19 7"/></svg></div>
       </div>`;
     }).join('');
   }
 
-  function toggleSwatch(key, hex, el) {
-    if (selected.has(key)) {
-      selected.delete(key);
+  function toggleSwatch(key, el) {
+    if (selectedMap.has(key)) {
+      selectedMap.delete(key);
       el.classList.remove('selected');
     } else {
-      if (selected.size >= MAX) return;
-      selected.add(key);
+      if (selectedMap.size >= MAX) return;
+      const data = colourLookup.get(key);
+      if (data) selectedMap.set(key, data);
       el.classList.add('selected');
     }
     updateUI();
   }
 
   function updateUI() {
-    const n = selected.size;
+    const n = selectedMap.size;
     document.getElementById('browse-count').textContent = `${n} / ${MAX}`;
     document.getElementById('bar-info').textContent =
       n === 0 ? 'Select up to 10 colours' :
@@ -208,13 +219,11 @@
   }
 
   function goToName() {
-    // Build selected colour list from current swatch-grid selected items
-    const swatches = document.querySelectorAll('.cb-swatch.selected');
+    const colours = [...selectedMap.values()];
     const nmContainer = document.getElementById('nm-swatches');
-    nmContainer.innerHTML = [...swatches].map(s => {
-      const bg = s.querySelector('.cb-swatch-inner').style.background;
-      return `<div class="nm-swatch" style="background:${bg}"></div>`;
-    }).join('');
+    nmContainer.innerHTML = colours.map(c =>
+      `<div class="nm-swatch" style="background:${c.hex}"></div>`
+    ).join('');
     document.getElementById('nm-input').value = '';
     document.getElementById('create-btn').disabled = true;
     document.getElementById('pane-browse').classList.add('hidden');
@@ -231,10 +240,22 @@
     document.getElementById('create-btn').disabled = val.length === 0;
   }
 
+  function makeGradient(colours) {
+    if (colours.length === 1) return colours[0].hex;
+    const stops = colours.map((c, i) =>
+      `${c.hex} ${Math.round(i / (colours.length - 1) * 100)}%`
+    );
+    return `linear-gradient(135deg, ${stops.join(', ')})`;
+  }
+
   function createCollection() {
     const name = document.getElementById('nm-input').value.trim();
     if (!name) return;
-    // Success — navigate back to profile
+    const colours = [...selectedMap.values()];
+    const collection = { name, colours, gradient: makeGradient(colours), created: Date.now() };
+    const existing = JSON.parse(localStorage.getItem('aim_collections') || '[]');
+    existing.push(collection);
+    localStorage.setItem('aim_collections', JSON.stringify(existing));
     window.location.href = 'screen-profile.html';
   }
 
