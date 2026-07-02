@@ -162,7 +162,7 @@
     <a href="screen-explore.html" class="back-btn">
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="white" d="m10 18l-6-6l6-6l1.4 1.45L7.85 11H20v2H7.85l3.55 3.55z"/></svg>
     </a>
-    <div class="header-title">The Lace Edit</div>
+    <div class="header-title">The Illusion Edit</div>
     <button class="cart-btn" id="cart-btn" onclick="toggleCart()">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5.588 21.413Q5 20.825 5 20t.588-1.412T7 18t1.413.588T9 20t-.587 1.413T7 22t-1.412-.587m10 0Q15 20.825 15 20t.588-1.412T17 18t1.413.588T19 20t-.587 1.413T17 22t-1.412-.587M5.2 4h14.75q.575 0 .875.513t.025 1.037l-3.55 6.4q-.275.5-.737.775T15.55 13H8.1L7 15h12v2H7q-1.125 0-1.7-.987t-.05-1.963L6.6 11.6L3 4H1V2h3.25z"/></svg>
       <span class="cart-badge" id="cart-badge"></span>
@@ -200,19 +200,19 @@
 
   <!-- HERO -->
   <div class="hero">
-    <img src="assets/lace-edit-hero.jpg" alt="The Lace Edit">
+    <img src="assets/illusion-edit-hero.jpg" alt="The Illusion Edit">
     <span class="hero-badge">SS27</span>
   </div>
 
   <!-- ABOUT -->
   <div class="about">
     <div class="about-label">About the edit</div>
-    <div class="about-text">A delicate, feminine palette inspired by John Singer Sargent's "Gertrude Vernon, Lady Agnew of Lochnaw (1864-1932)" (1892). The Lace Palette gently combines lace, a greyish-blue, and slate, a true grey, with taupe and umber.</div>
+    <div class="about-text">A delicate, feminine palette inspired by John Singer Sargent's "Gertrude Vernon, Lady Agnew of Lochnaw (1864-1932)" (1892). The Illusion Palette gently combines lace, a greyish-blue, and slate, a true grey, with taupe and umber.</div>
   </div>
 
   <!-- PALETTE HEADER -->
   <div class="palette-header">
-    <div class="palette-editorial">Lace Palette</div>
+    <div class="palette-editorial">Illusion Palette</div>
     <div class="collection-progress" id="collection-progress">0 of 4 colors in your collection</div>
   </div>
 
@@ -503,7 +503,7 @@
       updateCartPanel();
       closeCart();
       document.getElementById('collection-progress').textContent = owned + ' of ' + PALETTE_TOTAL + ' colors in your collection';
-      showToast('The Lace Palette has been added to your collection', '#fff');
+      showToast('The Illusion Palette has been added to your collection', '#fff');
       celebrate();
     }, 900);
   }
