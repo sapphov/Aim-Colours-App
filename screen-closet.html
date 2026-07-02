@@ -41,7 +41,7 @@
   .pendant-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:20px 22px 0}
   .pendant-wrap img{width:100%;object-fit:contain;filter:invert(1);mix-blend-mode:screen}
 
-  .swatches{padding:16px 22px 0;flex-shrink:0}
+  .swatches{padding:0 22px 0;flex-shrink:0}
   .row{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:4px}
   .sw{aspect-ratio:1;border-radius:2px;position:relative;cursor:pointer}
   .sw.sel{outline:1.5px solid rgba(255,255,255,.85);outline-offset:1px;border-radius:2px}
@@ -169,7 +169,7 @@
 </svg>
     </div>
 
-    <div style="display:flex;align-items:center;padding:0 22px 8px;flex-shrink:0;position:relative">
+    <div style="display:flex;align-items:center;padding:16px 22px 16px;flex-shrink:0;position:relative">
       <svg id="btn-undo" xmlns="http://www.w3.org/2000/svg" onclick="pendantUndo()" width="27" height="27" viewBox="0 0 24 24" style="cursor:pointer;opacity:.5;transition:opacity 150ms ease;flex-shrink:0"><path fill="white" d="M7 19v-2h7.1q1.575 0 2.738-1T18 13.5T16.838 11T14.1 10H7.8l2.6 2.6L9 14L4 9l5-5l1.4 1.4L7.8 8h6.3q2.425 0 4.163 1.575T20 13.5t-1.737 3.925T14.1 19z"/></svg>
 
       <div class="pal-sel" id="pal-sel">
