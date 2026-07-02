@@ -390,7 +390,7 @@
   }
 
   function updateProgress() {
-    const n = Object.keys(getDiscovered()).length;
+    const n = Object.keys(getDiscovered()).filter(k => BOUTIQUES[k]).length;
     const total = Object.keys(BOUTIQUES).length;
     const el = document.getElementById('boutique-progress');
     el.textContent = n >= total ? 'All boutiques discovered' : n + ' of ' + total + ' discovered';
@@ -406,7 +406,7 @@
       list.innerHTML = '<div class="provenance-empty" id="provenance-empty">No boutique colours discovered yet — open a boutique above to begin.</div>';
       return;
     }
-    list.innerHTML = ids.map(id => {
+    list.innerHTML = ids.filter(id => BOUTIQUES[id]).map(id => {
       const b = BOUTIQUES[id];
       return '<div class="provenance-row">' +
         '<div class="provenance-swatch" style="background:' + b.hex + '"></div>' +
@@ -525,6 +525,13 @@
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.remove('show'), 2600);
   }
+
+  // Remove stale keys from old boutique names so they don't break rendering
+  (function() {
+    const discovered = getDiscovered();
+    const stale = Object.keys(discovered).filter(k => !BOUTIQUES[k]);
+    if (stale.length) { stale.forEach(k => delete discovered[k]); saveDiscovered(discovered); }
+  })();
 
   // Restore any previously discovered boutiques
   Object.keys(getDiscovered()).forEach(markDiscovered);
