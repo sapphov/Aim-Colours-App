@@ -28,12 +28,12 @@
   .cb-family-btn.active{border-color:#fff;color:#fff}
 
   /* SWATCH GRID */
-  .cb-grid-wrap{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:8px 18px 24px}
+  .cb-grid-wrap{flex:1;overflow-y:auto;scrollbar-width:none;padding:8px 12px 24px}
   .cb-grid-wrap::-webkit-scrollbar{display:none}
-  .cb-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
-  .cb-swatch{position:relative;aspect-ratio:1;cursor:pointer;border:1.5px solid transparent;transition:border-color .15s}
+  .cb-grid{display:grid;grid-template-columns:repeat(5,69px);gap:6px;justify-content:center}
+  .cb-swatch{position:relative;aspect-ratio:1;cursor:pointer;border:2px solid transparent;border-radius:8px;transition:border-color .15s;overflow:hidden}
   .cb-swatch.selected{border-color:#fff}
-  .cb-swatch-inner{width:100%;height:100%;display:block}
+  .cb-swatch-inner{width:100%;height:100%;display:block;border-radius:6px}
   .cb-check{position:absolute;top:4px;right:4px;width:16px;height:16px;background:#fff;border-radius:50%;display:none;align-items:center;justify-content:center}
   .cb-swatch.selected .cb-check{display:flex}
   .cb-check svg{width:10px;height:10px}
