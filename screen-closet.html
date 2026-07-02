@@ -46,6 +46,19 @@
   .sw{aspect-ratio:1;border-radius:2px;position:relative;cursor:pointer}
   .sw.sel{outline:1.5px solid rgba(255,255,255,.85);outline-offset:1px;border-radius:2px}
 
+  #screen2{overflow:visible}
+  .pal-sel{padding:0 22px 10px;flex-shrink:0;position:relative}
+  .pal-trigger{display:flex;align-items:center;gap:8px;cursor:pointer;padding:8px 0;border-top:.5px solid rgba(255,255,255,.1)}
+  .pal-trigger-label{font-family:'Inter',sans-serif;font-size:8px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);flex-shrink:0}
+  .pal-trigger-name{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.85);flex:1}
+  .pal-chevron{flex-shrink:0;transition:transform .2s}
+  .pal-drop{position:absolute;bottom:calc(100% - 10px);left:0;right:0;background:#1c1c20;border:.5px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden;display:none;z-index:50;max-height:220px;overflow-y:auto;scrollbar-width:none}
+  .pal-drop.open{display:block}
+  .pal-opt{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:.5px solid rgba(255,255,255,.07)}
+  .pal-opt:last-child{border-bottom:none}
+  .pal-opt-thumb{width:30px;height:30px;border-radius:3px;flex-shrink:0}
+  .pal-opt-name{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#fff}
+
   .cta-wrap{flex-shrink:0;padding:14px 22px 28px}
   .cta{width:100%;border:1.5px solid rgba(255,255,255,1);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:13px;border-radius:100px;text-align:center;cursor:pointer}
 
@@ -162,7 +175,16 @@
       <svg id="btn-redo" xmlns="http://www.w3.org/2000/svg" onclick="pendantRedo()" width="27" height="27" viewBox="0 0 24 24" style="cursor:pointer;position:relative;top:5px;opacity:.5;transition:opacity 150ms ease"><path fill="white" d="M9.9 19q-2.425 0-4.163-1.575T4 13.5t1.738-3.925T9.9 8h6.3l-2.6-2.6L15 4l5 5l-5 5l-1.4-1.4l2.6-2.6H9.9q-1.575 0-2.738 1T6 13.5T7.163 16T9.9 17H17v2z"/></svg>
     </div>
 
-    <div class="swatches">
+    <div class="pal-sel" id="pal-sel">
+      <div class="pal-trigger" onclick="togglePalDrop()">
+        <span class="pal-trigger-label">Palette</span>
+        <span class="pal-trigger-name" id="pal-name">Studio Default</span>
+        <svg class="pal-chevron" id="pal-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="rgba(255,255,255,0.45)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="pal-drop" id="pal-drop"></div>
+    </div>
+
+    <div class="swatches" id="swatches2">
       <div class="row">
         <div class="sw sel" style="background:#a9a29b" data-color="#a9a29b"></div>
         <div class="sw" style="background:#9e5959" data-color="#9e5959"></div>
@@ -364,7 +386,7 @@
     });
     sectionColors = {'cls-1': null, 'cls-3': null, 'cls-4': null};
     undoStack = []; redoStack = [];
-    var swatches = document.querySelectorAll('.sw');
+    var swatches = document.querySelectorAll('#swatches2 .sw');
     swatches.forEach(function(s) { s.classList.remove('sel'); });
     if (swatches.length) {
       swatches[0].classList.add('sel');
@@ -389,14 +411,54 @@
     updateUndoRedoState();
   }
 
-  // Swatch selection
-  document.querySelectorAll('.sw').forEach(function(sw) {
-    sw.addEventListener('click', function() {
-      document.querySelectorAll('.sw').forEach(function(s){ s.classList.remove('sel'); });
-      this.classList.add('sel');
-      pendantColor = this.dataset.color;
-    });
+  // Swatch selection — event delegation so it works after palette swaps
+  document.getElementById('swatches2').addEventListener('click', function(e) {
+    var sw = e.target.closest('.sw');
+    if (!sw) return;
+    document.querySelectorAll('#swatches2 .sw').forEach(function(s){ s.classList.remove('sel'); });
+    sw.classList.add('sel');
+    pendantColor = sw.dataset.color;
   });
+
+  // ── Palette selector ──
+  var DEFAULT_COLORS = ['#a9a29b','#9e5959','#5a7f50','#476e9c','#766473','#a47c81','#7f1712','#1a5143','#1f4786','#362344'];
+  var _palettes = [];
+
+  function buildPalDrop() {
+    var collections = JSON.parse(localStorage.getItem('aim_collections') || '[]');
+    _palettes = [{ name: 'Studio Default', colors: DEFAULT_COLORS, gradient: 'linear-gradient(135deg,#a9a29b 0%,#476e9c 50%,#362344 100%)' }]
+      .concat(collections.map(function(c) {
+        return { name: c.name, colors: c.colours.map(function(col){ return col.hex; }), gradient: c.gradient };
+      }));
+    document.getElementById('pal-drop').innerHTML = _palettes.map(function(p, i) {
+      return '<div class="pal-opt" onclick="selectPal('+i+')">' +
+        '<div class="pal-opt-thumb" style="background:'+p.gradient+'"></div>' +
+        '<span class="pal-opt-name">'+p.name+'</span>' +
+        '</div>';
+    }).join('');
+  }
+
+  function togglePalDrop() {
+    var drop = document.getElementById('pal-drop');
+    var open = drop.classList.toggle('open');
+    document.getElementById('pal-chevron').style.transform = open ? 'rotate(180deg)' : '';
+  }
+
+  function selectPal(idx) {
+    var p = _palettes[idx];
+    document.getElementById('pal-name').textContent = p.name;
+    var row1 = p.colors.slice(0,5), row2 = p.colors.slice(5,10);
+    var html = '<div class="row">' + row1.map(function(c){ return '<div class="sw" style="background:'+c+'" data-color="'+c+'"></div>'; }).join('') + '</div>';
+    if (row2.length) html += '<div class="row">' + row2.map(function(c){ return '<div class="sw" style="background:'+c+'" data-color="'+c+'"></div>'; }).join('') + '</div>';
+    var sw2 = document.getElementById('swatches2');
+    sw2.innerHTML = html;
+    var first = sw2.querySelector('.sw');
+    if (first) { first.classList.add('sel'); pendantColor = first.dataset.color; }
+    document.getElementById('pal-drop').classList.remove('open');
+    document.getElementById('pal-chevron').style.transform = '';
+  }
+
+  buildPalDrop();
 
   // Wire up SVG section tap-to-colour on screen 2
   // cls-1 = purple, cls-3 = red, cls-4 = beige
