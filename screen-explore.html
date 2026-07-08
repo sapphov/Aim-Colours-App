@@ -367,30 +367,42 @@
   const ANIM_RANGE = 200;
   const lift_total = cardsScroll.getBoundingClientRect().top - sectionHead.getBoundingClientRect().top;
 
-  // Explore must track the featured bottom exactly during phase 1.
-  // At each scroll pixel: featured_bottom moves at (1 + lift_total/ANIM_RANGE),
-  // explore without transform moves at (1 + LAYOUT_SHRINKAGE/ANIM_RANGE).
-  // To make explore follow featured bottom: translateY = scrollTop * (1 - lift_total/ANIM_RANGE).
-  // The layout shrinkage cancels out — only lift_total matters.
-  const PHASE1_FACTOR = 1 - lift_total / ANIM_RANGE;
-  const MAX_TRANSLATE = ANIM_RANGE - lift_total;
+  // Measure gallery's initial viewport position so we can freeze it during phase 1
+  const initialGalleryY = exploreSection.getBoundingClientRect().top;
+  let frozenDrift = 0;
 
   exploreContent.addEventListener('scroll', () => {
-    const progress = Math.min(exploreContent.scrollTop / ANIM_RANGE, 1);
-    exploreSection.style.transform = 'translateY(' + Math.min(exploreContent.scrollTop * PHASE1_FACTOR, MAX_TRANSLATE) + 'px)';
+    const scrollTop = exploreContent.scrollTop;
+    const progress = Math.min(scrollTop / ANIM_RANGE, 1);
+
+    // Reset gallery transform so we can measure its natural position
+    exploreSection.style.transform = 'none';
+
+    // Apply all Featured animations (layout-affecting first)
     const h = MAX_H - (MAX_H - MIN_H) * progress;
     const lift = lift_total * progress;
     cardImgs.forEach(img => img.style.height = h + 'px');
     pendants.forEach(p => p.style.width = (PENDANT_MAX * (h / MAX_H)) + 'px');
-    cardBadges.forEach(badge => badge.style.opacity = progress >= 0.4 ? '0' : String(Math.max(0, 1 - progress * 2.5)));
-    cardsScroll.style.transform = 'translateY(-' + lift + 'px)';
-    exploreDivider.style.transform = 'translateY(-' + lift + 'px)';
-
     cardTitles.forEach(t => t.style.fontSize = (11 - 2 * progress) + 'px');
     cardBodies.forEach(body => {
       body.style.gap = (10 - 4 * progress) + 'px';
       body.style.paddingTop = (10 - 4 * progress) + 'px';
     });
+    cardBadges.forEach(badge => badge.style.opacity = progress >= 0.4 ? '0' : String(Math.max(0, 1 - progress * 2.5)));
+    cardsScroll.style.transform = 'translateY(-' + lift + 'px)';
+    exploreDivider.style.transform = 'translateY(-' + lift + 'px)';
+
+    // Measure how far gallery has drifted from its initial position
+    const drift = exploreSection.getBoundingClientRect().top - initialGalleryY;
+
+    if (progress < 1) {
+      // Phase 1: freeze gallery exactly in place
+      frozenDrift = drift;
+      exploreSection.style.transform = 'translateY(' + (-drift) + 'px)';
+    } else {
+      // Phase 2: hold the phase-1 offset constant — natural scroll pulls gallery up from here
+      exploreSection.style.transform = 'translateY(' + (-frozenDrift) + 'px)';
+    }
   });
 
   exploreContent.addEventListener('scrollend', () => {
