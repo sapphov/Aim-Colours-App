@@ -137,40 +137,32 @@
 
     .explore-bottom-spacer { height: 220px; }
 
-    /* ── Topics list ─────────────────────────────────────────── */
-    #explore-section { display: flex; flex-direction: column; flex: 1; }
+    /* ── Gallery grid ────────────────────────────────────────── */
+    #explore-section { display: flex; flex-direction: column; }
     #explore-section .exp-section-head { flex-shrink: 0; padding-bottom: 0; }
-    #explore-section .exp-topics { flex: 1; padding-bottom: 8px; }
-
-    .exp-topics { padding: 0; display: flex; flex-direction: column; }
-
-    .exp-topic-row {
-      display: flex; align-items: center; gap: 14px;
-      padding: 0 6px 0 18px;
-      flex: 1;
-      border-bottom: 0.5px solid rgba(255,255,255,0.12);
-    }
-    .exp-topic-row:last-child {
-      border-bottom: none;
-    }
-    .exp-topic-thumb {
-      width: 66px; height: 66px;
-      border-radius: 2px; flex-shrink: 0;
-      overflow: hidden;
+    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px 18px 18px; }
+    .gallery-card { position: relative; }
+    .gallery-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 2px; display: block; }
+    .gallery-save-btn {
+      position: absolute; top: 6px; right: 6px;
+      width: 26px; height: 26px;
+      background: rgba(0,0,0,0.55); border: none; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
+      cursor: pointer; padding: 0;
     }
-    .exp-topic-thumb img {
-      width: 54px; height: 54px;
-      filter: drop-shadow(0 2px 8px rgba(123,82,200,0.5));
+    .gallery-save-btn svg { transition: fill 0.15s; }
+    .gallery-save-btn.saved svg path { fill: #fff; }
+    .gallery-meta { padding: 5px 0 8px; }
+    .gallery-artist {
+      font-family: 'Inter', sans-serif; font-size: 8px; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.8);
+      display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .exp-topic-name {
-      flex: 1;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px; font-weight: 500;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      color: #fff;
+    .gallery-title {
+      font-family: 'Inter', sans-serif; font-size: 7px; font-weight: 400;
+      letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35);
+      display: block; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .exp-topic-arrow { flex-shrink: 0; opacity: 0.7; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -257,29 +249,11 @@
 
     <div id="explore-section">
 
-    <!-- Explore Topics -->
     <div class="exp-section-head">
-      <h2 class="exp-section-title">Media</h2>
+      <h2 class="exp-section-title">Gallery</h2>
     </div>
 
-    <div class="exp-topics">
-
-      <div class="exp-topic-row">
-        <span class="exp-topic-name">Fashion Tech</span>
-        <svg class="exp-topic-arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="white" d="M12.6 12L8 7.4L9.4 6l6 6l-6 6L8 16.6z"/></svg>
-      </div>
-
-      <div class="exp-topic-row">
-        <span class="exp-topic-name">Culture &amp; Design</span>
-        <svg class="exp-topic-arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="white" d="M12.6 12L8 7.4L9.4 6l6 6l-6 6L8 16.6z"/></svg>
-      </div>
-
-      <div class="exp-topic-row">
-        <span class="exp-topic-name">Colour Theory</span>
-        <svg class="exp-topic-arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="white" d="M12.6 12L8 7.4L9.4 6l6 6l-6 6L8 16.6z"/></svg>
-      </div>
-
-    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
 
     </div><!-- /explore-section -->
 
@@ -323,6 +297,58 @@
 </div>
 
 <script>
+  // ── Gallery ──────────────────────────────────────────────────
+  var PAINTINGS = [
+    { file: 'adja yunkers - composition in black & ochre.jpg', artist: 'Adja Yunkers', title: 'Composition in Black & Ochre' },
+    { file: 'agnes martin - white flower.jpg', artist: 'Agnes Martin', title: 'White Flower' },
+    { file: 'beatriz milhazes - in albis.jpg', artist: 'Beatriz Milhazes', title: 'In Albis' },
+    { file: 'elaine de kooning - juarez.jpg', artist: 'Elaine de Kooning', title: 'Juarez' },
+    { file: 'emil nolde - young horses.jpg', artist: 'Emil Nolde', title: 'Young Horses' },
+    { file: 'franz marc - yellow cow.jpg', artist: 'Franz Marc', title: 'Yellow Cow' },
+    { file: 'gabriele munter - snow-covered fir tree.jpg', artist: 'Gabriele Münter', title: 'Snow-Covered Fir Tree' },
+    { file: 'helen frankenthaler - canal.jpg', artist: 'Helen Frankenthaler', title: 'Canal' },
+    { file: 'hilla rebay - composition I.jpg', artist: 'Hilla Rebay', title: 'Composition I' },
+    { file: 'joan miro - the flight of a bird over the plain III.jpg', artist: 'Joan Miró', title: 'The Flight of a Bird Over the Plain III' },
+    { file: 'maria helena vieira da silva - Aix-en-Provence.jpg', artist: 'Maria Helena Vieira da Silva', title: 'Aix-en-Provence' },
+    { file: 'natalia goncharova - cats.jpg', artist: 'Natalia Goncharova', title: 'Cats' },
+    { file: 'pablo picasso - bird on a tree.jpg', artist: 'Pablo Picasso', title: 'Bird on a Tree' },
+    { file: 'rufino tamayo - woman in grey.jpg', artist: 'Rufino Tamayo', title: 'Woman in Grey' }
+  ];
+
+  var savedMedia = JSON.parse(localStorage.getItem('aim_media') || '[]');
+
+  function isSaved(file) {
+    return savedMedia.some(function(s){ return s.file === file; });
+  }
+
+  function toggleSave(idx) {
+    var p = PAINTINGS[idx];
+    var i = savedMedia.findIndex(function(s){ return s.file === p.file; });
+    if (i >= 0) { savedMedia.splice(i, 1); } else { savedMedia.push(p); }
+    localStorage.setItem('aim_media', JSON.stringify(savedMedia));
+    var btn = document.getElementById('gsave-' + idx);
+    btn.classList.toggle('saved', isSaved(p.file));
+  }
+
+  function renderGallery() {
+    var grid = document.getElementById('gallery-grid');
+    grid.innerHTML = PAINTINGS.map(function(p, i) {
+      var saved = isSaved(p.file);
+      return '<div class="gallery-card">' +
+        '<img class="gallery-img" src="assets/' + encodeURIComponent(p.file) + '" alt="' + p.title + '">' +
+        '<button id="gsave-' + i + '" class="gallery-save-btn' + (saved ? ' saved' : '') + '" onclick="toggleSave(' + i + ')">' +
+          '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="' + (saved ? '#fff' : 'rgba(255,255,255,0.5)') + '"/></svg>' +
+        '</button>' +
+        '<div class="gallery-meta">' +
+          '<span class="gallery-artist">' + p.artist + '</span>' +
+          '<span class="gallery-title">' + p.title + '</span>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  renderGallery();
+
   const exploreContent = document.querySelector('.explore-content');
   const featuredTitle = document.getElementById('featured-title');
   const sectionHead = document.querySelector('.featured-sticky .exp-section-head');
