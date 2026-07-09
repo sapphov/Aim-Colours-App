@@ -150,6 +150,8 @@
     }
     .gallery-save-btn { color: rgba(255,255,255,0.5); transition: color 0.15s; }
     .gallery-save-btn.saved { color: #fff; }
+    .gallery-save-btn.saved .bm-outline { display: none; }
+    .gallery-save-btn.saved .bm-filled { display: block !important; }
     .gallery-meta { padding: 5px 0 8px; }
     .gallery-artist {
       font-family: 'Inter', sans-serif; font-size: 8px; font-weight: 600;
@@ -335,7 +337,7 @@
       return '<div class="gallery-card">' +
         '<img class="gallery-img" src="assets/' + encodeURIComponent(p.file) + '" alt="' + p.title + '">' +
         '<button id="gsave-' + i + '" class="gallery-save-btn' + (saved ? ' saved' : '') + '" onclick="toggleSave(' + i + ')">' +
-          '<svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M0 0h24v24H0z" fill="none" stroke="none"/><path fill="currentColor" d="M6 19.5V4h12v15.5l-6-2.583zm1-1.55l5-2.15l5 2.15V5H7zM7 5h10z"/></svg>' +
+          '<svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M0 0h24v24H0z" fill="none" stroke="none"/><path class="bm-outline" fill="currentColor" d="M6 19.5V4h12v15.5l-6-2.583zm1-1.55l5-2.15l5 2.15V5H7zM7 5h10z"/><path class="bm-filled" fill="currentColor" d="M6 19.5V4h12v15.5l-6-2.583z" style="display:none"/></svg>' +
         '</button>' +
         '<div class="gallery-meta">' +
           '<span class="gallery-artist">' + p.title + '</span>' +
