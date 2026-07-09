@@ -78,10 +78,7 @@
       color: #fff; line-height: 1.2;
     }
 
-    /* ── Featured (pinned, shrinks on scroll) ──────────────────── */
     .featured-sticky {
-      position: sticky; top: 0; z-index: 6;
-      background: #151718;
       padding-top: 18px;
       flex-shrink: 0;
     }
@@ -350,48 +347,6 @@
 
   renderGallery();
 
-  const exploreContent = document.querySelector('.explore-content');
-  const featuredTitle = document.getElementById('featured-title');
-  const sectionHead = document.querySelector('.featured-sticky .exp-section-head');
-  const exploreDivider = document.getElementById('explore-divider');
-  const cardImgs = document.querySelectorAll('.exp-card-img');
-  const pendants = document.querySelectorAll('.exp-card-pendant');
-  const cardBadges = document.querySelectorAll('.exp-card-badge');
-  const cardBodies = document.querySelectorAll('.exp-card-body');
-  const cardTitles = document.querySelectorAll('.exp-card-title');
-  const MAX_H = 290, MIN_H = 130;
-  const PENDANT_MAX = 190;
-
-  const cardsScroll = document.querySelector('.exp-cards-scroll');
-  const exploreSection = document.getElementById('explore-section');
-  const ANIM_RANGE = 200;
-  const lift_total = cardsScroll.getBoundingClientRect().top - sectionHead.getBoundingClientRect().top;
-
-  const PHASE1_FACTOR = 1 - lift_total / ANIM_RANGE;
-  const MAX_TRANSLATE = ANIM_RANGE - lift_total;
-
-  exploreContent.addEventListener('scroll', () => {
-    const progress = Math.min(exploreContent.scrollTop / ANIM_RANGE, 1);
-    // Gallery tracks the divider line during phase 1, then scrolls freely in phase 2
-    exploreSection.style.transform = 'translateY(' + Math.min(exploreContent.scrollTop * PHASE1_FACTOR, MAX_TRANSLATE) + 'px)';
-    const h = MAX_H - (MAX_H - MIN_H) * progress;
-    const lift = lift_total * progress;
-    cardImgs.forEach(img => img.style.height = h + 'px');
-    pendants.forEach(p => p.style.width = (PENDANT_MAX * (h / MAX_H)) + 'px');
-    cardBadges.forEach(badge => badge.style.opacity = progress >= 0.4 ? '0' : String(Math.max(0, 1 - progress * 2.5)));
-    cardsScroll.style.transform = 'translateY(-' + lift + 'px)';
-    exploreDivider.style.transform = 'translateY(-' + lift + 'px)';
-    cardTitles.forEach(t => t.style.fontSize = (11 - 2 * progress) + 'px');
-    cardBodies.forEach(body => {
-      body.style.gap = (10 - 4 * progress) + 'px';
-      body.style.paddingTop = (10 - 4 * progress) + 'px';
-    });
-  });
-
-  exploreContent.addEventListener('scrollend', () => {
-    const progress = Math.min(exploreContent.scrollTop / ANIM_RANGE, 1);
-    if (progress >= 0.4) cardBadges.forEach(badge => badge.style.opacity = '0');
-  });
 </script>
 </body>
 </html>
