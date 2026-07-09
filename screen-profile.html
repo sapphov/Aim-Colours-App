@@ -472,7 +472,7 @@
     const saved = JSON.parse(localStorage.getItem('aim_media') || '[]');
     const wrap = document.getElementById('media-grid-wrap');
     if (!saved.length) {
-      wrap.innerHTML = '<div class="tab-placeholder"><span class="tab-placeholder-label">No saved media</span></div>';
+      wrap.innerHTML = '<div class="tab-placeholder"><span class="tab-placeholder-label">No saved art</span></div>';
       return;
     }
     wrap.innerHTML = '<div class="media-grid">' + saved.map((p, i) =>
