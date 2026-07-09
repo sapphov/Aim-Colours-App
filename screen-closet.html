@@ -425,8 +425,12 @@
 
   function buildPalDrop() {
     var collections = JSON.parse(localStorage.getItem('aim_collections') || '[]');
-    _palettes = [{ name: 'Studio Default', colors: DEFAULT_COLORS, gradient: 'linear-gradient(135deg,#a9a29b 0%,#476e9c 50%,#362344 100%)' }]
-      .concat(collections.map(function(c) {
+    _palettes = [
+      { name: 'Studio Default', colors: DEFAULT_COLORS, gradient: 'linear-gradient(135deg,#a9a29b 0%,#476e9c 50%,#362344 100%)' },
+      { name: 'Dusty Rose', colors: ['#aca299','#987f87','#a77b6f','#708e77','#6e8ba3'], gradient: 'linear-gradient(135deg,#aca299 0%,#987f87 25%,#a77b6f 50%,#708e77 75%,#6e8ba3 100%)' },
+      { name: 'Pearl', colors: ['#aca18f','#9ca4a8','#423026'], gradient: 'linear-gradient(135deg,#aca18f 0%,#9ca4a8 50%,#423026 100%)' },
+      { name: 'Illusions', colors: ['#a8a09b','#466e9b','#5a7e50','#a27f11'], gradient: 'linear-gradient(135deg,#a8a09b 0%,#466e9b 33%,#5a7e50 66%,#a27f11 100%)' }
+    ].concat(collections.map(function(c) {
         return { name: c.name, colors: c.colours.map(function(col){ return col.hex; }), gradient: c.gradient };
       }));
     document.getElementById('pal-drop').innerHTML = _palettes.map(function(p, i) {
