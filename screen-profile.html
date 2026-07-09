@@ -169,11 +169,14 @@
       position: absolute; top: 6px; right: 6px;
       width: 24px; height: 24px;
       background: rgba(0,0,0,0.55); border: none; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; padding: 0; line-height: 0;
+      cursor: pointer; padding: 0;
       -webkit-appearance: none; appearance: none;
     }
-    .media-unsave svg { display: block; }
+    .media-unsave svg {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
     .media-meta { padding: 5px 0 4px; }
     .media-artist {
       font-family: var(--sans); font-size: 8px; font-weight: 600;
