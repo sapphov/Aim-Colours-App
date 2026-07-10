@@ -18,19 +18,11 @@
   .screen{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
   .screen.hidden{display:none}
 
-  /* ── SCREEN 1: PENDANT VIEW ── */
+  /* ── SCREEN 1: MAIN CLOSET ── */
   #screen1{position:relative;overflow:hidden}
-  .s1-header{position:absolute;top:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:center;z-index:2;padding:0 22px}
-  .s1-back{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0}
-  .s1-title{font-size:27px;font-weight:400;color:#fff;letter-spacing:.04em;text-transform:uppercase}
-
-  /* Clip window */
-  .s1-img-clip{position:absolute;top:88px;bottom:197px;left:0;right:0;display:flex;align-items:center;justify-content:center;pointer-events:none;padding:20px 44px;min-height:0}
-  .s1-img-clip img{width:100%;object-fit:contain;max-height:100%;}
-
-  .s1-actions{position:absolute;bottom:44px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:18px;z-index:2}
-
-  .s1-btn{width:196px;border:1.5px solid rgba(255,255,255,1);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:11px;border-radius:100px;text-align:center;cursor:pointer}
+  .closet-bg{position:absolute;inset:0;background:url('assets/ac-closet-background-blue.png') center center/cover no-repeat;z-index:0}
+  .closet-svg-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;cursor:pointer}
+  .closet-svg-wrap img{width:100%;height:100%;object-fit:contain}
 
   /* ── SCREEN 2: CUSTOMISER (existing studio) ── */
   .header{height:44px;padding:0 22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative}
@@ -93,26 +85,12 @@
     <img src="status-icons.svg" alt="status icons" style="position:absolute;right:14.67px;top:17.33px;width:66.661px;height:11.336px;filter:brightness(0) invert(1)"/>
   </div>
 
-  <!-- ═══ SCREEN 1: PENDANT VIEW ═══ -->
+  <!-- ═══ SCREEN 1: MAIN CLOSET ═══ -->
   <div class="screen" id="screen1">
-
-    <!-- Chain + pendant image -->
-    <div class="s1-img-clip">
-      <img src="assets/ac-floral-pendant-with-loop.svg?v=2" alt="Floral pendant with loop"/>
+    <div class="closet-bg"></div>
+    <div class="closet-svg-wrap" onclick="resetPendant();showScreen2()">
+      <img src="assets/ac-closet-black.svg" alt="Closet">
     </div>
-
-    <div class="s1-header">
-      <button class="s1-back">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="white" d="m10 18l-6-6l6-6l1.4 1.45L7.85 11H20v2H7.85l3.55 3.55z"/></svg>
-      </button>
-      <div class="s1-title">Allie's Studio</div>
-    </div>
-
-    <div class="s1-actions">
-      <div class="s1-btn" onclick="resetPendant();showScreen2()" style="position:relative;top:-25px">Customize</div>
-      <div class="s1-btn" onclick="transferDefaultColors()" style="position:relative;top:-20px">Transfer</div>
-    </div>
-
   </div>
 
   <!-- ═══ SCREEN 2: CUSTOMISER ═══ -->
