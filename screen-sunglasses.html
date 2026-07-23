@@ -91,11 +91,11 @@
 
     /* Scroll indicator */
     .sg-track {
-      position: absolute; bottom: 6px; left: 20px; right: 20px;
+      position: absolute; bottom: 6px; left: 10px; right: 10px;
       height: 1.5px; background: rgba(0,0,0,0.12); border-radius: 1px;
     }
     .sg-thumb {
-      position: absolute; bottom: 6px; left: 20px;
+      position: absolute; bottom: 6px; left: 10px;
       height: 1.5px; width: 60px;
       background: #000; border-radius: 1px;
       transition: left 0.1s;
@@ -224,7 +224,7 @@
       const ratio     = scrollMax > 0 ? rowEl.scrollLeft / scrollMax : 0;
       const trackWidth = rowEl.parentElement.querySelector('.sg-track').offsetWidth;
       const thumbWidth = 60;
-      thumbEl.style.left = (20 + ratio * (trackWidth - thumbWidth)) + 'px';
+      thumbEl.style.left = (10 + ratio * (trackWidth - thumbWidth)) + 'px';
     });
   });
 </script>
