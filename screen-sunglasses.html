@@ -6,131 +6,122 @@
   <title>Aim Colours — Sunglasses</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* ── Sunglasses screen — white theme ─────────────────────── */
-    .phone.sunglasses-screen { background: #fff; }
-    .sunglasses-screen .status-time { color: #000; }
+    body { background: #f0ede8; }
+
+    .phone { background: #fff; }
+
+    /* Status bar */
+    .status-bar { background: #fff; }
 
     /* Header */
-    .sunglasses-header {
-      position: relative; z-index: 10;
+    .sg-header {
       display: flex; align-items: center;
-      padding: 6px 16px 10px; gap: 0;
+      padding: 8px 20px 10px;
+      background: #fff;
+      flex-shrink: 0;
     }
-    .sunglasses-back {
+    .sg-back {
       font-size: 22px; color: #000; line-height: 1;
       display: flex; align-items: center; flex-shrink: 0;
+      text-decoration: none;
     }
-    .sunglasses-title {
-      font-family: var(--sans);
-      font-size: 30px; font-weight: 400;
+    .sg-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 28px; font-weight: 400;
       color: #000; letter-spacing: -0.02em;
-      flex: 1; padding-left: 6px;
+      flex: 1; padding-left: 8px;
     }
-    .sunglasses-palette {
-      width: 32px; height: 32px; flex-shrink: 0;
-    }
-    .sunglasses-palette img { width: 100%; height: 100%; object-fit: contain; }
 
-    /* Scrollable content area */
-    .sunglasses-content {
-      position: absolute;
-      top: 88px; left: 0; right: 0; bottom: 95px;
+    /* Scrollable content */
+    .sg-content {
+      flex: 1; min-height: 0;
       overflow-y: auto; overflow-x: hidden;
-      padding: 0 0 16px;
+      background: #fff;
       scrollbar-width: none;
     }
-    .sunglasses-content::-webkit-scrollbar { display: none; }
+    .sg-content::-webkit-scrollbar { display: none; }
+
+    /* Divider */
+    .sg-divider {
+      height: 0.5px;
+      background: rgba(0,0,0,0.12);
+      margin: 0 20px;
+    }
 
     /* Section */
-    .glasses-section { margin-bottom: 0; padding-bottom: 16px; }
-    .glasses-section-label {
-      font-family: var(--sans);
-      font-size: 19px; font-weight: 400;
+    .sg-section { padding-bottom: 4px; }
+    .sg-section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px; font-weight: 400;
       color: #000; letter-spacing: -0.02em;
-      margin-bottom: 0; padding: 4px 11px 8px;
+      padding: 14px 20px 10px;
     }
 
-    /* Horizontally scrollable glasses row */
-    .glasses-scroll-wrap {
+    /* Scroll row */
+    .sg-scroll-wrap {
       position: relative;
-      height: 126px; overflow: hidden;
+      padding-bottom: 18px;
     }
-    .glasses-row {
-      position: absolute;
-      top: 10px; left: 0; right: 0;
+    .sg-row {
       display: flex;
-      gap: 43px;
+      gap: 16px;
       align-items: center;
-      height: 100px;
-      overflow-x: auto; overflow-y: visible;
+      overflow-x: auto; overflow-y: hidden;
       scrollbar-width: none;
-      padding-left: 16px;
-      padding-right: 20px;
+      padding: 0 20px 0;
     }
-    .glasses-row::-webkit-scrollbar { display: none; }
+    .sg-row::-webkit-scrollbar { display: none; }
 
-    /* Individual glasses item */
-    .glasses-item {
+    /* Glasses card */
+    .sg-item {
       flex-shrink: 0;
-      position: relative;
+      width: 172px; height: 110px;
+      background: #f7f6f4;
+      border-radius: 10px;
       overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
     }
-    .glasses-item.type-a,
-    .glasses-item.type-b,
-    .glasses-item.type-c { width: 160px; height: 80px; }
-
-    .glasses-item img {
-      width: 100%; height: 100%;
+    .sg-item img {
+      width: 90%; height: 90%;
       object-fit: contain;
     }
 
     /* Scroll indicator */
-    .glasses-track {
-      position: absolute; bottom: 4px; left: 4px; right: 4px;
-      height: 2px; background: #2f2f2f; border-radius: 1px;
+    .sg-track {
+      position: absolute; bottom: 6px; left: 20px; right: 20px;
+      height: 1.5px; background: rgba(0,0,0,0.12); border-radius: 1px;
     }
-    .glasses-thumb {
-      position: absolute; bottom: 4px; left: 24px;
-      height: 2px; width: 23px;
+    .sg-thumb {
+      position: absolute; bottom: 6px; left: 20px;
+      height: 1.5px; width: 60px;
       background: #000; border-radius: 1px;
       transition: left 0.1s;
     }
 
-    /* Tab bar — exact match to studio-02 */
-    .sunglasses-screen .tab-bar {
-      background: #0d0d0d;
-      border-top: none;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      padding: 0;
-    }
-    .sunglasses-screen .tabs {
+    /* Tab bar overrides for white screen */
+    .tab-bar { background: #0d0d0d; border-top: none; }
+    .tabs {
       height: 72px;
       border-top: 0.5px solid rgba(255,255,255,0.15);
       align-items: center;
       justify-content: space-evenly;
       padding: 0 8px;
     }
-    .sunglasses-screen .tab { gap: 3px; }
-    .sunglasses-screen .tab-icon { width: 24px; height: 24px; }
-    .sunglasses-screen .tab-icon svg { width: 22px; height: 22px; }
-    .sunglasses-screen .tab-label {
-      font-size: 7px; letter-spacing: 0.18em; font-weight: 500; color: #fff;
-    }
-    .sunglasses-screen .tab-mark { display: none; }
-    .sunglasses-screen .home-indicator {
-      height: 34px; padding: 0; align-items: center;
-    }
-    .sunglasses-screen .home-indicator-bar {
-      height: 5px; border-radius: 3px; background: rgba(255,255,255,0.3);
-    }
+    .tab { gap: 3px; }
+    .tab-icon { width: 24px; height: 24px; }
+    .tab-icon svg { width: 22px; height: 22px; }
+    .tab-label { font-size: 7px; letter-spacing: 0.18em; font-weight: 500; color: #fff; }
+    .tab-mark { display: none; }
+    .home-indicator { height: 34px; padding: 0; align-items: center; }
+    .home-indicator-bar { height: 5px; border-radius: 3px; background: rgba(255,255,255,0.3); }
   </style>
 </head>
 <body>
-<div class="phone sunglasses-screen">
+<div class="phone">
 
   <div class="dynamic-island"></div>
 
@@ -140,60 +131,63 @@
     <img src="status-icons.svg" alt="status icons" style="position:absolute;right:14.67px;top:17.33px;width:66.661px;height:11.336px;filter:brightness(0)"/>
   </div>
 
-  <!-- Page Header -->
-  <div class="sunglasses-header">
-    <a class="sunglasses-back" href="screen-closet.html">&#8592;</a>
-    <div class="sunglasses-title">Sunglasses</div>
-    <div class="sunglasses-palette">
-      <img src="https://www.figma.com/api/mcp/asset/c39afe89-d458-4aed-9a22-717234ef799e" alt="palette" />
-    </div>
+  <!-- Header -->
+  <div class="sg-header">
+    <a class="sg-back" href="screen-closet.html">&#8592;</a>
+    <div class="sg-title">Sunglasses</div>
   </div>
 
-  <!-- Scrollable Content -->
-  <div class="sunglasses-content">
+  <div class="sg-divider"></div>
+
+  <!-- Content -->
+  <div class="sg-content">
 
     <!-- Archive -->
-    <div class="glasses-section">
-      <div class="glasses-section-label">Archive</div>
-      <div class="glasses-scroll-wrap">
-        <div class="glasses-row" id="row-archive">
-          <div class="glasses-item type-a"><img src="assets/glasses-pink.png" alt="sunglasses" /></div>
-          <div class="glasses-item type-b"><img src="assets/glasses-mint.png" alt="sunglasses" /></div>
-          <div class="glasses-item type-c"><img src="assets/glasses-pink.png" alt="sunglasses" /></div>
-          <div class="glasses-item type-a"><img src="assets/glasses-metallic-02.png" alt="sunglasses" /></div>
+    <div class="sg-section">
+      <div class="sg-section-label">Archive</div>
+      <div class="sg-scroll-wrap">
+        <div class="sg-row" id="row-archive">
+          <div class="sg-item"><img src="assets/glasses_metal_black.png" alt="black sunglasses" /></div>
+          <div class="sg-item"><img src="assets/glasses_metal_grey.png" alt="grey sunglasses" /></div>
+          <div class="sg-item"><img src="assets/glasses_metal_red.png" alt="red sunglasses" /></div>
+          <div class="sg-item"><img src="assets/glasses_custom_1.png" alt="custom sunglasses" /></div>
         </div>
-        <div class="glasses-track"></div>
-        <div class="glasses-thumb" id="thumb-archive"></div>
+        <div class="sg-track"></div>
+        <div class="sg-thumb" id="thumb-archive"></div>
       </div>
     </div>
+
+    <div class="sg-divider"></div>
 
     <!-- Created by Friends -->
-    <div class="glasses-section">
-      <div class="glasses-section-label">Created by Friends</div>
-      <div class="glasses-scroll-wrap">
-        <div class="glasses-row" id="row-friends">
-          <div class="glasses-item type-c"><img src="assets/glasses-metallic-03.png" alt="sunglasses" /></div>
-          <div class="glasses-item type-a"><img src="assets/glasses-lightblue.png" alt="sunglasses" /></div>
-          <div class="glasses-item type-b"><img src="assets/glasses-red.png" alt="sunglasses" /></div>
-          <div class="glasses-item type-c"><img src="assets/glasses-beige.png" alt="sunglasses" /></div>
+    <div class="sg-section">
+      <div class="sg-section-label">Created by Friends</div>
+      <div class="sg-scroll-wrap">
+        <div class="sg-row" id="row-friends">
+          <div class="sg-item"><img src="assets/glasses_6E83A3.png" alt="blue sunglasses" /></div>
+          <div class="sg-item"><img src="assets/glasses_708d81.png" alt="grey-purple sunglasses" /></div>
+          <div class="sg-item"><img src="assets/glasses_913326.png" alt="brown sunglasses" /></div>
+          <div class="sg-item"><img src="assets/glasses_996068.png" alt="mauve sunglasses" /></div>
         </div>
-        <div class="glasses-track"></div>
-        <div class="glasses-thumb" id="thumb-friends"></div>
+        <div class="sg-track"></div>
+        <div class="sg-thumb" id="thumb-friends"></div>
       </div>
     </div>
 
+    <div class="sg-divider"></div>
+
     <!-- Recently Worn -->
-    <div class="glasses-section">
-      <div class="glasses-section-label">Recently Worn</div>
-      <div class="glasses-scroll-wrap">
-        <div class="glasses-row" id="row-recent">
-          <div class="glasses-item type-b"><img src="assets/glasses-metallic-01.png" alt="sunglasses" /></div>
-          <div class="glasses-item type-c"><img src="assets/glasses-beige.png" alt="sunglasses" /></div>
-          <div class="glasses-item type-a"><img src="assets/glasses-metallic-01.png" alt="sunglasses" /></div>
-          <div class="glasses-item type-b"><img src="assets/glasses-lightblue.png" alt="sunglasses" /></div>
+    <div class="sg-section">
+      <div class="sg-section-label">Recently Worn</div>
+      <div class="sg-scroll-wrap">
+        <div class="sg-row" id="row-recent">
+          <div class="sg-item"><img src="assets/glasses_ACA18F.png" alt="tan sunglasses" /></div>
+          <div class="sg-item"><img src="assets/glasses_metal_black.png" alt="black sunglasses" /></div>
+          <div class="sg-item"><img src="assets/glasses_6E83A3.png" alt="blue sunglasses" /></div>
+          <div class="sg-item"><img src="assets/glasses_913326.png" alt="brown sunglasses" /></div>
         </div>
-        <div class="glasses-track"></div>
-        <div class="glasses-thumb" id="thumb-recent"></div>
+        <div class="sg-track"></div>
+        <div class="sg-thumb" id="thumb-recent"></div>
       </div>
     </div>
 
@@ -252,13 +246,12 @@
     const thumbEl = document.getElementById(thumb);
     if (!rowEl || !thumbEl) return;
 
-    const trackWidth = 362;
-    const thumbWidth = 23;
-
     rowEl.addEventListener('scroll', () => {
       const scrollMax = rowEl.scrollWidth - rowEl.clientWidth;
       const ratio     = scrollMax > 0 ? rowEl.scrollLeft / scrollMax : 0;
-      thumbEl.style.left = (24 + ratio * (trackWidth - thumbWidth)) + 'px';
+      const trackWidth = rowEl.parentElement.querySelector('.sg-track').offsetWidth;
+      const thumbWidth = 60;
+      thumbEl.style.left = (20 + ratio * (trackWidth - thumbWidth)) + 'px';
     });
   });
 </script>
