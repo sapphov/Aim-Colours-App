@@ -127,6 +127,9 @@
     <div class="splash-door splash-door-l"></div>
     <div class="splash-door splash-door-r"></div>
   </div>
+  <script>
+    if (location.search.indexOf('nosplash') !== -1) document.getElementById('splash').remove();
+  </script>
 
   <!-- STATUS (shared) -->
   <!-- Closet background: covers status bar + screen1 as one seamless layer -->
