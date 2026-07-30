@@ -245,16 +245,13 @@
       flex: 1; min-height: 0;
       display: grid;
       grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(3, 1fr);
       gap: 8px;
       padding: 12px 13px;
-      overflow-y: auto;
-      scrollbar-width: none;
-      align-content: start;
     }
-    .backdrop-grid::-webkit-scrollbar { display: none; }
     .backdrop-card {
       position: relative;
-      height: 140px;
+      min-height: 0;
       border-radius: 8px;
       overflow: hidden;
       cursor: pointer;
