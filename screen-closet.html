@@ -549,12 +549,20 @@
     showScreen3();
   }
 
-  // Apply saved closet backdrop
+  // Apply saved closet backdrop + optional color tint
   (function() {
     var saved = localStorage.getItem('aim_closet_backdrop');
+    var savedColor = localStorage.getItem('aim_closet_backdrop_color');
     if (saved) {
       document.querySelectorAll('.closet-bg').forEach(function(el) {
-        el.style.backgroundImage = "url('" + saved + "')";
+        if (savedColor) {
+          el.style.backgroundImage = "linear-gradient(" + savedColor + "," + savedColor + "), url('" + saved + "')";
+          el.style.backgroundBlendMode = "color, normal";
+          el.style.backgroundSize = "cover, cover";
+          el.style.backgroundPosition = "center top, center top";
+        } else {
+          el.style.backgroundImage = "url('" + saved + "')";
+        }
       });
     }
   })();
