@@ -549,6 +549,16 @@
     });
     showScreen3();
   }
+
+  // Apply saved closet backdrop
+  (function() {
+    var saved = localStorage.getItem('aim_closet_backdrop');
+    if (saved) {
+      document.querySelectorAll('.closet-bg').forEach(function(el) {
+        el.style.backgroundImage = "url('" + saved + "')";
+      });
+    }
+  })();
 </script>
 
 </body>
