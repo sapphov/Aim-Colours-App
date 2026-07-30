@@ -555,15 +555,16 @@
     var savedColor = localStorage.getItem('aim_closet_backdrop_color');
     if (saved) {
       document.querySelectorAll('.closet-bg').forEach(function(el) {
-        if (savedColor) {
-          el.style.backgroundImage = "linear-gradient(" + savedColor + "," + savedColor + "), url('" + saved + "')";
-          el.style.backgroundBlendMode = "color, normal";
-          el.style.backgroundSize = "cover, cover";
-          el.style.backgroundPosition = "center top, center top";
-        } else {
-          el.style.backgroundImage = "url('" + saved + "')";
-        }
+        el.style.backgroundImage = "url('" + saved + "')";
       });
+    }
+    if (savedColor) {
+      var bgEl = document.getElementById('closet-bg-layer');
+      if (bgEl) {
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:absolute;inset:0;mix-blend-mode:color;pointer-events:none;background-color:' + savedColor + ';';
+        bgEl.appendChild(overlay);
+      }
     }
   })();
 </script>
