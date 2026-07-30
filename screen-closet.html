@@ -562,8 +562,8 @@
       var bgEl = document.getElementById('closet-bg-layer');
       if (bgEl) {
         var overlay = document.createElement('div');
-        overlay.style.cssText = 'position:absolute;inset:0;mix-blend-mode:color;pointer-events:none;background-color:' + savedColor + ';';
-        bgEl.appendChild(overlay);
+        overlay.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:106px;z-index:1;mix-blend-mode:color;pointer-events:none;background-color:' + savedColor + ';';
+        bgEl.parentNode.insertBefore(overlay, bgEl.nextSibling);
       }
     }
   })();
