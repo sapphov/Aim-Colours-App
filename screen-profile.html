@@ -267,14 +267,6 @@
       width: 100%; height: 100%;
       object-fit: cover; display: block;
     }
-    .backdrop-check {
-      position: absolute; top: 8px; right: 8px;
-      width: 20px; height: 20px;
-      background: #fff; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.15s;
-    }
-    .backdrop-card.selected .backdrop-check { opacity: 1; }
 
     /* ── Tab bar — exact closet styles ───────────────────── */
     .tab-bar { background: #151718 !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; border-top: none !important; padding: 0 !important; }
@@ -466,27 +458,21 @@
       <div class="backdrop-grid">
         <div class="backdrop-card" data-url="assets/1.png" onclick="selectBackdrop('assets/1.png', this)">
           <img src="assets/1.png" alt="Backdrop 1" onerror="this.style.display='none'">
-          <div class="backdrop-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="backdrop-card" data-url="assets/4.png" onclick="selectBackdrop('assets/4.png', this)">
           <img src="assets/4.png" alt="Backdrop 4" onerror="this.style.display='none'">
-          <div class="backdrop-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="backdrop-card" data-url="assets/5.png" onclick="selectBackdrop('assets/5.png', this)">
           <img src="assets/5.png" alt="Backdrop 5" onerror="this.style.display='none'">
-          <div class="backdrop-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="backdrop-card" data-url="assets/ac-closet-background-blue.png" onclick="selectBackdrop('assets/ac-closet-background-blue.png', this)">
           <img src="assets/ac-closet-background-blue.png" alt="Blue Closet" onerror="this.style.display='none'">
-          <div class="backdrop-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="backdrop-card" data-url="assets/7.png" onclick="selectBackdrop('assets/7.png', this)">
           <img src="assets/7.png" alt="Backdrop 7" onerror="this.style.display='none'">
-          <div class="backdrop-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="backdrop-card" data-url="assets/room-background.png" onclick="selectBackdrop('assets/room-background.png', this)">
           <img src="assets/room-background.png" alt="Room" onerror="this.style.display='none'">
-          <div class="backdrop-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
       </div>
 
