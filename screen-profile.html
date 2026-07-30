@@ -483,16 +483,23 @@
   <!-- Backdrop preview — full phone overlay -->
   <div id="backdrop-preview" style="display:none;position:absolute;inset:0;z-index:200;flex-direction:column;">
     <img id="preview-img" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+    <div id="backdrop-color-overlay" style="position:absolute;inset:0;mix-blend-mode:color;pointer-events:none;opacity:0;"></div>
     <div style="position:relative;z-index:5;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
       <button onclick="cancelPreview()" style="background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path fill="white" d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"/></svg>
       </button>
-      <div id="preview-paint-icon" style="display:none;color:white;padding:4px;">
+      <div id="preview-paint-icon" style="display:none;color:white;padding:4px;cursor:pointer;" onclick="toggleColorPicker()">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path fill="currentColor" d="M20 14c-.09.07-2 2.08-2 3.5c0 1.49.95 2.45 2 2.5c.91.04 2-.89 2-2.5c0-1.5-1.91-3.43-2-3.5m-16 .41L9.59 20c.39.39.9.58 1.41.58s1.02-.2 1.41-.58l6.29-6.29a.996.996 0 0 0 0-1.41l-7-7l-3-3l-1.41 1.41L9.58 6l-5.59 5.59c-.78.78-.78 2.05 0 2.83Zm7-7L16.59 13l-5.58 5.59L5.42 13l5.59-5.59Z"/></svg>
       </div>
     </div>
     <div style="position:absolute;bottom:20px;left:0;right:0;z-index:5;padding:0 20px;">
       <button onclick="confirmPreview()" style="width:100%;border:1.5px solid rgba(255,255,255,1);background:#151718;color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:13px;border-radius:100px;text-align:center;cursor:pointer;">Use This Backdrop</button>
+    </div>
+    <div id="color-picker-panel" style="display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:300;background:rgba(14,14,16,0.93);border-radius:24px;padding:20px 20px 16px;">
+      <canvas id="color-wheel" width="200" height="200" style="border-radius:50%;cursor:crosshair;display:block;touch-action:none;"></canvas>
+      <div style="margin-top:14px;">
+        <button onclick="closeColorPicker()" style="width:100%;background:none;border:1.5px solid rgba(255,255,255,0.45);color:#fff;font-family:'Inter',sans-serif;font-size:9px;letter-spacing:.22em;text-transform:uppercase;padding:9px;border-radius:100px;cursor:pointer;">Select</button>
+      </div>
     </div>
   </div>
 
@@ -608,25 +615,149 @@
     document.getElementById('screen2').classList.remove('hidden');
   }
   var pendingBackdropUrl = null;
+  var currentPickedColor = null;
+  var colorWheelDrawn = false;
+
   function previewBackdrop(url) {
     pendingBackdropUrl = url;
     document.getElementById('preview-img').src = url;
+    // Reset color state
+    currentPickedColor = null;
+    var overlay = document.getElementById('backdrop-color-overlay');
+    overlay.style.opacity = '0';
+    document.getElementById('color-picker-panel').style.display = 'none';
+    // Restore saved color if opening the blue backdrop
+    if (url === 'assets/ac-closet-background-blue.png') {
+      var savedColor = localStorage.getItem('aim_closet_backdrop_color');
+      if (savedColor) {
+        overlay.style.backgroundColor = savedColor;
+        overlay.style.opacity = '1';
+        currentPickedColor = savedColor;
+        document.getElementById('color-swatch').style.backgroundColor = savedColor;
+      }
+    }
     document.getElementById('preview-paint-icon').style.display =
       url === 'assets/ac-closet-background-blue.png' ? 'block' : 'none';
     document.getElementById('backdrop-preview').style.display = 'flex';
   }
   function cancelPreview() {
     document.getElementById('backdrop-preview').style.display = 'none';
+    document.getElementById('color-picker-panel').style.display = 'none';
+    currentPickedColor = null;
     pendingBackdropUrl = null;
   }
   function confirmPreview() {
     if (!pendingBackdropUrl) return;
     localStorage.setItem('aim_closet_backdrop', pendingBackdropUrl);
+    if (currentPickedColor) {
+      localStorage.setItem('aim_closet_backdrop_color', currentPickedColor);
+    } else {
+      localStorage.removeItem('aim_closet_backdrop_color');
+    }
     document.querySelectorAll('.backdrop-card').forEach(function(c) {
       c.classList.toggle('selected', c.dataset.url === pendingBackdropUrl);
     });
     document.getElementById('backdrop-preview').style.display = 'none';
+    document.getElementById('color-picker-panel').style.display = 'none';
     pendingBackdropUrl = null;
+    currentPickedColor = null;
+  }
+
+  function toggleColorPicker() {
+    var panel = document.getElementById('color-picker-panel');
+    if (panel.style.display === 'none' || panel.style.display === '') {
+      panel.style.display = 'block';
+      if (!colorWheelDrawn) {
+        drawColorWheel(document.getElementById('color-wheel'));
+        setupColorWheelEvents(document.getElementById('color-wheel'));
+        colorWheelDrawn = true;
+      }
+    } else {
+      panel.style.display = 'none';
+    }
+  }
+
+  function closeColorPicker() {
+    document.getElementById('color-picker-panel').style.display = 'none';
+  }
+
+  function resetTint() {
+    var overlay = document.getElementById('backdrop-color-overlay');
+    overlay.style.opacity = '0';
+    document.getElementById('color-swatch').style.backgroundColor = '';
+    currentPickedColor = null;
+  }
+
+  function hslToRgb(h, s, l) {
+    var c = (1 - Math.abs(2 * l - 1)) * s;
+    var x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    var m = l - c / 2;
+    var r = 0, g = 0, b = 0;
+    if (h < 60)       { r = c; g = x; b = 0; }
+    else if (h < 120) { r = x; g = c; b = 0; }
+    else if (h < 180) { r = 0; g = c; b = x; }
+    else if (h < 240) { r = 0; g = x; b = c; }
+    else if (h < 300) { r = x; g = 0; b = c; }
+    else              { r = c; g = 0; b = x; }
+    return [Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255)];
+  }
+
+  function drawColorWheel(canvas) {
+    var ctx = canvas.getContext('2d');
+    var w = canvas.width, h = canvas.height;
+    var cx = w / 2, cy = h / 2;
+    var r = Math.min(cx, cy) - 1;
+    var imgData = ctx.createImageData(w, h);
+    for (var y = 0; y < h; y++) {
+      for (var x = 0; x < w; x++) {
+        var dx = x - cx, dy = y - cy;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist <= r) {
+          var hue = ((Math.atan2(dy, dx) * 180 / Math.PI) + 360) % 360;
+          var sat = dist / r;
+          var rgb = hslToRgb(hue, sat, 0.5);
+          var i = (y * w + x) * 4;
+          imgData.data[i]     = rgb[0];
+          imgData.data[i + 1] = rgb[1];
+          imgData.data[i + 2] = rgb[2];
+          imgData.data[i + 3] = 255;
+        }
+      }
+    }
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  function getColorAtPoint(canvas, clientX, clientY) {
+    var rect = canvas.getBoundingClientRect();
+    var scaleX = canvas.width / rect.width;
+    var scaleY = canvas.height / rect.height;
+    var cx = canvas.width / 2, cy = canvas.height / 2;
+    var r = Math.min(cx, cy) - 1;
+    var dx = (clientX - rect.left) * scaleX - cx;
+    var dy = (clientY - rect.top) * scaleY - cy;
+    var dist = Math.min(Math.sqrt(dx * dx + dy * dy), r);
+    var hue = ((Math.atan2(dy, dx) * 180 / Math.PI) + 360) % 360;
+    var sat = dist / r;
+    return hslToRgb(hue, sat, 0.5);
+  }
+
+  function applyColor(rgb) {
+    var color = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
+    var overlay = document.getElementById('backdrop-color-overlay');
+    overlay.style.backgroundColor = color;
+    overlay.style.opacity = '1';
+    document.getElementById('color-swatch').style.backgroundColor = color;
+    currentPickedColor = color;
+  }
+
+  function setupColorWheelEvents(canvas) {
+    function handle(clientX, clientY) {
+      applyColor(getColorAtPoint(canvas, clientX, clientY));
+    }
+    canvas.addEventListener('mousedown', function(e) { handle(e.clientX, e.clientY); });
+    canvas.addEventListener('mousemove', function(e) { if (e.buttons === 1) handle(e.clientX, e.clientY); });
+    canvas.addEventListener('touchstart', function(e) { e.preventDefault(); handle(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
+    canvas.addEventListener('touchmove', function(e) { e.preventDefault(); handle(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
   }
   function switchTab(name, btn) {
     document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
