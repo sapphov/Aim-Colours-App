@@ -47,8 +47,11 @@
     }
     .hero-selector svg { opacity: 0.4; }
 
-    /* push bg image below the status bar so it sits on clean black like studio-02 */
-    .bg { top: 44px; background-image: url('assets/luminora-bg-dark-grey.png'); }
+    /* push bg below the status bar so it sits on clean black like studio-02 */
+    .bg {
+      top: 44px;
+      background-image: radial-gradient(circle at 50% 42%, rgba(123,82,200,0.24) 0%, rgba(123,82,200,0.08) 32%, #151718 68%);
+    }
 
     /* ── Status bar — copied verbatim from studio-02 ── */
     .status{height:44px;position:relative;flex-shrink:0}
