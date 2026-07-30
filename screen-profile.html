@@ -483,10 +483,13 @@
   <!-- Backdrop preview — full phone overlay -->
   <div id="backdrop-preview" style="display:none;position:absolute;inset:0;z-index:200;flex-direction:column;">
     <img id="preview-img" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-    <div style="position:relative;z-index:5;padding:14px 16px;display:flex;align-items:center;">
+    <div style="position:relative;z-index:5;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
       <button onclick="cancelPreview()" style="background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path fill="white" d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"/></svg>
       </button>
+      <div id="preview-paint-icon" style="display:none;color:white;padding:4px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path fill="currentColor" d="M20 14c-.09.07-2 2.08-2 3.5c0 1.49.95 2.45 2 2.5c.91.04 2-.89 2-2.5c0-1.5-1.91-3.43-2-3.5m-16 .41L9.59 20c.39.39.9.58 1.41.58s1.02-.2 1.41-.58l6.29-6.29a.996.996 0 0 0 0-1.41l-7-7l-3-3l-1.41 1.41L9.58 6l-5.59 5.59c-.78.78-.78 2.05 0 2.83Zm7-7L16.59 13l-5.58 5.59L5.42 13l5.59-5.59Z"/></svg>
+      </div>
     </div>
     <div style="position:absolute;bottom:20px;left:0;right:0;z-index:5;padding:0 20px;">
       <button onclick="confirmPreview()" style="width:100%;border:1.5px solid rgba(255,255,255,1);background:#151718;color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:13px;border-radius:100px;text-align:center;cursor:pointer;">Use This Backdrop</button>
@@ -608,6 +611,8 @@
   function previewBackdrop(url) {
     pendingBackdropUrl = url;
     document.getElementById('preview-img').src = url;
+    document.getElementById('preview-paint-icon').style.display =
+      url === 'assets/ac-closet-background-blue.png' ? 'block' : 'none';
     document.getElementById('backdrop-preview').style.display = 'flex';
   }
   function cancelPreview() {
