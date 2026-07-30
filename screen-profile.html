@@ -453,23 +453,37 @@
       </div>
 
       <div class="backdrop-grid">
-        <div class="backdrop-card" data-url="assets/1.png" onclick="selectBackdrop('assets/1.png', this)">
+        <div class="backdrop-card" data-url="assets/1.png" onclick="previewBackdrop('assets/1.png')">
           <img src="assets/1.png" alt="Backdrop 1" onerror="this.style.display='none'">
         </div>
-        <div class="backdrop-card" data-url="assets/4.png" onclick="selectBackdrop('assets/4.png', this)">
+        <div class="backdrop-card" data-url="assets/4.png" onclick="previewBackdrop('assets/4.png')">
           <img src="assets/4.png" alt="Backdrop 4" onerror="this.style.display='none'">
         </div>
-        <div class="backdrop-card" data-url="assets/5.png" onclick="selectBackdrop('assets/5.png', this)">
+        <div class="backdrop-card" data-url="assets/5.png" onclick="previewBackdrop('assets/5.png')">
           <img src="assets/5.png" alt="Backdrop 5" onerror="this.style.display='none'">
         </div>
-        <div class="backdrop-card" data-url="assets/ac-closet-background-blue.png" onclick="selectBackdrop('assets/ac-closet-background-blue.png', this)">
+        <div class="backdrop-card" data-url="assets/ac-closet-background-blue.png" onclick="previewBackdrop('assets/ac-closet-background-blue.png')">
           <img src="assets/ac-closet-background-blue.png" alt="Blue Closet" onerror="this.style.display='none'">
         </div>
-        <div class="backdrop-card" data-url="assets/7.png" onclick="selectBackdrop('assets/7.png', this)">
+        <div class="backdrop-card" data-url="assets/7.png" onclick="previewBackdrop('assets/7.png')">
           <img src="assets/7.png" alt="Backdrop 7" onerror="this.style.display='none'">
         </div>
-        <div class="backdrop-card" data-url="assets/room-background.png" onclick="selectBackdrop('assets/room-background.png', this)">
+        <div class="backdrop-card" data-url="assets/room-background.png" onclick="previewBackdrop('assets/room-background.png')">
           <img src="assets/room-background.png" alt="Room" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+      <!-- Preview overlay -->
+      <div id="backdrop-preview" style="display:none;position:absolute;inset:0;z-index:50;flex-direction:column;">
+        <img id="preview-img" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:#5B455E;mix-blend-mode:color;pointer-events:none;"></div>
+        <div style="position:relative;z-index:5;padding:14px 16px;display:flex;align-items:center;">
+          <button onclick="cancelPreview()" style="background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="white" d="m10 18l-6-6l6-6l1.4 1.45L7.85 11H20v2H7.85l3.55 3.55z"/></svg>
+          </button>
+        </div>
+        <div style="position:absolute;bottom:20px;left:0;right:0;z-index:5;padding:0 20px;">
+          <button onclick="confirmPreview()" style="width:100%;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.35);color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;padding:14px;border-radius:100px;cursor:pointer;">Use This Backdrop</button>
         </div>
       </div>
 
@@ -588,10 +602,24 @@
     document.getElementById('screen3').classList.add('hidden');
     document.getElementById('screen2').classList.remove('hidden');
   }
-  function selectBackdrop(url, el) {
-    localStorage.setItem('aim_closet_backdrop', url);
-    document.querySelectorAll('.backdrop-card').forEach(function(c) { c.classList.remove('selected'); });
-    el.classList.add('selected');
+  var pendingBackdropUrl = null;
+  function previewBackdrop(url) {
+    pendingBackdropUrl = url;
+    document.getElementById('preview-img').src = url;
+    document.getElementById('backdrop-preview').style.display = 'flex';
+  }
+  function cancelPreview() {
+    document.getElementById('backdrop-preview').style.display = 'none';
+    pendingBackdropUrl = null;
+  }
+  function confirmPreview() {
+    if (!pendingBackdropUrl) return;
+    localStorage.setItem('aim_closet_backdrop', pendingBackdropUrl);
+    document.querySelectorAll('.backdrop-card').forEach(function(c) {
+      c.classList.toggle('selected', c.dataset.url === pendingBackdropUrl);
+    });
+    document.getElementById('backdrop-preview').style.display = 'none';
+    pendingBackdropUrl = null;
   }
   function switchTab(name, btn) {
     document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
