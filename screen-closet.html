@@ -549,42 +549,21 @@
     showScreen3();
   }
 
-  // Apply saved closet backdrop + optional color tint via canvas compositing
+  // Apply saved closet backdrop + optional color tint
   (function() {
     var saved = localStorage.getItem('aim_closet_backdrop');
     var savedColor = localStorage.getItem('aim_closet_backdrop_color');
     var bgEl = document.getElementById('closet-bg-layer');
-    if (!bgEl || !saved) return;
-
-    // Always apply the backdrop URL immediately so there's no blank flash
-    bgEl.style.backgroundImage = "url('" + saved + "')";
-
-    if (!savedColor) return;
-
-    // Composite the color tint onto the image via canvas
-    var W = 393, H = 746;
-    var canvas = document.createElement('canvas');
-    canvas.width = W; canvas.height = H;
-    canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;display:none;';
-    bgEl.appendChild(canvas);
-
-    var img = new Image();
-    img.onload = function() {
-      var ctx = canvas.getContext('2d');
-      // Scale+crop to fill, anchored top-centre (mirrors background-position:center top / cover)
-      var scale = Math.max(W / img.naturalWidth, H / img.naturalHeight);
-      var sw = img.naturalWidth * scale, sh = img.naturalHeight * scale;
-      var sx = (W - sw) / 2, sy = 0;
-      ctx.drawImage(img, sx, sy, sw, sh);
-      ctx.globalCompositeOperation = 'color';
-      ctx.fillStyle = savedColor;
-      ctx.fillRect(0, 0, W, H);
-      // Swap: hide CSS bg, show canvas
-      bgEl.style.backgroundImage = 'none';
-      canvas.style.display = '';
-    };
-    img.onerror = function() { bgEl.removeChild(canvas); };
-    img.src = saved;
+    if (!bgEl) return;
+    if (saved) {
+      bgEl.style.backgroundImage = "url('" + saved + "')";
+    }
+    if (savedColor) {
+      var rgba = savedColor.replace('rgb(', 'rgba(').replace(')', ', 0.5)');
+      var tint = document.createElement('div');
+      tint.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;background:' + rgba + ';';
+      bgEl.appendChild(tint);
+    }
   })();
 </script>
 
