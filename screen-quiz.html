@@ -48,57 +48,47 @@
     /* Intro line */
     .quiz-intro {
       font-family: 'Inter', sans-serif;
-      font-size: 9px; font-weight: 500;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--mid-gray);
-      margin-bottom: 18px;
+      font-size: 8.5px; font-weight: 400;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 14px;
     }
 
-    /* Cards */
+    /* Cards — match profile board-card aesthetic */
     .quiz-card {
       position: relative;
-      border-radius: 14px;
+      border-radius: 3px;
       overflow: hidden;
       display: block;
       text-decoration: none;
-      margin-bottom: 12px;
-      height: 180px;
+      margin-bottom: 6px;
+      height: 160px;
       cursor: pointer;
+      border: 0.5px solid rgba(255,255,255,0.08);
     }
     .quiz-card-bg {
       position: absolute; inset: 0;
     }
     .quiz-card-fade {
       position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.08) 55%, transparent 100%);
     }
     .quiz-card-body {
       position: absolute; inset: 0;
-      padding: 18px 18px 18px;
+      padding: 12px;
       display: flex; flex-direction: column; justify-content: flex-end;
     }
     .quiz-card-label {
       font-family: 'Inter', sans-serif;
-      font-size: 8px; font-weight: 500;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
-      margin-bottom: 5px;
+      font-size: 7.5px; font-weight: 400;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 4px;
     }
     .quiz-card-title {
       font-family: 'Playfair Display', serif;
-      font-size: 21px; font-weight: 400; font-style: italic;
+      font-size: 18px; font-weight: 400; font-style: italic;
       color: #fff; line-height: 1.2;
-    }
-    .quiz-card-sub {
-      font-family: 'Inter', sans-serif;
-      font-size: 10.5px; font-weight: 400;
-      color: rgba(255,255,255,0.6);
-      letter-spacing: 0.01em;
-      margin-top: 5px; line-height: 1.4;
-    }
-    .quiz-card-arrow {
-      position: absolute; top: 18px; right: 18px;
-      opacity: 0.7;
     }
 
     /* Tab bar — match screen-closet.html exactly */
@@ -142,43 +132,31 @@
 
     <!-- Quiz 1: Colour Personality -->
     <a class="quiz-card" href="#">
-      <div class="quiz-card-bg" style="background: linear-gradient(140deg, #2e1a5e 0%, #7B52C8 60%, #a07de0 100%);"></div>
+      <div class="quiz-card-bg" style="background: linear-gradient(150deg, #0a0614 0%, #180e38 60%, #2a1a5a 100%);"></div>
       <div class="quiz-card-fade"></div>
       <div class="quiz-card-body">
-        <span class="quiz-card-label">Colour Personality · 10 questions</span>
+        <span class="quiz-card-label">Colour Personality · 10 Questions</span>
         <div class="quiz-card-title">What Colour Are You?</div>
-        <div class="quiz-card-sub">Uncover the hue that reflects your inner world.</div>
-      </div>
-      <div class="quiz-card-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="white" d="M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6z"/></svg>
       </div>
     </a>
 
     <!-- Quiz 2: Seasonal Palette -->
     <a class="quiz-card" href="#">
-      <div class="quiz-card-bg" style="background: linear-gradient(140deg, #3b2010 0%, #a0522d 55%, #d4845a 100%);"></div>
+      <div class="quiz-card-bg" style="background: linear-gradient(150deg, #0d0906 0%, #1e1208 60%, #342010 100%);"></div>
       <div class="quiz-card-fade"></div>
       <div class="quiz-card-body">
-        <span class="quiz-card-label">Seasonal Analysis · 12 questions</span>
+        <span class="quiz-card-label">Seasonal Analysis · 12 Questions</span>
         <div class="quiz-card-title">Which Colour Season Are You?</div>
-        <div class="quiz-card-sub">Spring, Summer, Autumn, or Winter — find your season.</div>
-      </div>
-      <div class="quiz-card-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="white" d="M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6z"/></svg>
       </div>
     </a>
 
     <!-- Quiz 3: Style Aesthetic -->
     <a class="quiz-card" href="#">
-      <div class="quiz-card-bg" style="background: linear-gradient(140deg, #0e2235 0%, #1a4a6e 55%, #2d7aaa 100%);"></div>
+      <div class="quiz-card-bg" style="background: linear-gradient(150deg, #060b0e 0%, #0b1c28 60%, #102a3c 100%);"></div>
       <div class="quiz-card-fade"></div>
       <div class="quiz-card-body">
-        <span class="quiz-card-label">Style Profile · 8 questions</span>
+        <span class="quiz-card-label">Style Profile · 8 Questions</span>
         <div class="quiz-card-title">What's Your Style Aesthetic?</div>
-        <div class="quiz-card-sub">From minimalist to maximalist — discover your visual language.</div>
-      </div>
-      <div class="quiz-card-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="white" d="M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6z"/></svg>
       </div>
     </a>
 
