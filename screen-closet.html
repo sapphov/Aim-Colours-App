@@ -147,7 +147,7 @@
     <div class="closet-svg-wrap">
       <img src="assets/ac-closet-black.svg" alt="Closet">
     </div>
-    <div class="jewelry-box-tap" onclick="resetPendant();showScreen2()"></div>
+    <div class="jewelry-box-tap" onclick="window.location.href='screen-pendants.html'"></div>
     <div class="globe-tap" onclick="window.location.href='explore-findcolour.html'"></div>
     <div class="poster-tap" onclick="window.location.href='horoscope.html'"></div>
     <div class="sunglasses-tap" onclick="window.location.href='screen-sunglasses.html'"></div>
@@ -407,6 +407,11 @@
   function showScreen2(){ showScreen(2); }
   function showScreen3(){ showScreen(3); }
   function showScreen4(){ showScreen(4); }
+
+  if (new URLSearchParams(window.location.search).get('studio') === '1') {
+    resetPendant();
+    showScreen2();
+  }
 
   // ── Pendant colour picker ──
   var pendantColor = '#A89080';

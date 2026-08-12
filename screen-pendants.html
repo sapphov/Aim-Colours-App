@@ -73,6 +73,7 @@
     .pendant-item {
       flex-shrink: 0;
       width: 110px;
+      cursor: pointer;
     }
     .pendant-item img {
       width: 100%; height: auto;
@@ -302,6 +303,11 @@
   // ── Init ────────────────────────────────────────────────────
   async function init() {
     const slots = document.querySelectorAll('.pendant-item');
+    slots.forEach(function(slot) {
+      slot.addEventListener('click', function() {
+        window.location.href = 'screen-closet.html?studio=1';
+      });
+    });
     await Promise.all([...slots].map(fillSlot));
   }
   init();
