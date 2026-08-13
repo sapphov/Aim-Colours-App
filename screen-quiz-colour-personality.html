@@ -31,7 +31,8 @@
     /* Step container */
     .quiz-step { flex: 1; min-height: 0; display: flex; flex-direction: column; }
     .quiz-step-content {
-      flex: 1; min-height: 0;
+      height: 660px; flex-shrink: 0;
+      display: flex; flex-direction: column;
       overflow-y: auto; overflow-x: hidden;
       scrollbar-width: none;
       padding: 22px 22px 0;
@@ -49,7 +50,7 @@
     .zodiac-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 14px 12px;
-      padding-bottom: 24px;
+      flex: 1; align-content: space-evenly;
     }
     .zodiac-option {
       background: none; border: 1.5px solid transparent; border-radius: 9px;
@@ -73,7 +74,7 @@
       width: 100%; background: none; border: 1.5px solid #35201F;
       color: #35201F; font-family: 'Inter', sans-serif;
       font-size: 15px; font-weight: 500;
-      padding: 11px; border-radius: 3px; cursor: pointer;
+      padding: 11px; border-radius: 10px; cursor: pointer;
     }
 
     .quiz-step.hidden { display: none; }
@@ -85,7 +86,7 @@
     .inkblot-grid {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 18px 16px;
-      padding-bottom: 24px;
+      flex: 1; align-content: space-evenly;
     }
     .inkblot-option {
       background: none; border: 1.5px solid transparent; border-radius: 10px;
@@ -97,6 +98,106 @@
       color: #35201F;
     }
     .inkblot-option.selected { border-color: var(--purple-light); }
+
+    /* Placeholder images — swapped for real assets when uploaded (see upload list) */
+    .quiz-placeholder {
+      position: relative; overflow: hidden;
+      background: var(--purple-faint);
+      border: 1px dashed rgba(53,32,31,0.25);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6px;
+    }
+    .quiz-placeholder span {
+      font-family: 'Inter', sans-serif; font-size: 9.5px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(53,32,31,0.45);
+    }
+    .quiz-placeholder img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+
+    /* Photo option grid — steps 3 (lunch) & 4 (emoji) */
+    .photo-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px 14px; flex: 1; align-content: space-evenly;
+    }
+    .photo-option {
+      background: none; border: none; padding: 0; cursor: pointer;
+      text-align: center; -webkit-tap-highlight-color: transparent;
+    }
+    .photo-option-img {
+      width: 100%; aspect-ratio: 140 / 118; border-radius: 8px;
+      border: 2px solid transparent;
+    }
+    .photo-option.selected .photo-option-img { border-color: var(--purple-light); }
+    .photo-option span {
+      display: block; margin-top: 8px;
+      font-family: 'Inter', sans-serif; font-size: 13px; color: #35201F;
+    }
+
+    /* Word grid — step 5 */
+    .word-image-wrap { margin-bottom: 20px; }
+    .word-image-wrap .quiz-placeholder { width: 100%; aspect-ratio: 323 / 198; border-radius: 4px; }
+    .word-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 10px 8px; flex: 1; align-content: space-evenly;
+    }
+    .word-option {
+      background: none; border: 1.5px solid transparent; border-radius: 6px;
+      padding: 10px 4px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+    .word-option span { font-family: 'Inter', sans-serif; font-size: 14px; color: #35201F; }
+    .word-option.selected { border-color: var(--purple-light); }
+
+    /* Step 6: reveal */
+    .reveal-step-content {
+      flex: 1; min-height: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 0 40px; text-align: center;
+    }
+    .reveal-image-wrap { width: 100px; height: 100px; margin-bottom: 28px; }
+    .reveal-image-wrap .quiz-placeholder { width: 100%; height: 100%; border-radius: 50px; }
+    .reveal-text {
+      font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 400;
+      color: #35201F; letter-spacing: -0.01em; line-height: 1.4;
+    }
+
+    /* Steps 7–11: swatches + purchase */
+    .swatch-step-content {
+      flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+      scrollbar-width: none; padding: 22px 22px 0;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .swatch-step-content::-webkit-scrollbar { display: none; }
+    .swatch-heading {
+      font-family: 'Inter', sans-serif; font-weight: 400; font-size: 24px;
+      color: #35201F; letter-spacing: -0.02em; line-height: 1.3; text-align: center;
+      margin-bottom: 22px;
+    }
+    .swatch-stack { display: flex; flex-direction: column; gap: 14px; align-items: center; margin-bottom: 22px; }
+    .swatch-option {
+      width: 139px; height: 140px; border-radius: 4px;
+      border: 3px solid transparent; padding: 0; cursor: pointer;
+    }
+    .swatch-option.selected { border-color: var(--purple-light); }
+    .swatch-preview { width: 200px; height: 201px; border-radius: 4px; margin-bottom: 28px; }
+    .swatch-mini-row { display: flex; gap: 12px; margin: 20px 0; }
+    .swatch-mini { width: 73px; height: 73px; border-radius: 4px; }
+    .swatch-btn-row { display: flex; gap: 12px; justify-content: center; }
+    #step-preview .swatch-btn { width: 118px; }
+    #step-preview .swatch-step-content { justify-content: center; padding-bottom: 90px; }
+    #step-preview .swatch-heading { margin-bottom: 44px; }
+    #step-preview .swatch-preview { margin-bottom: 52px; }
+    .swatch-btn {
+      background: none; border: 1.5px solid #35201F; color: #35201F;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+      padding: 10px 20px; border-radius: 3px; cursor: pointer;
+    }
+    .swatch-spinner {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 2.5px solid rgba(255,255,255,0.4); border-top-color: #fff;
+      animation: quiz-spin 0.8s linear infinite;
+    }
+    @keyframes quiz-spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -115,7 +216,7 @@
   </div>
 
   <!-- Nav -->
-  <div class="quiz-nav">
+  <div class="quiz-nav" id="quiz-nav">
     <button class="quiz-back-btn" onclick="goBack()" style="background:none;border:none;">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="#35201F" d="m10 18l-6-6l6-6l1.4 1.45L7.85 11H20v2H7.85l3.55 3.55z"/></svg>
     </button>
@@ -193,18 +294,203 @@
     </div>
   </div>
 
+  <!-- Step: Lunch -->
+  <div class="quiz-step hidden" id="step-lunch">
+    <div class="quiz-step-content">
+      <div class="quiz-question">Choose something to eat for lunch...</div>
+      <div class="photo-grid">
+        <button class="photo-option" data-answer="Salad" onclick="selectPhoto(this, 'aim_quiz_lunch')">
+          <div class="photo-option-img quiz-placeholder"><span>Salad</span><img src="assets/quiz-lunch-salad.jpg" alt="Salad" onerror="this.style.display='none'"></div>
+          <span>Salad</span>
+        </button>
+        <button class="photo-option" data-answer="Burger" onclick="selectPhoto(this, 'aim_quiz_lunch')">
+          <div class="photo-option-img quiz-placeholder"><span>Burger</span><img src="assets/quiz-lunch-burger.jpg" alt="Burger" onerror="this.style.display='none'"></div>
+          <span>Burger</span>
+        </button>
+        <button class="photo-option" data-answer="Pad Thai" onclick="selectPhoto(this, 'aim_quiz_lunch')">
+          <div class="photo-option-img quiz-placeholder"><span>Pad Thai</span><img src="assets/quiz-lunch-padthai.jpg" alt="Pad Thai" onerror="this.style.display='none'"></div>
+          <span>Pad Thai</span>
+        </button>
+        <button class="photo-option" data-answer="Pizza" onclick="selectPhoto(this, 'aim_quiz_lunch')">
+          <div class="photo-option-img quiz-placeholder"><span>Pizza</span><img src="assets/quiz-lunch-pizza.jpg" alt="Pizza" onerror="this.style.display='none'"></div>
+          <span>Pizza</span>
+        </button>
+        <button class="photo-option" data-answer="Tacos" onclick="selectPhoto(this, 'aim_quiz_lunch')">
+          <div class="photo-option-img quiz-placeholder"><span>Tacos</span><img src="assets/quiz-lunch-tacos.jpg" alt="Tacos" onerror="this.style.display='none'"></div>
+          <span>Tacos</span>
+        </button>
+        <button class="photo-option" data-answer="Sushi" onclick="selectPhoto(this, 'aim_quiz_lunch')">
+          <div class="photo-option-img quiz-placeholder"><span>Sushi</span><img src="assets/quiz-lunch-sushi.jpg" alt="Sushi" onerror="this.style.display='none'"></div>
+          <span>Sushi</span>
+        </button>
+      </div>
+    </div>
+    <div class="quiz-next-wrap">
+      <button class="quiz-next" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <!-- Step: Emoji -->
+  <div class="quiz-step hidden" id="step-emoji">
+    <div class="quiz-step-content">
+      <div class="quiz-question">Pick an emoji to send to a friend...</div>
+      <div class="photo-grid">
+        <button class="photo-option" data-answer="Crying" onclick="selectPhoto(this, 'aim_quiz_emoji')">
+          <div class="photo-option-img quiz-placeholder"><span>Crying</span><img src="assets/quiz-emoji-crying.jpg" alt="Crying face" onerror="this.style.display='none'"></div>
+        </button>
+        <button class="photo-option" data-answer="Heart Eyes" onclick="selectPhoto(this, 'aim_quiz_emoji')">
+          <div class="photo-option-img quiz-placeholder"><span>Heart Eyes</span><img src="assets/quiz-emoji-heart-eyes.jpg" alt="Heart eyes face" onerror="this.style.display='none'"></div>
+        </button>
+        <button class="photo-option" data-answer="Exhausted" onclick="selectPhoto(this, 'aim_quiz_emoji')">
+          <div class="photo-option-img quiz-placeholder"><span>Exhausted</span><img src="assets/quiz-emoji-exhausted.jpg" alt="Exhausted face" onerror="this.style.display='none'"></div>
+        </button>
+        <button class="photo-option" data-answer="Smiling" onclick="selectPhoto(this, 'aim_quiz_emoji')">
+          <div class="photo-option-img quiz-placeholder"><span>Smiling</span><img src="assets/quiz-emoji-smiling.jpg" alt="Smiling face" onerror="this.style.display='none'"></div>
+        </button>
+        <button class="photo-option" data-answer="Kiss" onclick="selectPhoto(this, 'aim_quiz_emoji')">
+          <div class="photo-option-img quiz-placeholder"><span>Kiss</span><img src="assets/quiz-emoji-kiss.jpg" alt="Kiss face" onerror="this.style.display='none'"></div>
+        </button>
+        <button class="photo-option" data-answer="Wide Eyed" onclick="selectPhoto(this, 'aim_quiz_emoji')">
+          <div class="photo-option-img quiz-placeholder"><span>Wide Eyed</span><img src="assets/quiz-emoji-wide-eyed.jpg" alt="Wide eyed face" onerror="this.style.display='none'"></div>
+        </button>
+      </div>
+    </div>
+    <div class="quiz-next-wrap">
+      <button class="quiz-next" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <!-- Step: Complete the word -->
+  <div class="quiz-step hidden" id="step-word">
+    <div class="quiz-step-content">
+      <div class="word-image-wrap">
+        <div class="quiz-placeholder"><span>"_OLD" on marbled background</span><img src="assets/quiz-word-old.jpg" alt="_OLD" onerror="this.style.display='none'"></div>
+      </div>
+      <div class="quiz-question" style="font-size:22px;">Complete this word:</div>
+      <div class="word-grid">
+        <button class="word-option" data-answer="Fold" onclick="selectWord(this)"><span>Fold</span></button>
+        <button class="word-option" data-answer="Mold" onclick="selectWord(this)"><span>Mold</span></button>
+        <button class="word-option" data-answer="Gold" onclick="selectWord(this)"><span>Gold</span></button>
+        <button class="word-option" data-answer="Bold" onclick="selectWord(this)"><span>Bold</span></button>
+        <button class="word-option" data-answer="Cold" onclick="selectWord(this)"><span>Cold</span></button>
+        <button class="word-option" data-answer="Wold" onclick="selectWord(this)"><span>Wold</span></button>
+        <button class="word-option" data-answer="Told" onclick="selectWord(this)"><span>Told</span></button>
+        <button class="word-option" data-answer="Sold" onclick="selectWord(this)"><span>Sold</span></button>
+        <button class="word-option" data-answer="Hold" onclick="selectWord(this)"><span>Hold</span></button>
+      </div>
+    </div>
+    <div class="quiz-next-wrap">
+      <button class="quiz-next" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <!-- Step: Reveal -->
+  <div class="quiz-step hidden" id="step-reveal">
+    <div class="reveal-step-content">
+      <div class="reveal-image-wrap">
+        <div class="quiz-placeholder"><span>Reveal Colour</span><img src="assets/quiz-reveal-pendant.png" alt="Reveal animation" onerror="this.style.display='none'"></div>
+      </div>
+      <div class="reveal-text">Hold on, we're choosing a colour that's as special as you!</div>
+    </div>
+  </div>
+
+  <!-- Step: Choose colour -->
+  <div class="quiz-step hidden" id="step-choose">
+    <div class="swatch-step-content">
+      <div class="swatch-heading">Tada!<br>Choose from:</div>
+      <div class="swatch-stack">
+        <button class="swatch-option" style="background:#A47C81" data-color="#A47C81" onclick="selectSwatch(this)"></button>
+        <button class="swatch-option" style="background:#9E5959" data-color="#9E5959" onclick="selectSwatch(this)"></button>
+        <button class="swatch-option" style="background:#7F1712" data-color="#7F1712" onclick="selectSwatch(this)"></button>
+      </div>
+      <div class="swatch-btn-row">
+        <button class="swatch-btn" onclick="nextStep()">Use it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step: Preview -->
+  <div class="quiz-step hidden" id="step-preview">
+    <div class="swatch-step-content">
+      <div class="swatch-heading">Here's a preview:</div>
+      <div class="swatch-preview" id="preview-swatch"></div>
+      <div class="swatch-btn-row">
+        <button class="swatch-btn" onclick="nextStep()">Transfer</button>
+        <button class="swatch-btn" onclick="nextStep()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step: Please hold -->
+  <div class="quiz-step hidden" id="step-hold">
+    <div class="swatch-step-content">
+      <div class="swatch-heading">Please hold on...</div>
+      <div class="swatch-preview" id="hold-swatch" style="display:flex;align-items:center;justify-content:center;">
+        <div class="swatch-spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step: Success -->
+  <div class="quiz-step hidden" id="step-success">
+    <div class="swatch-step-content" style="justify-content:center;flex:1;">
+      <div class="swatch-heading" style="margin-bottom:0;">Successfully uploaded!</div>
+    </div>
+  </div>
+
+  <!-- Step: Purchase -->
+  <div class="quiz-step hidden" id="step-purchase">
+    <div class="swatch-step-content">
+      <div class="swatch-heading">You don't currently own this colour, would you like to purchase it?</div>
+      <div class="swatch-preview" id="purchase-swatch" style="width:139px;height:139px;margin-bottom:20px;"></div>
+      <div class="swatch-btn-row" style="margin-bottom:24px;">
+        <button class="swatch-btn">Purchase</button>
+      </div>
+      <div class="swatch-mini-row" style="margin-top:56px;">
+        <div class="swatch-mini" style="background:#A47C81"></div>
+        <div class="swatch-mini" style="background:#9E5959"></div>
+        <div class="swatch-mini" style="background:#7F1712"></div>
+      </div>
+      <div class="swatch-heading" style="margin-bottom:16px;">Buy all of your custom colours for 15% off</div>
+      <button class="swatch-btn">Purchase All</button>
+    </div>
+  </div>
+
   <div class="home-indicator"><div class="home-indicator-bar"></div></div>
 
 </div>
 
 <script>
-  var steps = ['step-zodiac', 'step-inkblot'];
+  var steps = [
+    'step-zodiac', 'step-inkblot', 'step-lunch', 'step-emoji', 'step-word',
+    'step-reveal', 'step-choose', 'step-preview', 'step-hold', 'step-success', 'step-purchase'
+  ];
   var currentStep = 0;
+  var selectedPendantColor = '#9E5959';
 
   function showStep(index) {
     document.querySelectorAll('.quiz-step').forEach(function(el) { el.classList.add('hidden'); });
-    document.getElementById(steps[index]).classList.remove('hidden');
+    var id = steps[index];
+    document.getElementById(id).classList.remove('hidden');
     currentStep = index;
+    document.getElementById('quiz-nav').style.visibility = (id === 'step-hold') ? 'hidden' : 'visible';
+
+    if (id === 'step-preview') {
+      document.getElementById('preview-swatch').style.background = selectedPendantColor;
+    }
+    if (id === 'step-purchase') {
+      document.getElementById('purchase-swatch').style.background = selectedPendantColor;
+    }
+    if (id === 'step-reveal') {
+      setTimeout(function() { if (currentStep === index) nextStep(); }, 2200);
+    }
+    if (id === 'step-hold') {
+      document.getElementById('hold-swatch').style.background = selectedPendantColor;
+      setTimeout(function() { if (currentStep === index) nextStep(); }, 1800);
+    }
+    if (id === 'step-success') {
+      setTimeout(function() { if (currentStep === index) nextStep(); }, 1600);
+    }
   }
 
   function nextStep() {
@@ -229,6 +515,25 @@
     document.querySelectorAll('.inkblot-option.selected').forEach(function(o) { o.classList.remove('selected'); });
     el.classList.add('selected');
     localStorage.setItem('aim_quiz_inkblot', el.dataset.answer);
+  }
+
+  function selectPhoto(el, storageKey) {
+    Array.prototype.forEach.call(el.parentElement.querySelectorAll('.photo-option.selected'), function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+    localStorage.setItem(storageKey, el.dataset.answer);
+  }
+
+  function selectWord(el) {
+    document.querySelectorAll('.word-option.selected').forEach(function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+    localStorage.setItem('aim_quiz_word', el.dataset.answer);
+  }
+
+  function selectSwatch(el) {
+    document.querySelectorAll('.swatch-option.selected').forEach(function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+    selectedPendantColor = el.dataset.color;
+    localStorage.setItem('aim_quiz_pendant_color', selectedPendantColor);
   }
 </script>
 </body>
