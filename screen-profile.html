@@ -630,7 +630,7 @@
     if (url === 'assets/ac-closet-background-blue.png') {
       var savedColor = localStorage.getItem('aim_closet_backdrop_color');
       if (savedColor) {
-        overlay.style.backgroundColor = savedColor.replace('rgb(', 'rgba(').replace(')', ', 0.5)');
+        overlay.style.backgroundColor = savedColor.replace('rgb(', 'rgba(').replace(')', ', 0.85)');
         overlay.style.opacity = '1';
         currentPickedColor = savedColor;
       }
@@ -742,7 +742,7 @@
   function applyColor(rgb) {
     var color = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
     var overlay = document.getElementById('backdrop-color-overlay');
-    overlay.style.backgroundColor = 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',0.5)';
+    overlay.style.backgroundColor = 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',0.85)';
     overlay.style.opacity = '1';
     currentPickedColor = color;
   }
