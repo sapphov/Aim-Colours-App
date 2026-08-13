@@ -82,15 +82,38 @@
     .pendant-item {
       flex-shrink: 0;
       width: 250px; height: 160px;
-      background: #f7f6f4;
+      background: #0d0d0d;
       border-radius: 10px;
       overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
+      display: flex; flex-direction: column;
       cursor: pointer;
+      padding: 10px 12px;
     }
-    .pendant-item img {
-      width: 90%; height: 90%;
+    .pendant-item-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 9px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      text-align: center;
+    }
+    .pendant-item-image {
+      flex: 1; min-height: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pendant-item-image img {
+      width: 65%; height: 65%;
       object-fit: contain;
+    }
+    .pendant-item-hexes {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      justify-content: center;
+    }
+    .hex-chip {
+      font-family: 'Inter', sans-serif;
+      font-size: 8px; letter-spacing: .02em;
+      color: rgba(255,255,255,.85);
+      background: rgba(255,255,255,.08);
+      padding: 3px 6px; border-radius: 4px;
     }
 
     /* Scroll indicator */
@@ -229,22 +252,6 @@
 </div>
 
 <script>
-  // ── Colour palette ──────────────────────────────────────────
-  const PALETTE = [
-    '#a9a29b', // warm gray
-    '#a47c81', // dusty mauve
-    '#9e5959', // muted rose
-    '#7f1712', // deep red
-    '#601b15', // dark burgundy
-    '#766473', // muted purple-gray
-    '#362344', // dark purple
-    '#b0ab00', // olive
-    '#5a7f50', // sage green
-    '#1a5143', // dark teal
-    '#1f4786', // navy
-    '#476e9c', // steel blue
-  ];
-
   // SVG files and the fill colours in each that we'll replace.
   // #35201f (the dark outline/stroke) is intentionally left alone
   // so the line-art definition is always preserved.
@@ -253,7 +260,32 @@
     'assets/ac-flower-girl-pendant.svg': ['#deb5b9', '#84424c', '#bd97c6', '#fdbdde', '#fd6f77'],
     'assets/ac-twirl-pendant.svg':       ['#bd97c6', '#84424c', '#deb5b9'],
   };
-  const SVG_URLS = Object.keys(SVG_FILLS);
+
+  // Curated colour combinations pulled from the closet — one set per row,
+  // in display order, replacing the old random colour generator.
+  const ROW_DESIGNS = {
+    'row-archive': [
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aca299', '#a97a73', '#6e8ba3', '#987f87', '#5b4c66'] },
+      { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#aca18f', '#9ca4a8', '#423026'] },
+      { name: 'Sakura, Emerald & Mist',   svg: 'assets/ac-floral-pendant.svg',      colors: ['#a47c81', '#195044', '#9ca4a8'] },
+      { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#aca299', '#9ca68e', '#5a6a87'] },
+      { name: 'Slate',                    svg: 'assets/ac-floral-pendant.svg',      colors: ['#6e8ba3', '#6e8ba3', '#6e8ba3'] },
+    ],
+    'row-friends': [
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aca18f', '#9ca4a8', '#8d828a', '#423026', '#a97a73'] },
+      { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#6e8ba3', '#7b6371', '#2a2850'] },
+      { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#a97a73', '#69485d', '#391e3b'] },
+      { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#a97a73', '#69485d', '#391e3b'] },
+      { name: 'Plum',                     svg: 'assets/ac-floral-pendant.svg',      colors: ['#4c293c', '#4c293c', '#4c293c'] },
+    ],
+    'row-recent': [
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#9ca699', '#708d81', '#a47c81', '#aba09f', '#123744'] },
+      { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#aaa3a2', '#726576', '#4c293c'] },
+      { name: 'Sage',                     svg: 'assets/ac-floral-pendant.svg',      colors: ['#708d81', '#708d81', '#708d81'] },
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aba09f', '#987f87', '#9ba5a9', '#5a6a87', '#a77b6f'] },
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aba09f', '#996068', '#726a7c', '#9ca699', '#2c5a39'] },
+    ],
+  };
 
   // Cache fetched SVG text so we only download each file once
   const svgCache = {};
@@ -265,42 +297,61 @@
     return svgCache[url];
   }
 
-  // Pick n distinct colours at random from the palette
-  function pickColors(n) {
-    const pool = [...PALETTE].sort(() => Math.random() - 0.5);
-    return pool.slice(0, n);
-  }
+  // Build one pendant card: name label + chosen SVG/colours + hex chips
+  async function fillSlot(slot, design) {
+    const fills = SVG_FILLS[design.svg];
 
-  // Build one pendant: random SVG + random colour mapping → blob URL → <img>
-  async function fillSlot(slot) {
-    const svgUrl = SVG_URLS[Math.floor(Math.random() * SVG_URLS.length)];
-    const fills  = SVG_FILLS[svgUrl];
-    const colors = pickColors(fills.length);
-
-    let text = await fetchSVG(svgUrl);
+    let text = await fetchSVG(design.svg);
     fills.forEach((original, i) => {
       // Replace every occurrence (split/join avoids regex escaping issues)
-      text = text.split(original).join(colors[i]);
+      text = text.split(original).join(design.colors[i]);
     });
 
     const blob   = new Blob([text], { type: 'image/svg+xml' });
     const objURL = URL.createObjectURL(blob);
 
+    const name = document.createElement('div');
+    name.className = 'pendant-item-name';
+    name.textContent = design.name;
+
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'pendant-item-image';
     const img = document.createElement('img');
-    img.src   = objURL;
-    img.alt   = 'pendant';
-    slot.appendChild(img);
+    img.src = objURL;
+    img.alt = 'pendant';
+    imgWrap.appendChild(img);
+
+    const hexes = document.createElement('div');
+    hexes.className = 'pendant-item-hexes';
+    // De-dupe repeated colours (e.g. solid designs) so chips aren't redundant
+    [...new Set(design.colors)].forEach(function(hex) {
+      const chip = document.createElement('div');
+      chip.className = 'hex-chip';
+      chip.textContent = hex;
+      hexes.appendChild(chip);
+    });
+
+    slot.appendChild(name);
+    slot.appendChild(imgWrap);
+    slot.appendChild(hexes);
   }
 
   // ── Init ────────────────────────────────────────────────────
   async function init() {
-    const slots = document.querySelectorAll('.pendant-item');
-    slots.forEach(function(slot) {
-      slot.addEventListener('click', function() {
-        window.location.href = 'screen-closet.html?studio=1';
+    const fillJobs = [];
+    Object.keys(ROW_DESIGNS).forEach(function(rowId) {
+      const rowEl = document.getElementById(rowId);
+      if (!rowEl) return;
+      const slots   = rowEl.querySelectorAll('.pendant-item');
+      const designs = ROW_DESIGNS[rowId];
+      slots.forEach(function(slot, i) {
+        slot.addEventListener('click', function() {
+          window.location.href = 'screen-closet.html?studio=1';
+        });
+        if (designs[i]) fillJobs.push(fillSlot(slot, designs[i]));
       });
     });
-    await Promise.all([...slots].map(fillSlot));
+    await Promise.all(fillJobs);
   }
   init();
 
