@@ -633,7 +633,6 @@
         overlay.style.backgroundColor = savedColor;
         overlay.style.opacity = '1';
         currentPickedColor = savedColor;
-        document.getElementById('color-swatch').style.backgroundColor = savedColor;
       }
     }
     document.getElementById('preview-paint-icon').style.display =
@@ -684,7 +683,6 @@
   function resetTint() {
     var overlay = document.getElementById('backdrop-color-overlay');
     overlay.style.opacity = '0';
-    document.getElementById('color-swatch').style.backgroundColor = '';
     currentPickedColor = null;
   }
 
@@ -746,7 +744,6 @@
     var overlay = document.getElementById('backdrop-color-overlay');
     overlay.style.backgroundColor = color;
     overlay.style.opacity = '1';
-    document.getElementById('color-swatch').style.backgroundColor = color;
     currentPickedColor = color;
   }
 
