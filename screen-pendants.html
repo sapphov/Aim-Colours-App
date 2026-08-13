@@ -308,10 +308,19 @@
       const slots   = rowEl.querySelectorAll('.pendant-item');
       const designs = ROW_DESIGNS[rowId];
       slots.forEach(function(slot, i) {
+        const design = designs[i];
         slot.addEventListener('click', function() {
-          window.location.href = 'screen-closet.html?studio=1';
+          // The Studio only knows how to render the Floral shape today, so
+          // only Floral cards can hand their exact colours over to it.
+          if (design && design.svg === 'assets/ac-floral-pendant.svg') {
+            const [bg, flower, tendril] = design.colors;
+            const params = new URLSearchParams({ studio: '1', c1: bg, c3: flower, c4: tendril });
+            window.location.href = 'screen-closet.html?' + params.toString();
+          } else {
+            window.location.href = 'screen-closet.html?studio=1';
+          }
         });
-        if (designs[i]) fillJobs.push(fillSlot(slot, designs[i]));
+        if (design) fillJobs.push(fillSlot(slot, design));
       });
     });
     await Promise.all(fillJobs);
