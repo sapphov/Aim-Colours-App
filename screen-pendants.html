@@ -82,38 +82,15 @@
     .pendant-item {
       flex-shrink: 0;
       width: 250px; height: 160px;
-      background: #0d0d0d;
+      background: #f7f6f4;
       border-radius: 10px;
       overflow: hidden;
-      display: flex; flex-direction: column;
-      cursor: pointer;
-      padding: 10px 12px;
-    }
-    .pendant-item-name {
-      font-family: 'Inter', sans-serif;
-      font-size: 9px; font-weight: 500;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: rgba(255,255,255,.45);
-      text-align: center;
-    }
-    .pendant-item-image {
-      flex: 1; min-height: 0;
       display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
     }
-    .pendant-item-image img {
-      width: 65%; height: 65%;
+    .pendant-item img {
+      width: 90%; height: 90%;
       object-fit: contain;
-    }
-    .pendant-item-hexes {
-      display: flex; gap: 6px; flex-wrap: wrap;
-      justify-content: center;
-    }
-    .hex-chip {
-      font-family: 'Inter', sans-serif;
-      font-size: 8px; letter-spacing: .02em;
-      color: rgba(255,255,255,.85);
-      background: rgba(255,255,255,.08);
-      padding: 3px 6px; border-radius: 4px;
     }
 
     /* Scroll indicator */
@@ -265,25 +242,25 @@
   // in display order, replacing the old random colour generator.
   const ROW_DESIGNS = {
     'row-archive': [
-      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aca299', '#a97a73', '#6e8ba3', '#987f87', '#5b4c66'] },
-      { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#aca18f', '#9ca4a8', '#423026'] },
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#987f87', '#5b4c66', '#a97a73', '#6e8ba3', '#aca299'] },
+      { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#9ca4a8', '#423026', '#aca18f'] },
       { name: 'Sakura, Emerald & Mist',   svg: 'assets/ac-floral-pendant.svg',      colors: ['#a47c81', '#195044', '#9ca4a8'] },
       { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#aca299', '#9ca68e', '#5a6a87'] },
       { name: 'Slate',                    svg: 'assets/ac-floral-pendant.svg',      colors: ['#6e8ba3', '#6e8ba3', '#6e8ba3'] },
     ],
     'row-friends': [
-      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aca18f', '#9ca4a8', '#8d828a', '#423026', '#a97a73'] },
-      { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#6e8ba3', '#7b6371', '#2a2850'] },
-      { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#a97a73', '#69485d', '#391e3b'] },
-      { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#a97a73', '#69485d', '#391e3b'] },
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aca18f', '#423026', '#aca18f', '#9ca4a8', '#8d828a'] },
+      { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#6e8ba3', '#2a2850', '#7b6371'] },
+      { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#a97a73', '#391e3b', '#69485d'] },
+      { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#69485d', '#a97a73', '#391e3b'] },
       { name: 'Plum',                     svg: 'assets/ac-floral-pendant.svg',      colors: ['#4c293c', '#4c293c', '#4c293c'] },
     ],
     'row-recent': [
-      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#9ca699', '#708d81', '#a47c81', '#aba09f', '#123744'] },
-      { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#aaa3a2', '#726576', '#4c293c'] },
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aba09f', '#123744', '#708d81', '#9ca699', '#a47c81'] },
+      { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#726576', '#aaa3a2', '#4c293c'] },
       { name: 'Sage',                     svg: 'assets/ac-floral-pendant.svg',      colors: ['#708d81', '#708d81', '#708d81'] },
-      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aba09f', '#987f87', '#9ba5a9', '#5a6a87', '#a77b6f'] },
-      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aba09f', '#996068', '#726a7c', '#9ca699', '#2c5a39'] },
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#987f87', '#a77b6f', '#9ba5a9', '#aba09f', '#5a6a87'] },
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#996068', '#2c5a39', '#aba09f', '#726a7c', '#9ca699'] },
     ],
   };
 
@@ -297,7 +274,7 @@
     return svgCache[url];
   }
 
-  // Build one pendant card: name label + chosen SVG/colours + hex chips
+  // Build one pendant: chosen SVG + chosen colour mapping → blob URL → <img>
   async function fillSlot(slot, design) {
     const fills = SVG_FILLS[design.svg];
 
@@ -307,33 +284,19 @@
       text = text.split(original).join(design.colors[i]);
     });
 
+    // Solid designs (every fill the same colour) should read as a clean
+    // silhouette, so also hide the dark detail-line stroke into the fill.
+    if (design.colors.every(c => c === design.colors[0])) {
+      text = text.split('#35201f').join(design.colors[0]);
+    }
+
     const blob   = new Blob([text], { type: 'image/svg+xml' });
     const objURL = URL.createObjectURL(blob);
 
-    const name = document.createElement('div');
-    name.className = 'pendant-item-name';
-    name.textContent = design.name;
-
-    const imgWrap = document.createElement('div');
-    imgWrap.className = 'pendant-item-image';
     const img = document.createElement('img');
-    img.src = objURL;
-    img.alt = 'pendant';
-    imgWrap.appendChild(img);
-
-    const hexes = document.createElement('div');
-    hexes.className = 'pendant-item-hexes';
-    // De-dupe repeated colours (e.g. solid designs) so chips aren't redundant
-    [...new Set(design.colors)].forEach(function(hex) {
-      const chip = document.createElement('div');
-      chip.className = 'hex-chip';
-      chip.textContent = hex;
-      hexes.appendChild(chip);
-    });
-
-    slot.appendChild(name);
-    slot.appendChild(imgWrap);
-    slot.appendChild(hexes);
+    img.src   = objURL;
+    img.alt   = 'pendant';
+    slot.appendChild(img);
   }
 
   // ── Init ────────────────────────────────────────────────────
