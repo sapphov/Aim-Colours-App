@@ -75,6 +75,28 @@
       font-size: 15px; font-weight: 500;
       padding: 11px; border-radius: 3px; cursor: pointer;
     }
+
+    .quiz-step.hidden { display: none; }
+
+    /* Step 2: inkblot */
+    .inkblot-image-wrap { margin-bottom: 20px; }
+    .inkblot-image-wrap img { width: 100%; border-radius: 4px; display: block; }
+
+    .inkblot-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 18px 16px;
+      padding-bottom: 24px;
+    }
+    .inkblot-option {
+      background: none; border: 1.5px solid transparent; border-radius: 10px;
+      padding: 18px 10px;
+      text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+    .inkblot-option span {
+      font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.3;
+      color: #35201F;
+    }
+    .inkblot-option.selected { border-color: var(--purple-light); }
   </style>
 </head>
 <body>
@@ -94,9 +116,9 @@
 
   <!-- Nav -->
   <div class="quiz-nav">
-    <a class="quiz-back-btn" href="screen-quiz.html">
+    <button class="quiz-back-btn" onclick="goBack()" style="background:none;border:none;">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="#35201F" d="m10 18l-6-6l6-6l1.4 1.45L7.85 11H20v2H7.85l3.55 3.55z"/></svg>
-    </a>
+    </button>
     <a class="quiz-close-btn" href="screen-quiz.html">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="#35201F" d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"/></svg>
     </a>
@@ -150,22 +172,63 @@
     </div>
   </div>
 
+  <!-- Step: Inkblot -->
+  <div class="quiz-step hidden" id="step-inkblot">
+    <div class="quiz-step-content">
+      <div class="inkblot-image-wrap">
+        <img src="assets/quiz-inkblot.jpg" alt="Inkblot pattern">
+      </div>
+      <div class="quiz-question">What does this image look like to you?</div>
+      <div class="inkblot-grid">
+        <button class="inkblot-option" data-answer="A Butterfly" onclick="selectInkblot(this)"><span>A Butterfly</span></button>
+        <button class="inkblot-option" data-answer="Two Women Dancing" onclick="selectInkblot(this)"><span>Two Women Dancing</span></button>
+        <button class="inkblot-option" data-answer="A Skull" onclick="selectInkblot(this)"><span>A Skull</span></button>
+        <button class="inkblot-option" data-answer="People Fighting" onclick="selectInkblot(this)"><span>People Fighting</span></button>
+        <button class="inkblot-option" data-answer="A Dinosaur" onclick="selectInkblot(this)"><span>A Dinosaur</span></button>
+        <button class="inkblot-option" data-answer="A Frog" onclick="selectInkblot(this)"><span>A Frog</span></button>
+      </div>
+    </div>
+    <div class="quiz-next-wrap">
+      <button class="quiz-next" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
   <div class="home-indicator"><div class="home-indicator-bar"></div></div>
 
 </div>
 
 <script>
-  var selectedZodiac = null;
+  var steps = ['step-zodiac', 'step-inkblot'];
+  var currentStep = 0;
+
+  function showStep(index) {
+    document.querySelectorAll('.quiz-step').forEach(function(el) { el.classList.add('hidden'); });
+    document.getElementById(steps[index]).classList.remove('hidden');
+    currentStep = index;
+  }
+
+  function nextStep() {
+    if (currentStep < steps.length - 1) showStep(currentStep + 1);
+  }
+
+  function goBack() {
+    if (currentStep > 0) {
+      showStep(currentStep - 1);
+    } else {
+      window.location.href = 'screen-quiz.html';
+    }
+  }
 
   function selectZodiac(el) {
     document.querySelectorAll('.zodiac-option.selected').forEach(function(o) { o.classList.remove('selected'); });
     el.classList.add('selected');
-    selectedZodiac = el.dataset.sign;
-    localStorage.setItem('aim_quiz_zodiac', selectedZodiac);
+    localStorage.setItem('aim_quiz_zodiac', el.dataset.sign);
   }
 
-  function nextStep() {
-    // Step 2 (inkblot question) not built yet — reserved for the next round.
+  function selectInkblot(el) {
+    document.querySelectorAll('.inkblot-option.selected').forEach(function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+    localStorage.setItem('aim_quiz_inkblot', el.dataset.answer);
   }
 </script>
 </body>
