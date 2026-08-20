@@ -229,9 +229,9 @@
       </div>
     </div>
 
-    <!-- The Pearl Luxe Edit -->
+    <!-- The Pearl Edit Reserve -->
     <div class="pendant-section">
-      <div class="pendant-section-label">The Pearl Luxe Edit</div>
+      <div class="pendant-section-label">The Pearl Edit Reserve</div>
       <div class="pendant-scroll-wrap">
         <div class="pendant-row" id="row-pearlluxe">
           <div class="pendant-item"></div>
@@ -476,7 +476,7 @@
     { name: 'Azure Haze',       svg: 'assets/dusty-rose-azure-haze.svg' },
   ];
 
-  // The Pearl Luxe Edit — already fully coloured, one-off designs pulled
+  // The Pearl Edit Reserve — already fully coloured, one-off designs pulled
   // from the Pearl collection (see designs-pearl.html), so they load
   // straight from assets/ with no fill-replacement needed.
   const PEARL_LUXE_DESIGNS = [
@@ -589,7 +589,7 @@
         const design = PEARL_LUXE_DESIGNS[i];
         if (!design) return;
         slot.addEventListener('click', function() {
-          // Pearl Luxe designs use their own shapes/fill structure, not
+          // Pearl Edit Reserve designs use their own shapes/fill structure, not
           // wired up to the Studio's colour hand-off — open its default.
           window.location.href = 'screen-closet.html?studio=1&nosplash=1';
         });
