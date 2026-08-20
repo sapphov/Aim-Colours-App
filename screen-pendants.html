@@ -82,12 +82,46 @@
     .pendant-item {
       flex-shrink: 0;
       width: 150px; height: 160px;
+      background: #0d0d0d;
       border-radius: 10px;
       overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
+      display: flex; flex-direction: column;
       cursor: pointer;
+      padding: 8px 8px;
     }
-    .pendant-item img {
+    .pendant-item-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 8px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      text-align: center;
+    }
+    .pendant-item-image {
+      flex: 1; min-height: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pendant-item-image img {
+      width: 70%; height: 70%;
+      object-fit: contain;
+    }
+    .pendant-item-hexes {
+      display: flex; gap: 5px; flex-wrap: wrap;
+      justify-content: center;
+    }
+    .hex-chip {
+      font-family: 'Inter', sans-serif;
+      font-size: 7px; letter-spacing: .02em;
+      color: rgba(255,255,255,.85);
+      background: rgba(255,255,255,.08);
+      padding: 2px 5px; border-radius: 4px;
+    }
+    /* Cards without a full recolorable template (Dusty Rose Reserve) stay plain */
+    #row-dustyrose .pendant-item {
+      background: #f7f6f4;
+      flex-direction: row; align-items: center; justify-content: center;
+      padding: 0;
+    }
+    #row-dustyrose .pendant-item img {
       width: 90%; height: 90%;
       object-fit: contain;
     }
@@ -164,6 +198,7 @@
           <div class="pendant-item"></div>
           <div class="pendant-item"></div>
           <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
         </div>
         <div class="pendant-track"></div>
         <div class="pendant-thumb" id="thumb-archive"></div>
@@ -180,6 +215,7 @@
           <div class="pendant-item"></div>
           <div class="pendant-item"></div>
           <div class="pendant-item"></div>
+          <div class="pendant-item"></div>
         </div>
         <div class="pendant-track"></div>
         <div class="pendant-thumb" id="thumb-friends"></div>
@@ -191,6 +227,7 @@
       <div class="pendant-section-label">Recently Worn</div>
       <div class="pendant-scroll-wrap">
         <div class="pendant-row" id="row-recent">
+          <div class="pendant-item"></div>
           <div class="pendant-item"></div>
           <div class="pendant-item"></div>
           <div class="pendant-item"></div>
@@ -409,25 +446,28 @@
   // in display order, replacing the old random colour generator.
   const ROW_DESIGNS = {
     'row-archive': [
+      { name: 'Mist, Plum & Sage',        svg: 'assets/ac-floral-pendant.svg',      colors: ['#9ca4a8', '#4c293c', '#708e77'] },
       { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#987f87', '#5b4c66', '#a97a73', '#6e8ba3', '#aca299'] },
       { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#9ca4a8', '#423026', '#aca18f'] },
-      { name: 'Sakura, Emerald & Mist',   svg: 'assets/ac-floral-pendant.svg',      colors: ['#a47c81', '#195044', '#9ca4a8'] },
-      { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#aca299', '#9ca68e', '#5a6a87'] },
       { name: 'Slate',                    svg: 'assets/ac-floral-pendant.svg',      colors: ['#6e8ba3', '#6e8ba3', '#6e8ba3'] },
+      { name: 'Mist & Sakura',            svg: 'assets/ac-floral-pendant.svg',      colors: ['#9ca4a8', '#a47c81', '#a47c81'] },
+      { name: 'Sakura, Emerald & Mist',   svg: 'assets/ac-floral-pendant.svg',      colors: ['#a47c81', '#195044', '#9ca4a8'] },
     ],
     'row-friends': [
-      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aca18f', '#423026', '#aca18f', '#9ca4a8', '#8d828a'] },
+      { name: 'Plum & Sandstone',         svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#a8a09b', '#a8a09b', '#a8a09b', '#a8a09b', '#4c293c'] },
       { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#6e8ba3', '#2a2850', '#7b6371'] },
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aca18f', '#423026', '#aca18f', '#9ca4a8', '#8d828a'] },
       { name: 'Floral',                   svg: 'assets/ac-floral-pendant.svg',      colors: ['#a97a73', '#391e3b', '#69485d'] },
       { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#69485d', '#a97a73', '#391e3b'] },
       { name: 'Plum',                     svg: 'assets/ac-floral-pendant.svg',      colors: ['#4c293c', '#4c293c', '#4c293c'] },
     ],
     'row-recent': [
-      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aba09f', '#123744', '#708d81', '#9ca699', '#a47c81'] },
+      { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#aca299', '#9ca68e', '#5a6a87'] },
+      { name: 'Heather & Walnut',         svg: 'assets/heather-walnut.svg',         colors: ['#8d828a', '#423026'], static: true },
       { name: 'Twirl',                    svg: 'assets/ac-twirl-pendant.svg',       colors: ['#726576', '#aaa3a2', '#4c293c'] },
       { name: 'Sage',                     svg: 'assets/ac-floral-pendant.svg',      colors: ['#708d81', '#708d81', '#708d81'] },
-      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#987f87', '#a77b6f', '#9ba5a9', '#aba09f', '#5a6a87'] },
-      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#996068', '#2c5a39', '#aba09f', '#726a7c', '#9ca699'] },
+      { name: 'Flower Girl',              svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#aba09f', '#123744', '#708d81', '#9ca699', '#a47c81'] },
+      { name: 'Sakura & Midnight',        svg: 'assets/ac-flower-girl-pendant.svg', colors: ['#2a2850', '#2a2850', '#2a2850', '#2a2850', '#a47c81'] },
     ],
   };
 
@@ -461,28 +501,55 @@
   }
 
   // Build one pendant: chosen SVG + chosen colour mapping → blob URL → <img>
+  // (design.static designs are already fully coloured — just load them
+  // directly, skipping the fetch/recolour pipeline.)
   async function fillSlot(slot, design) {
-    const fills = SVG_FILLS[design.svg];
+    let imgSrc;
+    if (design.static) {
+      imgSrc = design.svg;
+    } else {
+      const fills = SVG_FILLS[design.svg];
+      let text = await fetchSVG(design.svg);
+      fills.forEach((original, i) => {
+        // Replace every occurrence (split/join avoids regex escaping issues)
+        text = text.split(original).join(design.colors[i]);
+      });
 
-    let text = await fetchSVG(design.svg);
-    fills.forEach((original, i) => {
-      // Replace every occurrence (split/join avoids regex escaping issues)
-      text = text.split(original).join(design.colors[i]);
-    });
+      // Solid designs (every fill the same colour) should read as a clean
+      // silhouette, so also hide the dark detail-line stroke into the fill.
+      if (design.colors.every(c => c === design.colors[0])) {
+        text = text.split('#35201f').join(design.colors[0]);
+      }
 
-    // Solid designs (every fill the same colour) should read as a clean
-    // silhouette, so also hide the dark detail-line stroke into the fill.
-    if (design.colors.every(c => c === design.colors[0])) {
-      text = text.split('#35201f').join(design.colors[0]);
+      const blob = new Blob([text], { type: 'image/svg+xml' });
+      imgSrc = URL.createObjectURL(blob);
     }
 
-    const blob   = new Blob([text], { type: 'image/svg+xml' });
-    const objURL = URL.createObjectURL(blob);
+    const name = document.createElement('div');
+    name.className = 'pendant-item-name';
+    name.textContent = design.name;
 
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'pendant-item-image';
     const img = document.createElement('img');
-    img.src   = objURL;
-    img.alt   = 'pendant';
-    slot.appendChild(img);
+    img.src = imgSrc;
+    img.alt = 'pendant';
+    imgWrap.appendChild(img);
+
+    const hexes = document.createElement('div');
+    hexes.className = 'pendant-item-hexes';
+    // De-dupe repeated colours (e.g. solids, or two roles sharing a hue)
+    // so chips match the number of genuinely distinct colours in the design.
+    [...new Set(design.colors)].forEach(function(hex) {
+      const chip = document.createElement('div');
+      chip.className = 'hex-chip';
+      chip.textContent = hex;
+      hexes.appendChild(chip);
+    });
+
+    slot.appendChild(name);
+    slot.appendChild(imgWrap);
+    slot.appendChild(hexes);
   }
 
   // Dusty Rose Reserve designs are static, pre-coloured files — just drop
