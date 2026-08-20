@@ -14,6 +14,10 @@
   .time{font-size:15px;font-weight:500;color:#fff}
   .icons{display:flex;align-items:center;gap:6px}
 
+  /* HEADER */
+  .horoscope-header{display:flex;align-items:center;padding:2px 14px 0;flex-shrink:0}
+  .horoscope-back{display:flex;align-items:center;flex-shrink:0;text-decoration:none}
+
   /* SCREENS */
   .screen{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
   .screen.hidden{display:none}
@@ -60,6 +64,11 @@
     </div>
   </div>
 
+  <!-- HEADER -->
+  <div class="horoscope-header">
+    <a class="horoscope-back" href="screen-closet.html?nosplash=1"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="white" d="m10 18l-6-6l6-6l1.4 1.45L7.85 11H20v2H7.85l3.55 3.55z"/></svg></a>
+  </div>
+
   <!-- SCREEN 1: HOROSCOPE PAGE -->
   <div class="screen" id="screen1">
 
@@ -69,7 +78,7 @@
     </div>
 
     <div class="constellation-wrap">
-      <img src="https://www.figma.com/api/mcp/asset/d551d88a-6d4a-4a6b-84d1-1326e653a934" alt="Constellation"/>
+      <img src="assets/draco-constellation.png" alt="Draco constellation"/>
     </div>
 
     <div class="reveal-wrap">
