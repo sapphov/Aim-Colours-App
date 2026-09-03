@@ -1316,6 +1316,11 @@
     document.getElementById('tab-' + name).classList.remove('hidden');
     btn.classList.add('active');
   }
+
+  if (location.search.indexOf('account=1') !== -1) {
+    showSettings();
+    showAccountInfo();
+  }
 </script>
 </body>
 </html>
