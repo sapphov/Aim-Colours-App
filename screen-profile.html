@@ -240,6 +240,81 @@
     .menu-arrow { flex-shrink: 0; opacity: 0.7; }
     .menu-divider { height: 0.5px; background: rgba(255,255,255,0.15); }
 
+    /* ── Shared settings form elements (Account/Edit Profile/Preferences/Notifications/Permissions/Payment) ── */
+    .settings-section-title {
+      font-family: var(--sans); font-size: 10.5px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      padding: 18px 0 6px;
+    }
+    .settings-field { padding: 14px 0; }
+    .settings-label {
+      display: block;
+      font-family: var(--sans); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); margin-bottom: 10px;
+    }
+    .settings-input, .settings-textarea {
+      width: 100%; background: #1e2021; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;
+      padding: 12px 14px; color: #fff; font-family: var(--sans); font-size: 15px; color-scheme: dark;
+    }
+    .settings-textarea { resize: none; min-height: 68px; line-height: 1.5; }
+    .settings-row-2 { display: flex; gap: 10px; }
+    .settings-row-2 > div { flex: 1; min-width: 0; }
+    .settings-hint {
+      font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5; margin-top: 10px;
+    }
+    .settings-save-btn {
+      width: 100%; background: #fff; border: none; color: #151718; font-family: var(--sans);
+      font-size: 14px; font-weight: 600; letter-spacing: 0.08em; padding: 13px; border-radius: 100px;
+      text-align: center; cursor: pointer;
+    }
+    .settings-saved-note {
+      display: none; text-align: center; font-family: var(--sans); font-size: 12px;
+      color: rgba(255,255,255,0.5); padding: 10px 0 4px;
+    }
+    .settings-danger-btn {
+      width: 100%; background: none; border: 1px solid rgba(255,90,90,0.4); color: #ff6b6b;
+      font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
+      padding: 12px; border-radius: 100px; text-align: center; cursor: pointer;
+    }
+    .settings-link-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0; cursor: pointer; text-decoration: none;
+    }
+    .settings-link-label { font-family: var(--sans); font-size: 15px; color: var(--white); letter-spacing: -0.01em; }
+
+    /* Toggle rows */
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; }
+    .toggle-row-text { flex: 1; min-width: 0; }
+    .toggle-row-label { font-family: var(--sans); font-size: 15px; font-weight: 400; color: var(--white); letter-spacing: -0.01em; }
+    .toggle-row-sub { font-family: var(--sans); font-size: 11.5px; color: rgba(255,255,255,0.4); margin-top: 3px; line-height: 1.4; }
+    .toggle-switch { position: relative; width: 42px; height: 25px; flex-shrink: 0; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-slider { position: absolute; inset: 0; background: rgba(255,255,255,0.18); border-radius: 100px; cursor: pointer; transition: background 0.2s; }
+    .toggle-slider::before { content: ''; position: absolute; height: 19px; width: 19px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform 0.2s; }
+    .toggle-switch input:checked + .toggle-slider { background: var(--purple); }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(17px); }
+
+    /* Pill select (Preferences) */
+    .pill-row { display: flex; gap: 8px; }
+    .pill-option {
+      flex: 1; text-align: center; padding: 11px 6px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.2); background: none; cursor: pointer;
+      font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.04em;
+      transition: all 0.15s;
+    }
+    .pill-option.selected { background: #fff; border-color: #fff; color: #151718; font-weight: 600; }
+
+    /* Payment card */
+    .payment-card { background: linear-gradient(135deg, #2b2b2e, #17181a); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 20px; margin: 4px 0 16px; }
+    .payment-card-brand { font-family: var(--sans); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+    .payment-card-number { font-family: var(--sans); font-size: 19px; letter-spacing: 0.1em; color: #fff; margin-top: 18px; }
+    .payment-card-meta { display: flex; justify-content: space-between; margin-top: 16px; }
+    .payment-card-meta-label { font-family: var(--sans); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .payment-card-meta-val { font-family: var(--sans); font-size: 12px; color: #fff; margin-top: 3px; }
+    .payment-empty { text-align: center; padding: 26px 0; font-family: var(--sans); font-size: 13px; color: rgba(255,255,255,0.4); }
+    .payment-remove-link { display: block; text-align: center; font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.4); padding: 4px 0 18px; cursor: pointer; text-decoration: underline; }
+
     /* ══ SCREEN 3: CLOSET BACKDROP ══════════════════════════ */
     .backdrop-grid {
       flex: 1; min-height: 0;
@@ -301,9 +376,10 @@
       <!-- Header: name/meta left, hamburger right -->
       <div class="profile-header">
         <div>
-          <div class="profile-name">Allie Huerta</div>
-          <div class="profile-meta">@alliehuerta</div>
-          <div class="profile-meta">Montréal</div>
+          <div class="profile-name" id="profile-name-display">Allie Huerta</div>
+          <div class="profile-meta" id="profile-username-display">@alliehuerta</div>
+          <div class="profile-meta" id="profile-location-display">Montréal</div>
+          <div class="profile-meta" id="profile-bio-display" style="display:none;max-width:220px;"></div>
         </div>
         <div class="profile-right">
           <button class="hamburger-btn" onclick="showSettings()">
@@ -396,19 +472,19 @@
       </div>
 
       <div class="settings-menu">
-        <div class="menu-item">
+        <div class="menu-item" onclick="showAccountInfo()">
           <div class="menu-icon"><svg width="24" height="24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.3"/><path d="M12 11v6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="8" r="1" fill="white"/></svg></div>
           <span class="menu-label">Account Info</span>
           <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="menu-divider"></div>
-        <div class="menu-item">
+        <div class="menu-item" onclick="showEditProfile()">
           <div class="menu-icon"><svg width="24" height="24" fill="none"><circle cx="12" cy="8" r="4" stroke="white" stroke-width="1.3"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg></div>
           <span class="menu-label">Edit Profile</span>
           <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="menu-divider"></div>
-        <div class="menu-item">
+        <div class="menu-item" onclick="showPreferences()">
           <div class="menu-icon"><svg width="24" height="24" fill="none"><path d="M12 2C8.7 2 6 4.7 6 8c0 5.3 6 13 6 13s6-7.7 6-13c0-3.3-2.7-6-6-6Z" stroke="white" stroke-width="1.3"/><circle cx="12" cy="8" r="2.5" stroke="white" stroke-width="1.3"/></svg></div>
           <span class="menu-label">Preferences</span>
           <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -420,19 +496,19 @@
           <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="menu-divider"></div>
-        <div class="menu-item">
+        <div class="menu-item" onclick="showNotifications()">
           <div class="menu-icon"><svg width="24" height="24" fill="none"><path d="M6 10a6 6 0 0 1 12 0v4l2 2H4l2-2v-4Z" stroke="white" stroke-width="1.3" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg></div>
           <span class="menu-label">Notifications</span>
           <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="menu-divider"></div>
-        <div class="menu-item">
+        <div class="menu-item" onclick="showPermissions()">
           <div class="menu-icon"><svg width="24" height="24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="white" stroke-width="1.3"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="white" stroke-width="1.3" stroke-linecap="round"/><circle cx="12" cy="16" r="1.5" fill="white"/></svg></div>
           <span class="menu-label">Permissions</span>
           <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="menu-divider"></div>
-        <div class="menu-item">
+        <div class="menu-item" onclick="showPayment()">
           <div class="menu-icon"><svg width="24" height="24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.3"/><line x1="12" y1="6.5" x2="12" y2="17.5" stroke="white" stroke-width="1.3" stroke-linecap="round"/><path d="M14.5 9.5C14.5 8.4 13.4 7.8 12 7.8H11C9.9 7.8 9 8.5 9 9.5C9 10.5 9.8 11 12 11.5C14.2 12 15 12.7 15 13.8C15 14.9 14 15.8 12.8 15.8H11C9.6 15.8 9 15 9 14" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg></div>
           <span class="menu-label">Payment</span>
           <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -477,6 +553,288 @@
       </div>
 
     </div><!-- /screen3 -->
+
+    <!-- ── PANE 4: Account Info ── -->
+    <div class="profile-pane hidden" id="screen4">
+
+      <div class="settings-header">
+        <button class="settings-back" onclick="showSettingsFromAccount()">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="m14 26 1.41-1.41L7.83 17H28v-2H7.83l7.58-7.59L14 6 4 16z" fill="white"/></svg>
+        </button>
+        <div class="settings-title">Account Info</div>
+      </div>
+
+      <div class="settings-menu">
+        <div class="settings-field" style="padding-top:18px;">
+          <label class="settings-label" for="account-email-input">Email</label>
+          <input type="email" id="account-email-input" class="settings-input" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="settings-field">
+          <label class="settings-label" for="account-phone-input">Phone Number</label>
+          <input type="tel" id="account-phone-input" class="settings-input" placeholder="(514) 555-0142" autocomplete="tel" />
+        </div>
+        <div class="settings-field">
+          <label class="settings-label" for="account-password-input">Password</label>
+          <input type="password" id="account-password-input" class="settings-input" placeholder="••••••••" autocomplete="new-password" />
+          <p class="settings-hint">Leave blank to keep your current password.</p>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="settings-field">
+          <label class="settings-label" for="birthday-input">Birthday</label>
+          <input type="date" id="birthday-input" class="settings-input" />
+          <p class="settings-hint">Used to work out your zodiac sign for the astrology section — your colour and constellation are personalised from it.</p>
+        </div>
+        <div class="menu-divider"></div>
+        <div style="padding:18px 0;">
+          <button onclick="saveAccountInfo()" class="settings-save-btn">Save</button>
+        </div>
+        <div id="account-info-saved-note" class="settings-saved-note">Saved</div>
+        <div class="menu-divider"></div>
+        <div style="padding:20px 0 24px;">
+          <div class="settings-section-title" style="padding-top:0;">Danger Zone</div>
+          <button onclick="deleteAccount()" class="settings-danger-btn" style="margin-top:6px;">Delete Account</button>
+          <p class="settings-hint">Permanently erases your saved colours, boards, and preferences from this device. This can't be undone.</p>
+        </div>
+      </div>
+
+    </div><!-- /screen4 -->
+
+    <!-- ── PANE 5: Edit Profile ── -->
+    <div class="profile-pane hidden" id="screen5">
+
+      <div class="settings-header">
+        <button class="settings-back" onclick="showSettingsFromEditProfile()">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="m14 26 1.41-1.41L7.83 17H28v-2H7.83l7.58-7.59L14 6 4 16z" fill="white"/></svg>
+        </button>
+        <div class="settings-title">Edit Profile</div>
+      </div>
+
+      <div class="settings-menu">
+        <div class="settings-field" style="padding-top:18px;">
+          <label class="settings-label" for="edit-name-input">Display Name</label>
+          <input type="text" id="edit-name-input" class="settings-input" maxlength="40" />
+        </div>
+        <div class="settings-field">
+          <label class="settings-label" for="edit-username-input">Username</label>
+          <input type="text" id="edit-username-input" class="settings-input" maxlength="24" placeholder="alliehuerta" />
+        </div>
+        <div class="settings-field">
+          <label class="settings-label" for="edit-location-input">Location</label>
+          <input type="text" id="edit-location-input" class="settings-input" maxlength="40" />
+        </div>
+        <div class="settings-field">
+          <label class="settings-label" for="edit-bio-input">Bio</label>
+          <textarea id="edit-bio-input" class="settings-textarea" maxlength="140" placeholder="A short line about you"></textarea>
+        </div>
+        <div class="menu-divider"></div>
+        <div style="padding:18px 0;">
+          <button onclick="saveEditProfile()" class="settings-save-btn">Save</button>
+        </div>
+        <div id="edit-profile-saved-note" class="settings-saved-note">Saved</div>
+      </div>
+
+    </div><!-- /screen5 -->
+
+    <!-- ── PANE 6: Preferences ── -->
+    <div class="profile-pane hidden" id="screen6">
+
+      <div class="settings-header">
+        <button class="settings-back" onclick="showSettingsFromPreferences()">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="m14 26 1.41-1.41L7.83 17H28v-2H7.83l7.58-7.59L14 6 4 16z" fill="white"/></svg>
+        </button>
+        <div class="settings-title">Preferences</div>
+      </div>
+
+      <div class="settings-menu">
+        <div class="settings-field" style="padding-top:18px;">
+          <label class="settings-label">Preferred Metal Finish</label>
+          <div class="pill-row" id="metal-pill-row">
+            <button type="button" class="pill-option" data-metal="gold" onclick="selectMetal('gold')">Gold</button>
+            <button type="button" class="pill-option" data-metal="silver" onclick="selectMetal('silver')">Silver</button>
+            <button type="button" class="pill-option" data-metal="rose-gold" onclick="selectMetal('rose-gold')">Rose Gold</button>
+          </div>
+          <p class="settings-hint">Used to show pendant and closet previews in your preferred metal tone by default.</p>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="toggle-row">
+          <div class="toggle-row-text">
+            <div class="toggle-row-label">Autoplay Preview Animations</div>
+            <div class="toggle-row-sub">Colour reveals and transitions play automatically.</div>
+          </div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="pref-autoplay" onchange="saveToggle('aim_pref_autoplay', this.checked)" />
+            <label class="toggle-slider" for="pref-autoplay"></label>
+          </div>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="toggle-row">
+          <div class="toggle-row-text">
+            <div class="toggle-row-label">Show Sold-Out Items</div>
+            <div class="toggle-row-sub">Include sold-out colours and designs when browsing Explore.</div>
+          </div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="pref-soldout" onchange="saveToggle('aim_pref_show_soldout', this.checked)" />
+            <label class="toggle-slider" for="pref-soldout"></label>
+          </div>
+        </div>
+        <div class="menu-divider"></div>
+        <a class="settings-link-row" href="screen-quiz.html">
+          <span class="settings-link-label">Retake Colour Personality Quiz</span>
+          <svg class="menu-arrow" width="8" height="14" fill="none"><path d="M1 1l6 6-6 6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+    </div><!-- /screen6 -->
+
+    <!-- ── PANE 7: Notifications ── -->
+    <div class="profile-pane hidden" id="screen7">
+
+      <div class="settings-header">
+        <button class="settings-back" onclick="showSettingsFromNotifications()">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="m14 26 1.41-1.41L7.83 17H28v-2H7.83l7.58-7.59L14 6 4 16z" fill="white"/></svg>
+        </button>
+        <div class="settings-title">Notifications</div>
+      </div>
+
+      <div class="settings-menu">
+        <div class="settings-section-title" style="padding-top:16px;">Push</div>
+        <div class="toggle-row">
+          <div class="toggle-row-text"><div class="toggle-row-label">New Colour Drops</div></div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="notif-push-drops" onchange="saveToggle('aim_notif_push_drops', this.checked)" />
+            <label class="toggle-slider" for="notif-push-drops"></label>
+          </div>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="toggle-row">
+          <div class="toggle-row-text"><div class="toggle-row-label">Friend Activity</div></div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="notif-push-friends" onchange="saveToggle('aim_notif_push_friends', this.checked)" />
+            <label class="toggle-slider" for="notif-push-friends"></label>
+          </div>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="toggle-row">
+          <div class="toggle-row-text"><div class="toggle-row-label">Points &amp; Rewards</div></div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="notif-push-points" onchange="saveToggle('aim_notif_push_points', this.checked)" />
+            <label class="toggle-slider" for="notif-push-points"></label>
+          </div>
+        </div>
+        <div class="settings-section-title">Email</div>
+        <div class="toggle-row">
+          <div class="toggle-row-text"><div class="toggle-row-label">Weekly Digest</div></div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="notif-email-digest" onchange="saveToggle('aim_notif_email_digest', this.checked)" />
+            <label class="toggle-slider" for="notif-email-digest"></label>
+          </div>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="toggle-row">
+          <div class="toggle-row-text"><div class="toggle-row-label">Promotions &amp; Offers</div></div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="notif-email-promo" onchange="saveToggle('aim_notif_email_promo', this.checked)" />
+            <label class="toggle-slider" for="notif-email-promo"></label>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /screen7 -->
+
+    <!-- ── PANE 8: Permissions ── -->
+    <div class="profile-pane hidden" id="screen8">
+
+      <div class="settings-header">
+        <button class="settings-back" onclick="showSettingsFromPermissions()">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="m14 26 1.41-1.41L7.83 17H28v-2H7.83l7.58-7.59L14 6 4 16z" fill="white"/></svg>
+        </button>
+        <div class="settings-title">Permissions</div>
+      </div>
+
+      <div class="settings-menu">
+        <div class="toggle-row" style="padding-top:16px;">
+          <div class="toggle-row-text">
+            <div class="toggle-row-label">Push Notifications</div>
+            <div class="toggle-row-sub">Device-level permission to send alerts to this phone.</div>
+          </div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="perm-push" onchange="saveToggle('aim_perm_push', this.checked)" />
+            <label class="toggle-slider" for="perm-push"></label>
+          </div>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="toggle-row">
+          <div class="toggle-row-text">
+            <div class="toggle-row-label">Camera</div>
+            <div class="toggle-row-sub">Needed to try on pendants, shoes, and sunglasses in Studio.</div>
+          </div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="perm-camera" onchange="saveToggle('aim_perm_camera', this.checked)" />
+            <label class="toggle-slider" for="perm-camera"></label>
+          </div>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="toggle-row">
+          <div class="toggle-row-text">
+            <div class="toggle-row-label">Photo Library</div>
+            <div class="toggle-row-sub">Needed to upload your own closet backdrop and saved art.</div>
+          </div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="perm-photos" onchange="saveToggle('aim_perm_photos', this.checked)" />
+            <label class="toggle-slider" for="perm-photos"></label>
+          </div>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="toggle-row">
+          <div class="toggle-row-text">
+            <div class="toggle-row-label">Location</div>
+            <div class="toggle-row-sub">Used to show AIM stockists and events near you.</div>
+          </div>
+          <div class="toggle-switch">
+            <input type="checkbox" id="perm-location" onchange="saveToggle('aim_perm_location', this.checked)" />
+            <label class="toggle-slider" for="perm-location"></label>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /screen8 -->
+
+    <!-- ── PANE 9: Payment ── -->
+    <div class="profile-pane hidden" id="screen9">
+
+      <div class="settings-header">
+        <button class="settings-back" onclick="showSettingsFromPayment()">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="m14 26 1.41-1.41L7.83 17H28v-2H7.83l7.58-7.59L14 6 4 16z" fill="white"/></svg>
+        </button>
+        <div class="settings-title">Payment</div>
+      </div>
+
+      <div class="settings-menu">
+        <div id="payment-card-display" style="padding-top:16px;"></div>
+
+        <div class="settings-section-title" style="padding-top:4px;">Add Payment Method</div>
+        <div class="settings-field">
+          <label class="settings-label" for="payment-card-input">Card Number</label>
+          <input type="text" id="payment-card-input" class="settings-input" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456" />
+        </div>
+        <div class="settings-field settings-row-2">
+          <div>
+            <label class="settings-label" for="payment-expiry-input">Expiry</label>
+            <input type="text" id="payment-expiry-input" class="settings-input" maxlength="5" placeholder="MM/YY" />
+          </div>
+          <div>
+            <label class="settings-label" for="payment-cvc-input">CVC</label>
+            <input type="text" id="payment-cvc-input" class="settings-input" inputmode="numeric" maxlength="4" placeholder="123" />
+          </div>
+        </div>
+        <p class="settings-hint">For your security, we only store the card brand, last 4 digits, and expiry — never the full number or CVC.</p>
+        <div style="padding:18px 0;">
+          <button onclick="savePayment()" class="settings-save-btn">Save Payment Method</button>
+        </div>
+        <div id="payment-saved-note" class="settings-saved-note">Saved</div>
+      </div>
+
+    </div><!-- /screen9 -->
 
   </div><!-- /profile-screen -->
 
@@ -598,9 +956,205 @@
     document.getElementById('screen2').classList.remove('hidden');
   }
   function showProfile() {
-    document.getElementById('screen2').classList.add('hidden');
-    document.getElementById('screen3').classList.add('hidden');
+    ['screen2','screen3','screen4','screen5','screen6','screen7','screen8','screen9'].forEach(function(id) {
+      document.getElementById(id).classList.add('hidden');
+    });
     document.getElementById('screen1').classList.remove('hidden');
+  }
+
+  // ── Profile header (name/username/location/bio) ──
+  function renderProfileHeader() {
+    var name = localStorage.getItem('aim_profile_name') || 'Allie Huerta';
+    var username = localStorage.getItem('aim_profile_username') || 'alliehuerta';
+    var location = localStorage.getItem('aim_profile_location') || 'Montréal';
+    var bio = localStorage.getItem('aim_profile_bio') || '';
+    document.getElementById('profile-name-display').textContent = name;
+    document.getElementById('profile-username-display').textContent = '@' + username;
+    document.getElementById('profile-location-display').textContent = location;
+    var bioEl = document.getElementById('profile-bio-display');
+    if (bio) { bioEl.textContent = bio; bioEl.style.display = 'block'; }
+    else { bioEl.style.display = 'none'; }
+  }
+  renderProfileHeader();
+
+  // ── Generic toggle helpers ──
+  function saveToggle(key, checked) {
+    localStorage.setItem(key, checked ? '1' : '0');
+  }
+  function loadToggle(id, key, defaultVal) {
+    var v = localStorage.getItem(key);
+    document.getElementById(id).checked = (v === null) ? defaultVal : (v === '1');
+  }
+
+  // ── Account Info ──
+  function showAccountInfo() {
+    document.getElementById('screen2').classList.add('hidden');
+    document.getElementById('screen4').classList.remove('hidden');
+    document.getElementById('account-info-saved-note').style.display = 'none';
+    document.getElementById('account-email-input').value = localStorage.getItem('aim_account_email') || '';
+    document.getElementById('account-phone-input').value = localStorage.getItem('aim_account_phone') || '';
+    document.getElementById('account-password-input').value = '';
+    var savedBday = localStorage.getItem('aim_birthday');
+    if (savedBday) document.getElementById('birthday-input').value = savedBday;
+  }
+  function showSettingsFromAccount() {
+    document.getElementById('screen4').classList.add('hidden');
+    document.getElementById('screen2').classList.remove('hidden');
+  }
+  function saveAccountInfo() {
+    var email = document.getElementById('account-email-input').value.trim();
+    var phone = document.getElementById('account-phone-input').value.trim();
+    var password = document.getElementById('account-password-input').value;
+    var birthday = document.getElementById('birthday-input').value;
+    if (email) localStorage.setItem('aim_account_email', email);
+    if (phone) localStorage.setItem('aim_account_phone', phone);
+    if (password) localStorage.setItem('aim_account_password_set', '1');
+    if (birthday) localStorage.setItem('aim_birthday', birthday);
+    document.getElementById('account-password-input').value = '';
+    document.getElementById('account-info-saved-note').style.display = 'block';
+  }
+  function deleteAccount() {
+    if (!confirm("Delete your account? This erases everything saved on this device and can't be undone.")) return;
+    localStorage.clear();
+    location.reload();
+  }
+
+  // ── Edit Profile ──
+  function showEditProfile() {
+    document.getElementById('screen2').classList.add('hidden');
+    document.getElementById('screen5').classList.remove('hidden');
+    document.getElementById('edit-profile-saved-note').style.display = 'none';
+    document.getElementById('edit-name-input').value = localStorage.getItem('aim_profile_name') || 'Allie Huerta';
+    document.getElementById('edit-username-input').value = localStorage.getItem('aim_profile_username') || 'alliehuerta';
+    document.getElementById('edit-location-input').value = localStorage.getItem('aim_profile_location') || 'Montréal';
+    document.getElementById('edit-bio-input').value = localStorage.getItem('aim_profile_bio') || '';
+  }
+  function showSettingsFromEditProfile() {
+    document.getElementById('screen5').classList.add('hidden');
+    document.getElementById('screen2').classList.remove('hidden');
+  }
+  function saveEditProfile() {
+    var name = document.getElementById('edit-name-input').value.trim() || 'Allie Huerta';
+    var username = document.getElementById('edit-username-input').value.trim().replace(/^@/, '') || 'alliehuerta';
+    var location = document.getElementById('edit-location-input').value.trim();
+    var bio = document.getElementById('edit-bio-input').value.trim();
+    localStorage.setItem('aim_profile_name', name);
+    localStorage.setItem('aim_profile_username', username);
+    localStorage.setItem('aim_profile_location', location);
+    localStorage.setItem('aim_profile_bio', bio);
+    renderProfileHeader();
+    document.getElementById('edit-profile-saved-note').style.display = 'block';
+  }
+
+  // ── Preferences ──
+  function showPreferences() {
+    document.getElementById('screen2').classList.add('hidden');
+    document.getElementById('screen6').classList.remove('hidden');
+    var metal = localStorage.getItem('aim_pref_metal') || 'gold';
+    selectMetal(metal, true);
+    loadToggle('pref-autoplay', 'aim_pref_autoplay', true);
+    loadToggle('pref-soldout', 'aim_pref_show_soldout', false);
+  }
+  function showSettingsFromPreferences() {
+    document.getElementById('screen6').classList.add('hidden');
+    document.getElementById('screen2').classList.remove('hidden');
+  }
+  function selectMetal(metal, skipSave) {
+    document.querySelectorAll('#metal-pill-row .pill-option').forEach(function(p) {
+      p.classList.toggle('selected', p.dataset.metal === metal);
+    });
+    if (!skipSave) localStorage.setItem('aim_pref_metal', metal);
+  }
+
+  // ── Notifications ──
+  function showNotifications() {
+    document.getElementById('screen2').classList.add('hidden');
+    document.getElementById('screen7').classList.remove('hidden');
+    loadToggle('notif-push-drops', 'aim_notif_push_drops', true);
+    loadToggle('notif-push-friends', 'aim_notif_push_friends', true);
+    loadToggle('notif-push-points', 'aim_notif_push_points', true);
+    loadToggle('notif-email-digest', 'aim_notif_email_digest', false);
+    loadToggle('notif-email-promo', 'aim_notif_email_promo', false);
+  }
+  function showSettingsFromNotifications() {
+    document.getElementById('screen7').classList.add('hidden');
+    document.getElementById('screen2').classList.remove('hidden');
+  }
+
+  // ── Permissions ──
+  function showPermissions() {
+    document.getElementById('screen2').classList.add('hidden');
+    document.getElementById('screen8').classList.remove('hidden');
+    loadToggle('perm-push', 'aim_perm_push', true);
+    loadToggle('perm-camera', 'aim_perm_camera', false);
+    loadToggle('perm-photos', 'aim_perm_photos', true);
+    loadToggle('perm-location', 'aim_perm_location', false);
+  }
+  function showSettingsFromPermissions() {
+    document.getElementById('screen8').classList.add('hidden');
+    document.getElementById('screen2').classList.remove('hidden');
+  }
+
+  // ── Payment ──
+  function renderPaymentCard() {
+    var brand = localStorage.getItem('aim_payment_brand');
+    var last4 = localStorage.getItem('aim_payment_last4');
+    var expiry = localStorage.getItem('aim_payment_expiry');
+    var wrap = document.getElementById('payment-card-display');
+    if (!last4) {
+      wrap.innerHTML = '<div class="payment-empty">No payment method saved yet.</div>';
+      return;
+    }
+    wrap.innerHTML =
+      '<div class="payment-card">' +
+        '<div class="payment-card-brand">' + brand + '</div>' +
+        '<div class="payment-card-number">•••• •••• •••• ' + last4 + '</div>' +
+        '<div class="payment-card-meta">' +
+          '<div><div class="payment-card-meta-label">Expires</div><div class="payment-card-meta-val">' + (expiry || '—') + '</div></div>' +
+          '<div><div class="payment-card-meta-label">Card</div><div class="payment-card-meta-val">Default</div></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="payment-remove-link" onclick="removePayment()">Remove payment method</div>';
+  }
+  function showPayment() {
+    document.getElementById('screen2').classList.add('hidden');
+    document.getElementById('screen9').classList.remove('hidden');
+    document.getElementById('payment-saved-note').style.display = 'none';
+    document.getElementById('payment-card-input').value = '';
+    document.getElementById('payment-expiry-input').value = '';
+    document.getElementById('payment-cvc-input').value = '';
+    renderPaymentCard();
+  }
+  function showSettingsFromPayment() {
+    document.getElementById('screen9').classList.add('hidden');
+    document.getElementById('screen2').classList.remove('hidden');
+  }
+  function detectCardBrand(digits) {
+    if (/^4/.test(digits)) return 'Visa';
+    if (/^5[1-5]/.test(digits)) return 'Mastercard';
+    if (/^3[47]/.test(digits)) return 'American Express';
+    return 'Card';
+  }
+  function savePayment() {
+    var raw = document.getElementById('payment-card-input').value.replace(/\D/g, '');
+    var expiry = document.getElementById('payment-expiry-input').value.trim();
+    if (raw.length < 12) { alert('Enter a valid card number.'); return; }
+    var last4 = raw.slice(-4);
+    var brand = detectCardBrand(raw);
+    localStorage.setItem('aim_payment_brand', brand);
+    localStorage.setItem('aim_payment_last4', last4);
+    if (expiry) localStorage.setItem('aim_payment_expiry', expiry);
+    document.getElementById('payment-card-input').value = '';
+    document.getElementById('payment-expiry-input').value = '';
+    document.getElementById('payment-cvc-input').value = '';
+    renderPaymentCard();
+    document.getElementById('payment-saved-note').style.display = 'block';
+  }
+  function removePayment() {
+    localStorage.removeItem('aim_payment_brand');
+    localStorage.removeItem('aim_payment_last4');
+    localStorage.removeItem('aim_payment_expiry');
+    renderPaymentCard();
   }
   function showBackdrop() {
     document.getElementById('screen2').classList.add('hidden');
