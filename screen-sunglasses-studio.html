@@ -20,7 +20,7 @@
   .header-title{font-size:27px;font-weight:400;color:#fff;letter-spacing:.04em;text-transform:uppercase;position:relative;top:-7px}
 
   /* SHOE PREVIEW — same slot as .pendant-wrap, holding an <img> for now */
-  .pendant-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:20px 22px 0}
+  .pendant-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:20px 6px 0}
   .pendant-wrap img{width:100%;object-fit:contain}
 
   .swatches{padding:0 22px 0;flex-shrink:0}
@@ -196,7 +196,8 @@
     if (!undoStack.length) return;
     var action = undoStack.pop();
     redoStack.push(action);
-    applySection(action.cls, action.prev);
+    if (action.type === 'img') { applyImageSwatch(action.prevSrc, action.prevAlt, false); }
+    else { applySection(action.cls, action.prev); }
     updateUndoRedoState();
   }
 
@@ -204,7 +205,8 @@
     if (!redoStack.length) return;
     var action = redoStack.pop();
     undoStack.push(action);
-    applySection(action.cls, action.next);
+    if (action.type === 'img') { applyImageSwatch(action.nextSrc, action.nextAlt, false); }
+    else { applySection(action.cls, action.next); }
     updateUndoRedoState();
   }
 
@@ -278,6 +280,64 @@
       });
     });
   });
+
+  // ── CMF colour family: these 5 items are the exact same sunglasses shot
+  // in 5 different colours, so "customising" them means swapping the photo
+  // rather than recolouring SVG regions. Only active when the card that
+  // linked here was tagged with &family=cmf. ──
+  var CMF_VARIANTS = [
+    { name: 'Red',            hex: '#8f3124', img: 'assets/sunglasses-red-studio.png',            alt: 'red sunglasses' },
+    { name: 'Pink',           hex: '#965d66', img: 'assets/sunglasses-pink-studio.png',           alt: 'pink sunglasses' },
+    { name: 'Light Blue',     hex: '#6a86af', img: 'assets/sunglasses-light-blue-studio.png',     alt: 'light blue sunglasses' },
+    { name: 'Mint Green',     hex: '#6c8a7d', img: 'assets/sunglasses-mint-green-studio.png',     alt: 'mint green sunglasses' },
+    { name: 'Beige',          hex: '#a99e8c', img: 'assets/sunglasses-beige-studio.png',          alt: 'beige sunglasses' },
+    { name: 'Metallic Shell', hex: '#743c3c', img: 'assets/sunglasses-metallic-shell-studio.png', alt: 'metallic shell sunglasses' },
+    { name: 'Tortoise Shell', hex: '#4e4544', img: 'assets/sunglasses-tortoise-shell-studio.png', alt: 'tortoise shell sunglasses' }
+  ];
+
+  var currentCmfImg = null, currentCmfAlt = null;
+
+  function applyImageSwatch(src, alt, recordHistory) {
+    var prevSrc = currentCmfImg, prevAlt = currentCmfAlt;
+    glassesImg.src = src;
+    glassesImg.alt = alt;
+    currentCmfImg = src;
+    currentCmfAlt = alt;
+    document.querySelectorAll('#swatches2 .sw').forEach(function(s) {
+      s.classList.toggle('sel', s.dataset.img === src);
+    });
+    if (recordHistory && prevSrc && prevSrc !== src) {
+      undoStack.push({ type: 'img', prevSrc: prevSrc, prevAlt: prevAlt, nextSrc: src, nextAlt: alt });
+      redoStack = [];
+      updateUndoRedoState();
+    }
+  }
+
+  if (params.get('family') === 'cmf') {
+    var currentImg = params.get('img') || '';
+    currentCmfImg = currentImg;
+    currentCmfAlt = params.get('alt') || '';
+    document.getElementById('swatches2').innerHTML =
+      '<div class="row">' + CMF_VARIANTS.map(function(v) {
+        return '<div class="sw" style="background:' + v.hex + '" data-color="' + v.hex + '" data-img="' + v.img + '" data-alt="' + v.alt + '" title="' + v.name + '"></div>';
+      }).join('') + '</div>';
+    document.querySelectorAll('#swatches2 .sw').forEach(function(s) {
+      s.classList.toggle('sel', s.dataset.img === currentImg);
+    });
+    document.getElementById('swatches2').addEventListener('click', function(e) {
+      var sw = e.target.closest('.sw');
+      if (!sw || !sw.dataset.img) return;
+      applyImageSwatch(sw.dataset.img, sw.dataset.alt, true);
+    });
+
+    // The palette dropdown is for the generic SVG colour system — not
+    // relevant here, so replace it with a static label instead of hiding
+    // it (keeps the undo/redo buttons at their usual spacing).
+    document.getElementById('pal-name').textContent = '';
+    document.getElementById('pal-chevron').style.display = 'none';
+    document.querySelector('.pal-trigger').onclick = null;
+    document.querySelector('.pal-trigger').style.cursor = 'default';
+  }
 </script>
 </body>
 </html>
