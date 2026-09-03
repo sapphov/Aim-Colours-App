@@ -51,7 +51,7 @@
   }
   .colour-constellation{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1}
   .colour-constellation svg{display:block;width:100%;height:100%}
-  .zodiac-hint{display:block;font-style:normal;font-size:12px;color:rgba(255,255,255,.4);margin-top:8px}
+  .zodiac-hint{display:block;font-style:normal;font-size:14px;color:rgba(255,255,255,.4)}
   .constellation-name{font-size:23px;font-style:italic;font-family:'Inter',sans-serif;color:rgba(255,255,255,.75);letter-spacing:-0.46px;text-align:center;padding:0 20px 95px;flex-shrink:0}
 
   /* TAB BAR */
@@ -105,16 +105,16 @@
   <!-- SCREEN 2: COLOUR OF THE WEEK -->
   <div class="screen hidden" id="screen2">
 
-    <div class="colour-title" id="colour-title">Emerald</div>
+    <div class="colour-title" id="colour-title"></div>
 
     <div class="colour-visual">
       <div class="colour-visual-inner">
-        <div class="colour-glow" id="colour-glow"></div>
+        <div class="colour-glow" id="colour-glow" style="opacity:0"></div>
         <div class="colour-constellation" id="colour-constellation"></div>
       </div>
     </div>
 
-    <div class="constellation-name" id="constellation-name">Pisces</div>
+    <div class="constellation-name" id="constellation-name"><span class="zodiac-hint">Add your birthday in Profile to reveal your colour</span></div>
 
   </div>
 
@@ -296,18 +296,27 @@
 
   function renderColourOfWeek() {
     var saved = localStorage.getItem('aim_birthday');
-    var sign;
+    var sign = null;
     if (saved) {
       var parts = saved.split('-'); // yyyy-mm-dd
       sign = getZodiacSign(parseInt(parts[1], 10), parseInt(parts[2], 10));
     }
-    if (!sign) sign = ZODIAC[ZODIAC.length - 1]; // default: Pisces / Emerald
 
+    var glow = document.getElementById('colour-glow');
+
+    if (!sign) {
+      document.getElementById('colour-title').textContent = '';
+      document.getElementById('constellation-name').innerHTML = '<span class="zodiac-hint">Add your birthday in Profile to reveal your colour</span>';
+      document.getElementById('colour-constellation').innerHTML = '';
+      glow.style.opacity = '0';
+      return;
+    }
+
+    glow.style.opacity = '';
     document.getElementById('colour-title').textContent = sign.colour;
-    document.getElementById('constellation-name').innerHTML = sign.name +
-      (saved ? '' : '<span class="zodiac-hint">Add your birthday in Profile to personalise this</span>');
+    document.getElementById('constellation-name').textContent = sign.name;
     document.getElementById('colour-constellation').innerHTML = renderConstellationSVG(sign.name);
-    document.getElementById('colour-glow').style.setProperty('--glow-rgb', hexToRgb(sign.hex).join(','));
+    glow.style.setProperty('--glow-rgb', hexToRgb(sign.hex).join(','));
   }
   renderColourOfWeek();
 
