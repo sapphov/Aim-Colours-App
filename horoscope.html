@@ -34,9 +34,22 @@
   /* ── SCREEN 2: COLOUR OF THE WEEK ── */
   .colour-title{font-size:25px;font-weight:600;color:#fff;letter-spacing:-0.5px;text-align:center;padding:80px 0 10px;flex-shrink:0}
   .colour-visual{flex:1;display:flex;align-items:center;justify-content:center;padding:0 20px 40px;min-height:0}
-  .colour-visual-inner{position:relative;width:100%}
-  .colour-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;pointer-events:none}
-  .colour-constellation{position:relative;width:100%;z-index:1;filter:invert(1);mix-blend-mode:screen}
+  .colour-visual-inner{position:relative;width:100%;aspect-ratio:1}
+  .colour-glow{
+    --emerald:26,80,68;
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:85%;aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle,
+      rgba(var(--emerald),.85) 0%,
+      rgba(var(--emerald),.55) 30%,
+      rgba(var(--emerald),.22) 55%,
+      rgba(var(--emerald),0) 75%);
+    filter:blur(28px);
+    mix-blend-mode:screen;
+    pointer-events:none;
+    z-index:0;
+  }
+  .colour-constellation{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:1;filter:invert(1);mix-blend-mode:screen}
   .constellation-name{font-size:23px;font-style:italic;font-family:'Inter',sans-serif;color:rgba(255,255,255,.75);letter-spacing:-0.46px;text-align:center;padding:0 20px 95px;flex-shrink:0}
 
   /* TAB BAR */
@@ -94,8 +107,8 @@
 
     <div class="colour-visual">
       <div class="colour-visual-inner">
-        <img class="colour-glow" src="https://www.figma.com/api/mcp/asset/90450e40-78a7-4dbd-afc8-385e8074af42" alt=""/>
-        <img class="colour-constellation" src="https://www.figma.com/api/mcp/asset/fb1b7a36-8369-40fb-8043-a557417d752d" alt="Colour constellation"/>
+        <div class="colour-glow"></div>
+        <img class="colour-constellation" src="assets/draco-constellation.png" alt="Colour constellation"/>
       </div>
     </div>
 
