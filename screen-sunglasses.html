@@ -133,9 +133,27 @@
 <!-- Content -->
   <div class="sg-content">
 
+    <!-- New Arrivals -->
+    <div class="sg-section">
+      <div class="sg-section-label" style="padding-top: 16px">New Arrivals</div>
+      <div class="sg-scroll-wrap">
+        <div class="sg-row" id="row-new">
+          <a class="sg-item" href="screen-sunglasses-studio.html?img=assets%2Fsunglasses-red.jpg&alt=red+sunglasses"><img src="assets/sunglasses-red.jpg" alt="red sunglasses" /></a>
+          <a class="sg-item" href="screen-sunglasses-studio.html?img=assets%2Fsunglasses-pink.jpg&alt=pink+sunglasses"><img src="assets/sunglasses-pink.jpg" alt="pink sunglasses" /></a>
+          <a class="sg-item" href="screen-sunglasses-studio.html?img=assets%2Fsunglasses-light-blue.jpg&alt=light+blue+sunglasses"><img src="assets/sunglasses-light-blue.jpg" alt="light blue sunglasses" /></a>
+          <a class="sg-item" href="screen-sunglasses-studio.html?img=assets%2Fsunglasses-mint-green.jpg&alt=mint+green+sunglasses"><img src="assets/sunglasses-mint-green.jpg" alt="mint green sunglasses" /></a>
+          <a class="sg-item" href="screen-sunglasses-studio.html?img=assets%2Fsunglasses-beige.jpg&alt=beige+sunglasses"><img src="assets/sunglasses-beige.jpg" alt="beige sunglasses" /></a>
+          <a class="sg-item" href="screen-sunglasses-studio.html?img=assets%2Fsunglasses-metallic-shell.jpg&alt=metallic+shell+sunglasses"><img src="assets/sunglasses-metallic-shell.jpg" alt="metallic shell sunglasses" /></a>
+          <a class="sg-item" href="screen-sunglasses-studio.html?img=assets%2Fsunglasses-tortoise-shell.jpg&alt=tortoise+shell+sunglasses"><img src="assets/sunglasses-tortoise-shell.jpg" alt="tortoise shell sunglasses" /></a>
+        </div>
+        <div class="sg-track"></div>
+        <div class="sg-thumb" id="thumb-new"></div>
+      </div>
+    </div>
+
     <!-- Archive -->
     <div class="sg-section">
-      <div class="sg-section-label" style="padding-top: 16px">Archive</div>
+      <div class="sg-section-label">Archive</div>
       <div class="sg-scroll-wrap">
         <div class="sg-row" id="row-archive">
           <a class="sg-item" href="screen-sunglasses-studio.html?img=assets%2Fchanel-sunglasses-1.webp&alt=Chanel+sunglasses+1"><img src="assets/chanel-sunglasses-1.webp" alt="Chanel sunglasses 1" /></a>
@@ -209,6 +227,7 @@
 
 <script>
   const rows = [
+    { row: 'row-new',     thumb: 'thumb-new'     },
     { row: 'row-archive', thumb: 'thumb-archive' },
     { row: 'row-friends', thumb: 'thumb-friends' },
     { row: 'row-recent',  thumb: 'thumb-recent'  },
