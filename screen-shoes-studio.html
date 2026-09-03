@@ -196,7 +196,8 @@
     if (!undoStack.length) return;
     var action = undoStack.pop();
     redoStack.push(action);
-    applySection(action.cls, action.prev);
+    if (action.type === 'img') { applyImageSwatch(action.prevSrc, action.prevAlt, false); }
+    else { applySection(action.cls, action.prev); }
     updateUndoRedoState();
   }
 
@@ -204,7 +205,8 @@
     if (!redoStack.length) return;
     var action = redoStack.pop();
     undoStack.push(action);
-    applySection(action.cls, action.next);
+    if (action.type === 'img') { applyImageSwatch(action.nextSrc, action.nextAlt, false); }
+    else { applySection(action.cls, action.next); }
     updateUndoRedoState();
   }
 
@@ -278,6 +280,61 @@
       });
     });
   });
+
+  // ── CMF colour family: these 4 items are the exact same sneaker shot
+  // with a different heel-panel colour, so "customising" them means
+  // swapping the photo rather than recolouring SVG regions. Only active
+  // when the card that linked here was tagged with &family=cmf. ──
+  var CMF_VARIANTS = [
+    { name: 'Red',        hex: '#590907', img: 'assets/shoes_red.png',       alt: 'red shoes' },
+    { name: 'Purple',     hex: '#613f60', img: 'assets/shoes_purple.png',    alt: 'purple shoes' },
+    { name: 'Blue',       hex: '#828aa1', img: 'assets/shoes_blue.png',      alt: 'blue shoes' },
+    { name: 'Mint Blue',  hex: '#6d7a7c', img: 'assets/shoes_mint_blue.png', alt: 'mint blue shoes' }
+  ];
+
+  var currentCmfImg = null, currentCmfAlt = null;
+
+  function applyImageSwatch(src, alt, recordHistory) {
+    var prevSrc = currentCmfImg, prevAlt = currentCmfAlt;
+    shoeImg.src = src;
+    shoeImg.alt = alt;
+    currentCmfImg = src;
+    currentCmfAlt = alt;
+    document.querySelectorAll('#swatches2 .sw').forEach(function(s) {
+      s.classList.toggle('sel', s.dataset.img === src);
+    });
+    if (recordHistory && prevSrc && prevSrc !== src) {
+      undoStack.push({ type: 'img', prevSrc: prevSrc, prevAlt: prevAlt, nextSrc: src, nextAlt: alt });
+      redoStack = [];
+      updateUndoRedoState();
+    }
+  }
+
+  if (params.get('family') === 'cmf') {
+    var currentImg = params.get('img') || '';
+    currentCmfImg = currentImg;
+    currentCmfAlt = params.get('alt') || '';
+    document.getElementById('swatches2').innerHTML =
+      '<div class="row">' + CMF_VARIANTS.map(function(v) {
+        return '<div class="sw" style="background:' + v.hex + '" data-color="' + v.hex + '" data-img="' + v.img + '" data-alt="' + v.alt + '" title="' + v.name + '"></div>';
+      }).join('') + '</div>';
+    document.querySelectorAll('#swatches2 .sw').forEach(function(s) {
+      s.classList.toggle('sel', s.dataset.img === currentImg);
+    });
+    document.getElementById('swatches2').addEventListener('click', function(e) {
+      var sw = e.target.closest('.sw');
+      if (!sw || !sw.dataset.img) return;
+      applyImageSwatch(sw.dataset.img, sw.dataset.alt, true);
+    });
+
+    // The palette dropdown is for the generic SVG colour system — not
+    // relevant here, so replace it with a static (empty) label instead of
+    // hiding it (keeps the undo/redo buttons at their usual spacing).
+    document.getElementById('pal-name').textContent = '';
+    document.getElementById('pal-chevron').style.display = 'none';
+    document.querySelector('.pal-trigger').onclick = null;
+    document.querySelector('.pal-trigger').style.cursor = 'default';
+  }
 </script>
 </body>
 </html>

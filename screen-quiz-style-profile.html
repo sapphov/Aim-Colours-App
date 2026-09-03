@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=393, initial-scale=1.0" />
-  <title>Aim Colours — Colour Personality Quiz</title>
+  <title>Aim Colours — Style Profile Quiz</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* ── Quiz flow — light editorial theme, per Figma ── */
+    /* ── Quiz flow — light editorial theme, matches Colour Personality quiz ── */
     .phone.quiz-flow { background: #FFF5F1; display: flex; flex-direction: column; }
     .quiz-flow .home-indicator-bar { background: rgba(53,32,31,0.3); }
 
@@ -43,10 +43,10 @@
       font-family: 'Inter', sans-serif;
       font-weight: 400; font-size: 26px;
       color: #35201F; letter-spacing: -0.02em; line-height: 1.3;
-      margin-bottom: 22px;
+      margin-bottom: 22px; min-height: 68px;
     }
 
-    /* Zodiac grid */
+    /* Icon/swatch grid (3 columns) — reused for colour palette question */
     .zodiac-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 14px 12px;
@@ -54,17 +54,23 @@
     }
     .zodiac-option {
       background: none; border: 1.5px solid transparent; border-radius: 9px;
-      padding: 18px 4px 14px;
+      padding: 18px 4px 14px; min-height: 112px;
       display: flex; flex-direction: column; align-items: center;
       cursor: pointer; -webkit-tap-highlight-color: transparent;
+      -webkit-appearance: none; appearance: none; box-shadow: none;
     }
     .zodiac-option img {
       width: 34px; height: 34px; object-fit: contain;
       margin-bottom: 14px;
     }
+    .zodiac-option .swatch-dot {
+      width: 34px; height: 34px; border-radius: 6px;
+      margin-bottom: 14px;
+      box-shadow: none;
+    }
     .zodiac-option span {
       font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400;
-      color: #35201F;
+      color: #35201F; text-align: center;
     }
     .zodiac-option.selected { border-color: var(--purple-light); }
 
@@ -78,26 +84,6 @@
     }
 
     .quiz-step.hidden { display: none; }
-
-    /* Step 2: inkblot */
-    .inkblot-image-wrap { margin-bottom: 20px; }
-    .inkblot-image-wrap img { width: 100%; border-radius: 4px; display: block; }
-
-    .inkblot-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 18px 16px;
-      flex: 1; align-content: space-evenly;
-    }
-    .inkblot-option {
-      background: none; border: 1.5px solid transparent; border-radius: 10px;
-      padding: 18px 10px;
-      text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent;
-    }
-    .inkblot-option span {
-      font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.3;
-      color: #35201F;
-    }
-    .inkblot-option.selected { border-color: var(--purple-light); }
 
     /* Placeholder images — swapped for real assets when uploaded (see upload list) */
     .quiz-placeholder {
@@ -116,7 +102,7 @@
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     }
 
-    /* Photo option grid — steps 3 (lunch) & 4 (emoji) */
+    /* Photo option grid — texture & dream closet questions */
     .photo-grid {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 16px 14px; flex: 1; align-content: space-evenly;
@@ -135,9 +121,7 @@
       font-family: 'Inter', sans-serif; font-size: 13px; color: #35201F;
     }
 
-    /* Word grid — step 5 */
-    .word-image-wrap { margin-bottom: 20px; }
-    .word-image-wrap .quiz-placeholder { width: 100%; aspect-ratio: 323 / 198; border-radius: 4px; }
+    /* Word grid — style-word question */
     .word-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 10px 8px; flex: 1; align-content: space-evenly;
@@ -149,7 +133,7 @@
     .word-option span { font-family: 'Inter', sans-serif; font-size: 14px; color: #35201F; }
     .word-option.selected { border-color: var(--purple-light); }
 
-    /* Step 6: reveal */
+    /* Reveal step */
     .reveal-step-content {
       flex: 1; min-height: 0; display: flex; flex-direction: column;
       align-items: center; justify-content: center; padding: 0 40px; text-align: center;
@@ -161,7 +145,7 @@
       color: #35201F; letter-spacing: -0.01em; line-height: 1.4;
     }
 
-    /* Steps 7–11: swatches + purchase */
+    /* Swatches + purchase */
     .swatch-step-content {
       flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
       scrollbar-width: none; padding: 22px 22px 0;
@@ -225,46 +209,136 @@
     </a>
   </div>
 
-  <!-- Step: Zodiac sign -->
-  <div class="quiz-step" id="step-zodiac">
+  <!-- Step: Texture -->
+  <div class="quiz-step" id="step-texture">
     <div class="quiz-step-content">
-      <div class="quiz-question">What's your zodiac sign?</div>
+      <div class="quiz-question">Pick a texture you're drawn to...</div>
+      <div class="photo-grid">
+        <button class="photo-option" data-answer="Tweed" onclick="selectPhoto(this, 'aim_quiz_texture')">
+          <div class="photo-option-img quiz-placeholder"><span>Tweed</span><img src="assets/quiz-style-texture-tweed.jpg" alt="Tweed" onerror="this.style.display='none'"></div>
+          <span>Tweed</span>
+        </button>
+        <button class="photo-option" data-answer="Satin" onclick="selectPhoto(this, 'aim_quiz_texture')">
+          <div class="photo-option-img quiz-placeholder"><span>Satin</span><img src="assets/quiz-style-texture-satin.jpg" alt="Satin" onerror="this.style.display='none'"></div>
+          <span>Satin</span>
+        </button>
+        <button class="photo-option" data-answer="Suede" onclick="selectPhoto(this, 'aim_quiz_texture')">
+          <div class="photo-option-img quiz-placeholder"><span>Suede</span><img src="assets/quiz-style-texture-suede.jpg" alt="Suede" onerror="this.style.display='none'"></div>
+          <span>Suede</span>
+        </button>
+        <button class="photo-option" data-answer="Corduroy" onclick="selectPhoto(this, 'aim_quiz_texture')">
+          <div class="photo-option-img quiz-placeholder"><span>Corduroy</span><img src="assets/quiz-style-texture-corduroy.jpg" alt="Corduroy" onerror="this.style.display='none'"></div>
+          <span>Corduroy</span>
+        </button>
+        <button class="photo-option" data-answer="Lace" onclick="selectPhoto(this, 'aim_quiz_texture')">
+          <div class="photo-option-img quiz-placeholder"><span>Lace</span><img src="assets/quiz-style-texture-lace.jpg" alt="Lace" onerror="this.style.display='none'"></div>
+          <span>Lace</span>
+        </button>
+        <button class="photo-option" data-answer="Leather" onclick="selectPhoto(this, 'aim_quiz_texture')">
+          <div class="photo-option-img quiz-placeholder"><span>Leather</span><img src="assets/quiz-style-texture-leather.jpg" alt="Leather" onerror="this.style.display='none'"></div>
+          <span>Leather</span>
+        </button>
+      </div>
+    </div>
+    <div class="quiz-next-wrap">
+      <button class="quiz-next" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <!-- Step: Print -->
+  <div class="quiz-step hidden" id="step-print">
+    <div class="quiz-step-content">
+      <div class="quiz-question">Pick a print that speaks to you...</div>
+      <div class="photo-grid">
+        <button class="photo-option" data-answer="Stripes" onclick="selectPhoto(this, 'aim_quiz_print')">
+          <div class="photo-option-img quiz-placeholder"><span>Stripes</span><img src="assets/quiz-style-print-stripes.jpg" alt="Stripes" onerror="this.style.display='none'"></div>
+          <span>Stripes</span>
+        </button>
+        <button class="photo-option" data-answer="Florals" onclick="selectPhoto(this, 'aim_quiz_print')">
+          <div class="photo-option-img quiz-placeholder"><span>Florals</span><img src="assets/quiz-style-print-florals.jpg" alt="Florals" onerror="this.style.display='none'"></div>
+          <span>Florals</span>
+        </button>
+        <button class="photo-option" data-answer="Plaid" onclick="selectPhoto(this, 'aim_quiz_print')">
+          <div class="photo-option-img quiz-placeholder"><span>Plaid</span><img src="assets/quiz-style-print-plaid.jpg" alt="Plaid" onerror="this.style.display='none'"></div>
+          <span>Plaid</span>
+        </button>
+        <button class="photo-option" data-answer="Animal Print" onclick="selectPhoto(this, 'aim_quiz_print')">
+          <div class="photo-option-img quiz-placeholder"><span>Animal Print</span><img src="assets/quiz-style-print-animal.jpg" alt="Animal Print" onerror="this.style.display='none'"></div>
+          <span>Animal Print</span>
+        </button>
+        <button class="photo-option" data-answer="Polka Dot" onclick="selectPhoto(this, 'aim_quiz_print')">
+          <div class="photo-option-img quiz-placeholder"><span>Polka Dot</span><img src="assets/quiz-style-print-polka-dot.jpg" alt="Polka Dot" onerror="this.style.display='none'"></div>
+          <span>Polka Dot</span>
+        </button>
+        <button class="photo-option" data-answer="Solid" onclick="selectPhoto(this, 'aim_quiz_print')">
+          <div class="photo-option-img quiz-placeholder"><span>Solid</span><img src="assets/quiz-style-print-solid.jpg" alt="Solid" onerror="this.style.display='none'"></div>
+          <span>Solid</span>
+        </button>
+      </div>
+    </div>
+    <div class="quiz-next-wrap">
+      <button class="quiz-next" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <!-- Step: Dream closet -->
+  <div class="quiz-step hidden" id="step-closet">
+    <div class="quiz-step-content">
+      <div class="quiz-question">Choose your dream closet...</div>
+      <div class="photo-grid">
+        <button class="photo-option" data-answer="Minimalist White" onclick="selectPhoto(this, 'aim_quiz_closet')">
+          <div class="photo-option-img quiz-placeholder"><span>Minimalist White</span><img src="assets/quiz-style-closet-minimalist.jpg" alt="Minimalist White" onerror="this.style.display='none'"></div>
+          <span>Minimalist White</span>
+        </button>
+        <button class="photo-option" data-answer="Bohemian Eclectic" onclick="selectPhoto(this, 'aim_quiz_closet')">
+          <div class="photo-option-img quiz-placeholder"><span>Bohemian Eclectic</span><img src="assets/quiz-style-closet-bohemian.jpg" alt="Bohemian Eclectic" onerror="this.style.display='none'"></div>
+          <span>Bohemian Eclectic</span>
+        </button>
+        <button class="photo-option" data-answer="Classic Tailored" onclick="selectPhoto(this, 'aim_quiz_closet')">
+          <div class="photo-option-img quiz-placeholder"><span>Classic Tailored</span><img src="assets/quiz-style-closet-classic.jpg" alt="Classic Tailored" onerror="this.style.display='none'"></div>
+          <span>Classic Tailored</span>
+        </button>
+        <button class="photo-option" data-answer="Edgy Streetwear" onclick="selectPhoto(this, 'aim_quiz_closet')">
+          <div class="photo-option-img quiz-placeholder"><span>Edgy Streetwear</span><img src="assets/quiz-style-closet-edgy.jpg" alt="Edgy Streetwear" onerror="this.style.display='none'"></div>
+          <span>Edgy Streetwear</span>
+        </button>
+        <button class="photo-option" data-answer="Romantic Vintage" onclick="selectPhoto(this, 'aim_quiz_closet')">
+          <div class="photo-option-img quiz-placeholder"><span>Romantic Vintage</span><img src="assets/quiz-style-closet-romantic.jpg" alt="Romantic Vintage" onerror="this.style.display='none'"></div>
+          <span>Romantic Vintage</span>
+        </button>
+        <button class="photo-option" data-answer="Sporty Casual" onclick="selectPhoto(this, 'aim_quiz_closet')">
+          <div class="photo-option-img quiz-placeholder"><span>Sporty Casual</span><img src="assets/quiz-style-closet-sporty.jpg" alt="Sporty Casual" onerror="this.style.display='none'"></div>
+          <span>Sporty Casual</span>
+        </button>
+      </div>
+    </div>
+    <div class="quiz-next-wrap">
+      <button class="quiz-next" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <!-- Step: Colour palette -->
+  <div class="quiz-step hidden" id="step-palette">
+    <div class="quiz-step-content">
+      <div class="quiz-question">Which colour palette calls to you?</div>
       <div class="zodiac-grid">
-        <button class="zodiac-option" data-sign="Capricorn" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-capricorn.png" alt="Capricorn"><span>Capricorn</span>
+        <button class="zodiac-option" data-answer="Neutral Nudes" onclick="selectSwatchQ(this)">
+          <div class="swatch-dot" style="background:#c8b8a8"></div><span>Neutral Nudes</span>
         </button>
-        <button class="zodiac-option" data-sign="Aquarius" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-aquarius.png" alt="Aquarius"><span>Aquarius</span>
+        <button class="zodiac-option" data-answer="Jewel Tones" onclick="selectSwatchQ(this)">
+          <div class="swatch-dot" style="background:#4a2d5c"></div><span>Jewel Tones</span>
         </button>
-        <button class="zodiac-option" data-sign="Pisces" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-pisces.png" alt="Pisces"><span>Pisces</span>
+        <button class="zodiac-option" data-answer="Earth Tones" onclick="selectSwatchQ(this)">
+          <div class="swatch-dot" style="background:#6b5335"></div><span>Earth Tones</span>
         </button>
-        <button class="zodiac-option" data-sign="Aries" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-aries.png" alt="Aries"><span>Aries</span>
+        <button class="zodiac-option" data-answer="Pastels" onclick="selectSwatchQ(this)">
+          <div class="swatch-dot" style="background:#e8c8d0"></div><span>Pastels</span>
         </button>
-        <button class="zodiac-option" data-sign="Taurus" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-taurus.png" alt="Taurus"><span>Taurus</span>
+        <button class="zodiac-option" data-answer="Monochrome" onclick="selectSwatchQ(this)">
+          <div class="swatch-dot" style="background:#2a2a2a"></div><span>Monochrome</span>
         </button>
-        <button class="zodiac-option" data-sign="Gemini" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-gemini.png" alt="Gemini"><span>Gemini</span>
-        </button>
-        <button class="zodiac-option" data-sign="Cancer" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-cancer.png" alt="Cancer"><span>Cancer</span>
-        </button>
-        <button class="zodiac-option" data-sign="Leo" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-leo.png" alt="Leo"><span>Leo</span>
-        </button>
-        <button class="zodiac-option" data-sign="Virgo" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-virgo.png" alt="Virgo"><span>Virgo</span>
-        </button>
-        <button class="zodiac-option" data-sign="Libra" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-libra.png" alt="Libra"><span>Libra</span>
-        </button>
-        <button class="zodiac-option" data-sign="Scorpio" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-scorpio.png" alt="Scorpio"><span>Scorpio</span>
-        </button>
-        <button class="zodiac-option" data-sign="Sagittarius" onclick="selectZodiac(this)">
-          <img src="assets/zodiac-sagittarius.png" alt="Sagittarius"><span>Sagittarius</span>
+        <button class="zodiac-option" data-answer="Bold Brights" onclick="selectSwatchQ(this)">
+          <div class="swatch-dot" style="background:#d63447"></div><span>Bold Brights</span>
         </button>
       </div>
     </div>
@@ -273,110 +347,20 @@
     </div>
   </div>
 
-  <!-- Step: Inkblot -->
-  <div class="quiz-step hidden" id="step-inkblot">
-    <div class="quiz-step-content">
-      <div class="inkblot-image-wrap">
-        <img src="assets/quiz-inkblot.jpg" alt="Inkblot pattern">
-      </div>
-      <div class="quiz-question">What does this image look like to you?</div>
-      <div class="inkblot-grid">
-        <button class="inkblot-option" data-answer="A Butterfly" onclick="selectInkblot(this)"><span>A Butterfly</span></button>
-        <button class="inkblot-option" data-answer="Two Women Dancing" onclick="selectInkblot(this)"><span>Two Women Dancing</span></button>
-        <button class="inkblot-option" data-answer="A Skull" onclick="selectInkblot(this)"><span>A Skull</span></button>
-        <button class="inkblot-option" data-answer="People Fighting" onclick="selectInkblot(this)"><span>People Fighting</span></button>
-        <button class="inkblot-option" data-answer="A Dinosaur" onclick="selectInkblot(this)"><span>A Dinosaur</span></button>
-        <button class="inkblot-option" data-answer="A Frog" onclick="selectInkblot(this)"><span>A Frog</span></button>
-      </div>
-    </div>
-    <div class="quiz-next-wrap">
-      <button class="quiz-next" onclick="nextStep()">Next</button>
-    </div>
-  </div>
-
-  <!-- Step: Lunch -->
-  <div class="quiz-step hidden" id="step-lunch">
-    <div class="quiz-step-content">
-      <div class="quiz-question">Choose something to eat for lunch...</div>
-      <div class="photo-grid">
-        <button class="photo-option" data-answer="Salad" onclick="selectPhoto(this, 'aim_quiz_lunch')">
-          <div class="photo-option-img quiz-placeholder"><span>Salad</span><img src="assets/quiz-lunch-salad.jpg" alt="Salad" onerror="this.style.display='none'"></div>
-          <span>Salad</span>
-        </button>
-        <button class="photo-option" data-answer="Burger" onclick="selectPhoto(this, 'aim_quiz_lunch')">
-          <div class="photo-option-img quiz-placeholder"><span>Burger</span><img src="assets/quiz-lunch-burger.jpg" alt="Burger" onerror="this.style.display='none'"></div>
-          <span>Burger</span>
-        </button>
-        <button class="photo-option" data-answer="Pad Thai" onclick="selectPhoto(this, 'aim_quiz_lunch')">
-          <div class="photo-option-img quiz-placeholder"><span>Pad Thai</span><img src="assets/quiz-lunch-padthai.jpg" alt="Pad Thai" onerror="this.style.display='none'"></div>
-          <span>Pad Thai</span>
-        </button>
-        <button class="photo-option" data-answer="Pizza" onclick="selectPhoto(this, 'aim_quiz_lunch')">
-          <div class="photo-option-img quiz-placeholder"><span>Pizza</span><img src="assets/quiz-lunch-pizza.jpg" alt="Pizza" onerror="this.style.display='none'"></div>
-          <span>Pizza</span>
-        </button>
-        <button class="photo-option" data-answer="Tacos" onclick="selectPhoto(this, 'aim_quiz_lunch')">
-          <div class="photo-option-img quiz-placeholder"><span>Tacos</span><img src="assets/quiz-lunch-tacos.jpg" alt="Tacos" onerror="this.style.display='none'"></div>
-          <span>Tacos</span>
-        </button>
-        <button class="photo-option" data-answer="Sushi" onclick="selectPhoto(this, 'aim_quiz_lunch')">
-          <div class="photo-option-img quiz-placeholder"><span>Sushi</span><img src="assets/quiz-lunch-sushi.jpg" alt="Sushi" onerror="this.style.display='none'"></div>
-          <span>Sushi</span>
-        </button>
-      </div>
-    </div>
-    <div class="quiz-next-wrap">
-      <button class="quiz-next" onclick="nextStep()">Next</button>
-    </div>
-  </div>
-
-  <!-- Step: Emoji -->
-  <div class="quiz-step hidden" id="step-emoji">
-    <div class="quiz-step-content">
-      <div class="quiz-question">Pick an emoji to send to a friend...</div>
-      <div class="photo-grid">
-        <button class="photo-option" data-answer="Crying" onclick="selectPhoto(this, 'aim_quiz_emoji')">
-          <div class="photo-option-img quiz-placeholder"><span>Crying</span><img src="assets/quiz-emoji-crying.jpg" alt="Crying face" onerror="this.style.display='none'"></div>
-        </button>
-        <button class="photo-option" data-answer="Heart Eyes" onclick="selectPhoto(this, 'aim_quiz_emoji')">
-          <div class="photo-option-img quiz-placeholder"><span>Heart Eyes</span><img src="assets/quiz-emoji-heart-eyes.jpg" alt="Heart eyes face" onerror="this.style.display='none'"></div>
-        </button>
-        <button class="photo-option" data-answer="Exhausted" onclick="selectPhoto(this, 'aim_quiz_emoji')">
-          <div class="photo-option-img quiz-placeholder"><span>Exhausted</span><img src="assets/quiz-emoji-exhausted.jpg" alt="Exhausted face" onerror="this.style.display='none'"></div>
-        </button>
-        <button class="photo-option" data-answer="Smiling" onclick="selectPhoto(this, 'aim_quiz_emoji')">
-          <div class="photo-option-img quiz-placeholder"><span>Smiling</span><img src="assets/quiz-emoji-smiling.jpg" alt="Smiling face" onerror="this.style.display='none'"></div>
-        </button>
-        <button class="photo-option" data-answer="Kiss" onclick="selectPhoto(this, 'aim_quiz_emoji')">
-          <div class="photo-option-img quiz-placeholder"><span>Kiss</span><img src="assets/quiz-emoji-kiss.jpg" alt="Kiss face" onerror="this.style.display='none'"></div>
-        </button>
-        <button class="photo-option" data-answer="Wide Eyed" onclick="selectPhoto(this, 'aim_quiz_emoji')">
-          <div class="photo-option-img quiz-placeholder"><span>Wide Eyed</span><img src="assets/quiz-emoji-wide-eyed.jpg" alt="Wide eyed face" onerror="this.style.display='none'"></div>
-        </button>
-      </div>
-    </div>
-    <div class="quiz-next-wrap">
-      <button class="quiz-next" onclick="nextStep()">Next</button>
-    </div>
-  </div>
-
-  <!-- Step: Complete the word -->
+  <!-- Step: Style word -->
   <div class="quiz-step hidden" id="step-word">
     <div class="quiz-step-content">
-      <div class="word-image-wrap">
-        <div class="quiz-placeholder"><span>"_OLD" on marbled background</span><img src="assets/quiz-word-old.jpg" alt="_OLD" onerror="this.style.display='none'"></div>
-      </div>
-      <div class="quiz-question" style="font-size:22px;">Complete this word:</div>
+      <div class="quiz-question">Which word describes your style best?</div>
       <div class="word-grid">
-        <button class="word-option" data-answer="Fold" onclick="selectWord(this)"><span>Fold</span></button>
-        <button class="word-option" data-answer="Mold" onclick="selectWord(this)"><span>Mold</span></button>
-        <button class="word-option" data-answer="Gold" onclick="selectWord(this)"><span>Gold</span></button>
+        <button class="word-option" data-answer="Timeless" onclick="selectWord(this)"><span>Timeless</span></button>
         <button class="word-option" data-answer="Bold" onclick="selectWord(this)"><span>Bold</span></button>
-        <button class="word-option" data-answer="Cold" onclick="selectWord(this)"><span>Cold</span></button>
-        <button class="word-option" data-answer="Wold" onclick="selectWord(this)"><span>Wold</span></button>
-        <button class="word-option" data-answer="Told" onclick="selectWord(this)"><span>Told</span></button>
-        <button class="word-option" data-answer="Sold" onclick="selectWord(this)"><span>Sold</span></button>
-        <button class="word-option" data-answer="Hold" onclick="selectWord(this)"><span>Hold</span></button>
+        <button class="word-option" data-answer="Effortless" onclick="selectWord(this)"><span>Effortless</span></button>
+        <button class="word-option" data-answer="Polished" onclick="selectWord(this)"><span>Polished</span></button>
+        <button class="word-option" data-answer="Eclectic" onclick="selectWord(this)"><span>Eclectic</span></button>
+        <button class="word-option" data-answer="Free-Spirited" onclick="selectWord(this)"><span>Free-Spirited</span></button>
+        <button class="word-option" data-answer="Sleek" onclick="selectWord(this)"><span>Sleek</span></button>
+        <button class="word-option" data-answer="Whimsical" onclick="selectWord(this)"><span>Whimsical</span></button>
+        <button class="word-option" data-answer="Refined" onclick="selectWord(this)"><span>Refined</span></button>
       </div>
     </div>
     <div class="quiz-next-wrap">
@@ -388,9 +372,9 @@
   <div class="quiz-step hidden" id="step-reveal">
     <div class="reveal-step-content">
       <div class="reveal-image-wrap">
-        <div class="quiz-placeholder"><span>Reveal Colour</span><img src="assets/quiz-reveal-pendant.png" alt="Reveal animation" onerror="this.style.display='none'"></div>
+        <div class="quiz-placeholder"><span>Reveal Aesthetic</span><img src="assets/quiz-style-reveal.png" alt="Reveal animation" onerror="this.style.display='none'"></div>
       </div>
-      <div class="reveal-text">Hold on, we're choosing a colour that's as special as you!</div>
+      <div class="reveal-text">Hold on, we're defining your aesthetic!</div>
     </div>
   </div>
 
@@ -399,9 +383,9 @@
     <div class="swatch-step-content">
       <div class="swatch-heading">Tada!<br>Choose from:</div>
       <div class="swatch-stack">
-        <button class="swatch-option" style="background:#A47C81" data-color="#A47C81" onclick="selectSwatch(this)"></button>
+        <button class="swatch-option" style="background:#362344" data-color="#362344" onclick="selectSwatch(this)"></button>
         <button class="swatch-option" style="background:#9E5959" data-color="#9E5959" onclick="selectSwatch(this)"></button>
-        <button class="swatch-option" style="background:#7F1712" data-color="#7F1712" onclick="selectSwatch(this)"></button>
+        <button class="swatch-option" style="background:#766473" data-color="#766473" onclick="selectSwatch(this)"></button>
       </div>
       <div class="swatch-btn-row">
         <button class="swatch-btn" onclick="nextStep()">Use it</button>
@@ -447,9 +431,9 @@
         <button class="swatch-btn">Purchase</button>
       </div>
       <div class="swatch-mini-row" style="margin-top:56px;">
-        <div class="swatch-mini" style="background:#A47C81"></div>
+        <div class="swatch-mini" style="background:#362344"></div>
         <div class="swatch-mini" style="background:#9E5959"></div>
-        <div class="swatch-mini" style="background:#7F1712"></div>
+        <div class="swatch-mini" style="background:#766473"></div>
       </div>
       <div class="swatch-heading" style="margin-bottom:16px;">Buy all of your custom colours for 15% off</div>
       <button class="swatch-btn">Purchase All</button>
@@ -462,7 +446,7 @@
 
 <script>
   var steps = [
-    'step-zodiac', 'step-inkblot', 'step-lunch', 'step-emoji', 'step-word',
+    'step-texture', 'step-print', 'step-closet', 'step-palette', 'step-word',
     'step-reveal', 'step-choose', 'step-preview', 'step-hold', 'step-success', 'step-purchase'
   ];
   var currentStep = 0;
@@ -505,16 +489,10 @@
     }
   }
 
-  function selectZodiac(el) {
+  function selectSwatchQ(el) {
     document.querySelectorAll('.zodiac-option.selected').forEach(function(o) { o.classList.remove('selected'); });
     el.classList.add('selected');
-    localStorage.setItem('aim_quiz_zodiac', el.dataset.sign);
-  }
-
-  function selectInkblot(el) {
-    document.querySelectorAll('.inkblot-option.selected').forEach(function(o) { o.classList.remove('selected'); });
-    el.classList.add('selected');
-    localStorage.setItem('aim_quiz_inkblot', el.dataset.answer);
+    localStorage.setItem('aim_quiz_palette', el.dataset.answer);
   }
 
   function selectPhoto(el, storageKey) {
