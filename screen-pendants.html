@@ -80,16 +80,24 @@
 
     /* Pendant card */
     .pendant-item {
+      position: relative;
       flex-shrink: 0;
       width: 150px; height: 160px;
       border-radius: 10px;
       overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
+      display: grid; place-items: center;
       cursor: pointer;
     }
     .pendant-item img {
+      grid-area: 1 / 1;
       width: 90%; height: 90%;
       object-fit: contain;
+    }
+    .pendant-item .pendant-glass-overlay {
+      grid-area: 1 / 1;
+      width: 96%; height: 96%;
+      object-fit: contain;
+      pointer-events: none;
     }
 
     /* Scroll indicator */
@@ -530,6 +538,7 @@
     img.src   = imgSrc;
     img.alt   = 'pendant';
     slot.appendChild(img);
+    appendGlassOverlay(slot);
   }
 
   // Dusty Rose Reserve designs are static, pre-coloured files — just drop
@@ -539,6 +548,16 @@
     img.src   = design.svg;
     img.alt   = 'pendant';
     slot.appendChild(img);
+    appendGlassOverlay(slot);
+  }
+
+  // Glass layer overlaid on top of every pendant.
+  function appendGlassOverlay(slot) {
+    const glass = document.createElement('img');
+    glass.src = 'assets/pendant-glass-teardrop.png';
+    glass.alt = '';
+    glass.className = 'pendant-glass-overlay';
+    slot.appendChild(glass);
   }
 
   // ── Init ────────────────────────────────────────────────────
