@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insights Dashboard — AimColours (Internal)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  a { text-decoration: none; color: inherit; }
+
+  :root {
+    --bg:            #0a0a0c;
+    --sidebar-bg:    #0e0e10;
+    --panel:         #17171a;
+    --panel-alt:     #1c1c20;
+    --border:        rgba(255,255,255,0.08);
+    --text:          #f5f3f1;
+    --text-dim:      rgba(245,243,241,0.58);
+    --text-faint:    rgba(245,243,241,0.34);
+    --serif:         'Playfair Display', Georgia, serif;
+    --sans:          'Inter', Helvetica, Arial, sans-serif;
+    --purple:        #7B52C8;
+    --purple-light:  #A07DE0;
+    --purple-glow:   rgba(123, 82, 200, 0.45);
+    --purple-faint:  rgba(123, 82, 200, 0.15);
+    --orange:        #C98A5B;
+    --orange-deep:   #2A2015;
+    --pink:          #D98FA6;
+    --pink-deep:     #2A1B21;
+    --green:         #5FAE7A;
+    --blue:          #5B8FD9;
+    --gray-pill:     #4c4c54;
+    --track-bg:      rgba(255,255,255,0.06);
+    --grid-line:     rgba(255,255,255,0.07);
+  }
+
+  :root[data-theme="light"] {
+    --bg:            #f3f1ee;
+    --sidebar-bg:    #ffffff;
+    --panel:         #ffffff;
+    --panel-alt:     #f1eee9;
+    --border:        rgba(20,16,10,0.09);
+    --text:          #1c1a17;
+    --text-dim:      rgba(28,26,23,0.6);
+    --text-faint:    rgba(28,26,23,0.4);
+    --track-bg:      rgba(20,16,10,0.07);
+    --grid-line:     rgba(20,16,10,0.08);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .dash-shell { display: flex; min-height: 100vh; }
+
+  /* ───────────────────────── Sidebar ───────────────────────── */
+  .sidebar {
+    width: 232px;
+    flex-shrink: 0;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 22px 14px;
+    transition: width 0.2s ease, padding 0.2s ease;
+  }
+  .sidebar.collapsed { width: 72px; padding: 22px 10px; }
+
+  .sidebar-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 6px 26px; margin-bottom: 6px;
+  }
+  .sidebar-logo {
+    font-family: var(--serif); font-style: italic; font-weight: 600;
+    font-size: 20px; letter-spacing: 0.01em;
+    background: linear-gradient(90deg, var(--pink), var(--purple-light));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    white-space: nowrap; overflow: hidden;
+  }
+  .sidebar.collapsed .sidebar-logo { opacity: 0; width: 0; }
+  .collapse-btn {
+    width: 26px; height: 26px; border-radius: 7px; border: 1px solid var(--border);
+    background: var(--panel); color: var(--text-dim); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+  }
+  .collapse-btn:hover { background: var(--panel-alt); color: var(--text); }
+  .collapse-btn svg { width: 14px; height: 14px; transition: transform 0.2s; }
+  .sidebar.collapsed .collapse-btn svg { transform: rotate(180deg); }
+
+  .nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .nav-link {
+    display: flex; align-items: center; gap: 11px;
+    padding: 9px 10px; border-radius: 9px;
+    font-size: 13.5px; font-weight: 500; color: var(--text-dim);
+    white-space: nowrap; overflow: hidden;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-link:hover { background: var(--panel); color: var(--text); }
+  .nav-link.active { background: var(--purple-faint); color: var(--text); }
+  .nav-link svg { width: 17px; height: 17px; flex-shrink: 0; }
+  .nav-link.active svg { color: var(--purple-light); }
+  .sidebar.collapsed .nav-link span { display: none; }
+
+  .sidebar-spacer { flex: 1; }
+
+  .sidebar-user {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 8px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--panel); cursor: default;
+  }
+  .avatar {
+    width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11.5px; font-weight: 700; color: #fff;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+  }
+  .sidebar-user-info { overflow: hidden; white-space: nowrap; }
+  .sidebar-user-name { font-size: 13px; font-weight: 600; }
+  .sidebar-user-role { font-size: 11px; color: var(--text-faint); }
+  .sidebar.collapsed .sidebar-user-info,
+  .sidebar.collapsed .sidebar-user-chevron { display: none; }
+  .sidebar-user-chevron { margin-left: auto; color: var(--text-faint); width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* ───────────────────────── Main ───────────────────────── */
+  .dash-main { flex: 1; padding: 26px 32px 60px; max-width: 1440px; }
+
+  .topbar {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px; margin-bottom: 22px;
+  }
+  .topbar h1 { font-size: 25px; font-weight: 700; letter-spacing: -0.01em; }
+  .topbar-sub { font-size: 13px; color: var(--text-dim); margin-top: 3px; }
+  .proto-badge {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 8px;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--purple-light); background: var(--purple-faint);
+    border: 1px solid rgba(160,125,224,0.35); border-radius: 999px; padding: 3px 9px;
+  }
+  .proto-badge svg { width: 11px; height: 11px; }
+
+  .filters { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .filter-select {
+    appearance: none; -webkit-appearance: none;
+    background: var(--panel) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="%23888088" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>') no-repeat right 10px center;
+    border: 1px solid var(--border); color: var(--text); font-family: var(--sans);
+    font-size: 12.5px; font-weight: 500; border-radius: 8px;
+    padding: 8px 26px 8px 11px; cursor: pointer;
+  }
+  .filter-select:focus { outline: 1px solid var(--purple-light); }
+  :root[data-theme="light"] .filter-select {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="%23716b62" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>');
+  }
+  .theme-toggle {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--panel); border: 1px solid var(--border); color: var(--text-dim);
+    border-radius: 8px; padding: 8px 11px; cursor: pointer; font-family: var(--sans);
+    font-size: 12.5px; font-weight: 500; transition: background 0.15s, color 0.15s;
+  }
+  .theme-toggle:hover { background: var(--panel-alt); color: var(--text); }
+  .theme-toggle svg { width: 14px; height: 14px; }
+  .export-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--purple); color: #fff; border: none; border-radius: 8px;
+    font-family: var(--sans); font-size: 12.5px; font-weight: 600;
+    padding: 9px 14px; cursor: pointer; transition: background 0.15s;
+  }
+  .export-btn:hover { background: #6a45b0; }
+  .export-btn svg { width: 14px; height: 14px; }
+
+  /* ───────────────────────── Stat cards ───────────────────────── */
+  .stat-row {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 18px;
+  }
+  .stat-card {
+    border-radius: 14px; padding: 16px 16px 15px; position: relative; overflow: hidden;
+    color: #241d17;
+  }
+  .stat-card.c-orange { background: linear-gradient(145deg, #D9A177, var(--orange)); }
+  .stat-card.c-pink   { background: linear-gradient(145deg, #E8ABBD, var(--pink)); }
+  .stat-card.c-purple { background: linear-gradient(145deg, #A98CE0, #8163CC); color: #211735; }
+  .stat-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .stat-icon { width: 26px; height: 26px; border-radius: 8px; background: rgba(255,255,255,0.35); display: flex; align-items: center; justify-content: center; }
+  .stat-icon svg { width: 14px; height: 14px; }
+  .stat-label { font-size: 11.5px; font-weight: 600; opacity: 0.85; }
+  .stat-delta {
+    font-size: 10.5px; font-weight: 700; background: rgba(255,255,255,0.4);
+    border-radius: 999px; padding: 2.5px 7px; display: inline-flex; align-items: center; gap: 2px;
+  }
+  .stat-delta.down { color: #6b1f1f; }
+  .stat-delta.up { color: #1f5230; }
+  .stat-value { font-size: 23px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; }
+  .stat-caption { font-size: 11px; opacity: 0.75; margin-top: 3px; font-weight: 500; }
+
+  /* ───────────────────────── Panels ───────────────────────── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; align-items: start; }
+  .panel {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 20px 20px;
+  }
+  .panel-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .panel-title svg { width: 16px; height: 16px; color: var(--purple-light); }
+  .panel-sub { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); margin: 18px 0 10px; }
+
+  /* Most loved colours */
+  .color-list { display: flex; flex-direction: column; gap: 12px; }
+  .color-row { display: flex; align-items: center; gap: 10px; }
+  .color-rank { width: 18px; font-size: 11px; color: var(--text-faint); font-weight: 600; flex-shrink: 0; }
+  .color-dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.25); }
+  .color-name { font-size: 12.5px; font-weight: 500; width: 108px; flex-shrink: 0; }
+  .color-bar-track { flex: 1; height: 6px; border-radius: 999px; background: var(--track-bg); overflow: hidden; }
+  .color-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--purple), var(--purple-light)); }
+  .color-pct { width: 32px; text-align: right; font-size: 12px; font-weight: 600; color: var(--text-dim); flex-shrink: 0; }
+
+  /* Heatmap */
+  .heatmap-row { display: flex; gap: 6px; }
+  .heatmap-cell-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .heatmap-daylabel { font-size: 10px; color: var(--text-faint); font-weight: 600; }
+  .heatmap-cell { width: 100%; aspect-ratio: 1; border-radius: 6px; }
+  .heatmap-legend { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 10px; color: var(--text-faint); font-weight: 600; }
+  .heatmap-legend-dots { display: flex; gap: 4px; }
+  .heatmap-legend-dots span { width: 7px; height: 7px; border-radius: 2px; }
+
+  /* Feature leaderboard */
+  .feature-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 4px; }
+  .feature-row { display: flex; align-items: center; gap: 10px; }
+  .feature-rank {
+    width: 18px; height: 18px; border-radius: 5px; background: var(--panel-alt);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: var(--text-dim); flex-shrink: 0;
+  }
+  .feature-name { font-size: 12.5px; font-weight: 500; width: 128px; flex-shrink: 0; }
+  .feature-bar-track { flex: 1; height: 6px; border-radius: 999px; background: var(--track-bg); overflow: hidden; }
+  .feature-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--purple-light), #cbb6f2); }
+  .feature-delta { font-size: 10px; font-weight: 700; border-radius: 999px; padding: 2px 6px; flex-shrink: 0; }
+  .feature-delta.up { color: var(--green); background: rgba(95,174,122,0.14); }
+  .feature-delta.down { color: #d97878; background: rgba(217,120,120,0.14); }
+  .feature-pct { width: 30px; text-align: right; font-size: 12px; font-weight: 600; color: var(--text-dim); flex-shrink: 0; }
+
+  .metric-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0 4px; }
+  .metric-tile { background: var(--panel-alt); border-radius: 10px; padding: 11px 12px; }
+  .metric-tile-value { font-size: 16.5px; font-weight: 700; }
+  .metric-tile-label { font-size: 10px; color: var(--text-dim); font-weight: 500; margin-top: 2px; }
+  .metric-tile-sub { font-size: 9.5px; color: var(--text-faint); margin-top: 4px; }
+
+  .bar-chart { display: flex; align-items: flex-end; gap: 3px; height: 80px; }
+  .bar-chart div { flex: 1; border-radius: 2px 2px 0 0; background: linear-gradient(180deg, var(--purple-light), rgba(160,125,224,0.25)); min-width: 2px; }
+
+  /* Retention curve */
+  .retention-chart-wrap { display: flex; gap: 10px; }
+  .retention-axis { display: flex; flex-direction: column; justify-content: space-between; font-size: 10px; color: var(--text-faint); font-weight: 600; padding: 4px 0 22px; }
+  .retention-svg-box { flex: 1; }
+  .retention-svg-box svg { width: 100%; height: auto; display: block; }
+  .retention-daylabels { display: flex; justify-content: space-between; margin-top: 4px; font-size: 11px; color: var(--text-faint); font-weight: 600; padding-left: 2px; }
+  .retention-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); text-align: center; }
+  .retention-stat-val { font-size: 17px; font-weight: 700; }
+  .retention-stat-label { font-size: 10.5px; color: var(--text-dim); font-weight: 600; margin-top: 2px; }
+  .retention-stat-sub { font-size: 9.5px; color: var(--text-faint); margin-top: 1px; }
+  .retention-gridlines line { stroke: var(--grid-line); stroke-width: 1; }
+
+  /* ───────────────────────── Info tooltips ───────────────────────── */
+  .info-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 13px; height: 13px; flex-shrink: 0; position: relative;
+    color: var(--text-faint); cursor: help; vertical-align: middle;
+  }
+  .info-icon svg { width: 100%; height: 100%; }
+  .info-icon:hover, .info-icon:focus { color: var(--purple-light); outline: none; }
+  .stat-card .info-icon { color: rgba(36,29,23,0.45); }
+  .stat-card .info-icon:hover, .stat-card .info-icon:focus { color: rgba(36,29,23,0.9); }
+  .info-icon::after {
+    content: attr(data-tip);
+    position: absolute; left: 50%; bottom: calc(100% + 9px); transform: translateX(-50%);
+    width: 200px; background: #1c1a17; color: #f5f3f1;
+    font-family: var(--sans); font-size: 11px; font-weight: 500; line-height: 1.45;
+    text-transform: none; letter-spacing: normal;
+    padding: 8px 10px; border-radius: 8px; text-align: left;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+    opacity: 0; visibility: hidden; transition: opacity 0.15s ease;
+    z-index: 60; pointer-events: none;
+  }
+  .info-icon::before {
+    content: ''; position: absolute; left: 50%; bottom: calc(100% + 4px); transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: #1c1a17;
+    opacity: 0; visibility: hidden; transition: opacity 0.15s ease; z-index: 60;
+  }
+  .info-icon:hover::after, .info-icon:hover::before,
+  .info-icon:focus::after, .info-icon:focus::before { opacity: 1; visibility: visible; }
+  .panel-title .info-icon::after { bottom: auto; top: calc(100% + 9px); }
+  .panel-title .info-icon::before { bottom: auto; top: calc(100% + 4px); border-top-color: transparent; border-bottom-color: #1c1a17; }
+
+  /* Activity table */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead th {
+    text-align: left; font-size: 10.5px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--text-faint); padding: 0 10px 10px; border-bottom: 1px solid var(--border);
+  }
+  thead th.num, td.num { text-align: right; }
+  tbody td { padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  .user-cell { display: flex; align-items: center; gap: 10px; }
+  .user-name { font-weight: 600; }
+  .user-email { font-size: 11px; color: var(--text-faint); margin-top: 1px; }
+  .fav-color-cell { display: flex; align-items: center; gap: 7px; }
+  .fav-color-dot { width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); }
+  .fav-color-tag { font-size: 11px; color: var(--text-faint); }
+  .changes-val { font-weight: 600; }
+  .changes-sub { font-size: 10.5px; color: var(--text-faint); }
+  .status-pill { font-size: 10.5px; font-weight: 700; border-radius: 999px; padding: 3px 10px; display: inline-block; }
+  .status-pill.power  { background: rgba(123,82,200,0.22); color: var(--purple-light); }
+  .status-pill.active { background: rgba(95,174,122,0.18); color: var(--green); }
+  .status-pill.new     { background: rgba(91,143,217,0.18); color: var(--blue); }
+  .status-pill.inactive{ background: rgba(255,255,255,0.08); color: var(--text-dim); }
+  .last-seen { color: var(--text-faint); text-align: right; }
+
+  .table-foot {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 14px; font-size: 12px; color: var(--text-faint);
+  }
+  .table-foot-links { display: flex; gap: 18px; }
+  .table-foot-links a.disabled { color: var(--text-faint); cursor: default; }
+  .table-foot-links a.view-all { color: var(--purple-light); font-weight: 600; }
+
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; align-items: start; }
+
+  .funnel-list { display: flex; flex-direction: column; gap: 14px; }
+  .funnel-item { display: flex; flex-direction: column; gap: 5px; }
+  .funnel-item-top { display: flex; align-items: baseline; justify-content: space-between; }
+  .funnel-item-name { font-size: 12.5px; font-weight: 600; }
+  .funnel-item-rate { font-size: 12px; font-weight: 700; color: var(--purple-light); }
+  .funnel-track { height: 7px; border-radius: 999px; background: var(--track-bg); overflow: hidden; }
+  .funnel-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--purple), var(--purple-light)); }
+  .funnel-item-sub { font-size: 10.5px; color: var(--text-faint); }
+
+  .studio-list { display: flex; flex-direction: column; gap: 13px; }
+  .studio-row { display: flex; align-items: center; gap: 10px; }
+  .studio-icon { width: 26px; height: 26px; border-radius: 7px; background: var(--panel-alt); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--purple-light); }
+  .studio-icon svg { width: 14px; height: 14px; }
+  .studio-info { flex: 1; min-width: 0; }
+  .studio-name-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 4px; }
+  .studio-name { font-size: 12.5px; font-weight: 600; }
+  .studio-sessions { font-size: 10.5px; color: var(--text-faint); }
+  .studio-track { height: 6px; border-radius: 999px; background: var(--track-bg); overflow: hidden; }
+  .studio-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--purple), var(--purple-light)); }
+
+  .cotw-stat { display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .cotw-stat:last-of-type { border-bottom: none; }
+  .cotw-stat-label { font-size: 12px; color: var(--text-dim); font-weight: 500; }
+  .cotw-stat-value { font-size: 14.5px; font-weight: 700; }
+  .cotw-highlight {
+    margin-top: 14px; padding: 12px 13px; border-radius: 10px;
+    background: linear-gradient(135deg, rgba(123,82,200,0.18), rgba(217,143,166,0.12));
+    border: 1px solid rgba(160,125,224,0.25);
+  }
+  .cotw-highlight-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--purple-light); margin-bottom: 4px; }
+  .cotw-highlight-value { font-size: 15px; font-weight: 700; font-family: var(--serif); font-style: italic; }
+  .cotw-highlight-sub { font-size: 10.5px; color: var(--text-faint); margin-top: 2px; }
+
+  @media (max-width: 1180px) {
+    .stat-row { grid-template-columns: repeat(3, 1fr); }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<svg style="position:absolute; width:0; height:0" aria-hidden="true">
+  <defs>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M12 20V4M20 20v-7"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21a9 9 0 1 1 0-18c4.5 0 8 3 8 6.5 0 2-1.5 3.5-3.5 3.5H14a1.5 1.5 0 0 0-1 2.6c.6.5 1 1.2 1 2 0 1.9-1 3.4-2 3.4Z"/><circle cx="7.5" cy="10.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="10.5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="7.5" r="1.2" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 5 19.5V21"/><circle cx="9.5" cy="8" r="3.2"/><path d="M15.5 5.2a3.2 3.2 0 0 1 0 6.2M19 21v-1.5a3.4 3.4 0 0 0-2.2-3.2"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-9"/><path d="M14 6h7v7"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></symbol>
+    <symbol id="i-devices" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="14" height="10" rx="1.5"/><path d="M6 18h6M9 14v4"/><rect x="18" y="9" width="4" height="9" rx="1"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20.5s-7.5-4.6-9.6-9A5 5 0 0 1 12 6.2 5 5 0 0 1 21.6 11.5c-2.1 4.4-9.6 9-9.6 9Z"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5l-7 7 7 7"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6M10 3v6.5L4.8 18a2 2 0 0 0 1.7 3h11a2 2 0 0 0 1.7-3L14 9.5V3"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6z"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></symbol>
+    <symbol id="i-shoe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 16.5c0-1.5 1-2.3 2.2-3L11 10c1-.6 1.6-1.7 1.6-2.9V6l3 2.5 3.9 1.6c1.5.6 2.5 2 2.5 3.6v1.8a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 15.5Z"/><path d="M3 16.5h18"/></symbol>
+    <symbol id="i-glasses" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="14" r="3.2"/><circle cx="18" cy="14" r="3.2"/><path d="M9.2 14h5.6M2 12l1.5-5.5A2 2 0 0 1 5.4 5H7M22 12l-1.5-5.5A2 2 0 0 0 18.6 5H17"/></symbol>
+    <symbol id="i-jewel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9l4-6h8l4 6-10 12Z"/><path d="M4 9h16M8 3l2 6-2 12M16 3l-2 6 2 12"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12V5a1.5 1.5 0 0 1 3 0v5.5M11 10V4a1.5 1.5 0 0 1 3 0v6.5M14 10.5V6a1.5 1.5 0 0 1 3 0v8c0 3.9-2.5 7-6.5 7-2.5 0-3.8-1-5-2.5L3 13.8a1.4 1.4 0 0 1 2.2-1.7L8 15"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2.5 12H5M19 12h2.5M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5" stroke-linecap="round"/><circle cx="12" cy="8" r="0.6" fill="currentColor" stroke="none"/></symbol>
+  </defs>
+</svg>
+
+<div class="dash-shell">
+
+  <!-- ───────────────────────── Sidebar ───────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <span class="sidebar-logo">AimColours</span>
+      <button class="collapse-btn" id="collapseBtn" aria-label="Collapse sidebar">
+        <svg><use href="#i-chevron-left"/></svg>
+      </button>
+    </div>
+
+    <ul class="nav-list">
+      <li><a class="nav-link active" href="#"><svg><use href="#i-grid"/></svg><span>Dashboard</span></a></li>
+      <li><a class="nav-link" href="#"><svg><use href="#i-jewel"/></svg><span>Product Studios</span></a></li>
+      <li><a class="nav-link" href="#"><svg><use href="#i-check-circle"/></svg><span>Quizzes</span></a></li>
+      <li><a class="nav-link" href="#"><svg><use href="#i-star"/></svg><span>Colour of the Week</span></a></li>
+      <li><a class="nav-link" href="#"><svg><use href="#i-palette"/></svg><span>Color Preferences</span></a></li>
+      <li><a class="nav-link" href="#"><svg><use href="#i-users"/></svg><span>User Insights</span></a></li>
+      <li><a class="nav-link" href="#"><svg><use href="#i-trend"/></svg><span>Retention</span></a></li>
+      <li><a class="nav-link" href="#"><svg><use href="#i-gear"/></svg><span>Settings</span></a></li>
+    </ul>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-user">
+      <div class="avatar">AH</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Allie Huerta</div>
+        <div class="sidebar-user-role">Admin</div>
+      </div>
+      <svg class="sidebar-user-chevron"><use href="#i-chevron-down"/></svg>
+    </div>
+  </aside>
+
+  <!-- ───────────────────────── Main ───────────────────────── -->
+  <main class="dash-main">
+
+    <div class="topbar">
+      <div>
+        <h1>Dashboard</h1>
+        <div class="topbar-sub">Monitor user engagement and success metrics</div>
+        <div class="proto-badge"><svg><use href="#i-flask"/></svg>Prototype · sample data, not connected to the live app</div>
+      </div>
+      <div class="filters">
+        <select class="filter-select" id="rangeSelect">
+          <option value="7">Last 7 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+          <option value="ytd">Year to date</option>
+        </select>
+        <select class="filter-select"><option>All Regions</option><option>North America</option><option>Europe</option><option>Asia Pacific</option></select>
+        <select class="filter-select"><option>All Users</option><option>Power Users</option><option>New Users</option><option>Inactive</option></select>
+        <select class="filter-select"><option>All Studios</option><option>Pendants</option><option>Shoes</option><option>Sunglasses</option><option>Nails</option></select>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+          <svg id="themeToggleIcon"><use href="#i-moon"/></svg>
+          <span id="themeToggleLabel">Dark</span>
+        </button>
+        <button class="export-btn"><svg><use href="#i-download"/></svg>Export</button>
+      </div>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="stat-row">
+      <div class="stat-card c-orange">
+        <div class="stat-card-top">
+          <div class="stat-icon"><svg><use href="#i-devices"/></svg></div>
+          <span class="stat-delta up" id="statDevicesDelta">▲ 8.3%</span>
+        </div>
+        <div class="stat-label">Total Active Devices <span class="info-icon" tabindex="0" data-tip="Unique paired devices — pendants and other AimColours wearables — that connected at least once in this period."><svg><use href="#i-info"/></svg></span></div>
+        <div class="stat-value" id="statDevicesValue">12,847</div>
+        <div class="stat-caption" id="statDevicesCaption">Connected this week</div>
+      </div>
+      <div class="stat-card c-pink">
+        <div class="stat-card-top">
+          <div class="stat-icon"><svg><use href="#i-repeat"/></svg></div>
+          <span class="stat-delta up" id="statChangesDelta">▲ 12.1%</span>
+        </div>
+        <div class="stat-label">Avg. Color Changes/User <span class="info-icon" tabindex="0" data-tip="Average number of times a user changes their colour selection within a single session, across all studios."><svg><use href="#i-info"/></svg></span></div>
+        <div class="stat-value" id="statChangesValue">23.4</div>
+        <div class="stat-caption">Per session</div>
+      </div>
+      <div class="stat-card c-purple">
+        <div class="stat-card-top">
+          <div class="stat-icon"><svg><use href="#i-heart"/></svg></div>
+        </div>
+        <div class="stat-label">Most Loved Color <span class="info-icon" tabindex="0" data-tip="The single colour selected most often across all studios and devices in this period."><svg><use href="#i-info"/></svg></span></div>
+        <div class="stat-value">Sunset Orange</div>
+        <div class="stat-caption" id="statLovedCaption">42% preference</div>
+      </div>
+      <div class="stat-card c-orange">
+        <div class="stat-card-top">
+          <div class="stat-icon"><svg><use href="#i-star"/></svg></div>
+          <span class="stat-delta up" id="statBirthdayDelta">▲ 6.4%</span>
+        </div>
+        <div class="stat-label">Birthday Set Rate <span class="info-icon" tabindex="0" data-tip="Share of users who've added their birthday in Profile — required to unlock the personalised Colour of the Week."><svg><use href="#i-info"/></svg></span></div>
+        <div class="stat-value" id="statBirthdayValue">58%</div>
+        <div class="stat-caption">Unlocks Colour of the Week</div>
+      </div>
+      <div class="stat-card c-pink">
+        <div class="stat-card-top">
+          <div class="stat-icon"><svg><use href="#i-check-circle"/></svg></div>
+          <span class="stat-delta up" id="statQuizDelta">▲ 9.5%</span>
+        </div>
+        <div class="stat-label">Quiz Completion Rate <span class="info-icon" tabindex="0" data-tip="Share of quiz attempts — Colour Personality, Seasonal Analysis, Style Profile — that were finished rather than abandoned."><svg><use href="#i-info"/></svg></span></div>
+        <div class="stat-value" id="statQuizValue">74%</div>
+        <div class="stat-caption">Across all 3 quizzes</div>
+      </div>
+      <div class="stat-card c-purple">
+        <div class="stat-card-top">
+          <div class="stat-icon"><svg><use href="#i-trend"/></svg></div>
+          <span class="stat-delta up" id="statRetentionDelta">▲ 5.7%</span>
+        </div>
+        <div class="stat-label">7-Day Retention <span class="info-icon" tabindex="0" data-tip="Of users who joined in this period, the percentage who came back and opened the app again within 7 days."><svg><use href="#i-info"/></svg></span></div>
+        <div class="stat-value" id="statRetentionValue">65%</div>
+        <div class="stat-caption">User comeback rate</div>
+      </div>
+    </div>
+
+    <!-- Color usage + Feature engagement -->
+    <div class="grid-2">
+
+      <div class="panel">
+        <div class="panel-title"><svg><use href="#i-palette"/></svg>Color Usage Insights <span class="info-icon" tabindex="0" data-tip="Which colours users pick most often, and which days of the week they're most active choosing them."><svg><use href="#i-info"/></svg></span></div>
+        <div class="panel-sub">Most Loved Colors</div>
+        <div class="color-list">
+          <div class="color-row"><span class="color-rank">1</span><span class="color-dot" style="background:#9a9186"></span><span class="color-name">Misty Clay</span><div class="color-bar-track"><div class="color-bar-fill" style="width:85%"></div></div><span class="color-pct">85%</span></div>
+          <div class="color-row"><span class="color-rank">2</span><span class="color-dot" style="background:#a85d4e"></span><span class="color-name">Terracotta Bloom</span><div class="color-bar-track"><div class="color-bar-fill" style="width:72%"></div></div><span class="color-pct">72%</span></div>
+          <div class="color-row"><span class="color-rank">3</span><span class="color-dot" style="background:#3f8a5c"></span><span class="color-name">Emerald Grove</span><div class="color-bar-track"><div class="color-bar-fill" style="width:68%"></div></div><span class="color-pct">68%</span></div>
+          <div class="color-row"><span class="color-rank">4</span><span class="color-dot" style="background:#4a5c9e"></span><span class="color-name">Indigo Dusk</span><div class="color-bar-track"><div class="color-bar-fill" style="width:64%"></div></div><span class="color-pct">64%</span></div>
+          <div class="color-row"><span class="color-rank">5</span><span class="color-dot" style="background:#d1a23a"></span><span class="color-name">Golden Hour</span><div class="color-bar-track"><div class="color-bar-fill" style="width:59%"></div></div><span class="color-pct">59%</span></div>
+        </div>
+
+        <div class="panel-sub">Activity Heatmap (Last 7 Days)</div>
+        <div class="heatmap-row" id="heatmapRow"></div>
+        <div class="heatmap-legend">
+          <span>Low Activity</span>
+          <span class="heatmap-legend-dots">
+            <span style="background:rgba(123,82,200,0.15)"></span>
+            <span style="background:rgba(123,82,200,0.4)"></span>
+            <span style="background:rgba(123,82,200,0.65)"></span>
+            <span style="background:var(--purple-light)"></span>
+          </span>
+          <span>High Activity</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><svg><use href="#i-bars"/></svg>Feature Engagement <span class="info-icon" tabindex="0" data-tip="How often users interact with each major feature, and how quickly they discover new ones after joining."><svg><use href="#i-info"/></svg></span></div>
+        <div class="panel-sub">Feature Usage Leaderboard</div>
+        <div class="feature-list" id="featureList">
+          <div class="feature-row"><span class="feature-rank">1</span><span class="feature-name">Colour of the Week Reveal</span><div class="feature-bar-track"><div class="feature-bar-fill" id="feat0Fill" style="width:81%"></div></div><span class="feature-delta up" id="feat0Delta">▲ 14%</span><span class="feature-pct" id="feat0Pct">81%</span></div>
+          <div class="feature-row"><span class="feature-rank">2</span><span class="feature-name">Pendant Studio</span><div class="feature-bar-track"><div class="feature-bar-fill" id="feat1Fill" style="width:69%"></div></div><span class="feature-delta up" id="feat1Delta">▲ 6%</span><span class="feature-pct" id="feat1Pct">69%</span></div>
+          <div class="feature-row"><span class="feature-rank">3</span><span class="feature-name">Colour Personality Quiz</span><div class="feature-bar-track"><div class="feature-bar-fill" id="feat2Fill" style="width:57%"></div></div><span class="feature-delta up" id="feat2Delta">▲ 19%</span><span class="feature-pct" id="feat2Pct">57%</span></div>
+          <div class="feature-row"><span class="feature-rank">4</span><span class="feature-name">Shoe Studio Customisation</span><div class="feature-bar-track"><div class="feature-bar-fill" id="feat3Fill" style="width:41%"></div></div><span class="feature-delta up" id="feat3Delta">▲ 11%</span><span class="feature-pct" id="feat3Pct">41%</span></div>
+          <div class="feature-row"><span class="feature-rank">5</span><span class="feature-name">Closet → Quiz (Magazines)</span><div class="feature-bar-track"><div class="feature-bar-fill" id="feat4Fill" style="width:24%"></div></div><span class="feature-delta down" id="feat4Delta">▼ 2%</span><span class="feature-pct" id="feat4Pct">24%</span></div>
+        </div>
+
+        <div class="metric-tiles">
+          <div class="metric-tile"><div class="metric-tile-value" id="metricAvgChanges">12.4</div><div class="metric-tile-label">Avg. Changes per Session</div><div class="metric-tile-sub">↑ 2.1 from last week</div></div>
+          <div class="metric-tile"><div class="metric-tile-value" id="metricDiscovery">67%</div><div class="metric-tile-label">Feature Discovery Rate</div><div class="metric-tile-sub">Users find new features</div></div>
+          <div class="metric-tile"><div class="metric-tile-value" id="metricStudiosTried">3.1</div><div class="metric-tile-label">Studios Tried per User</div><div class="metric-tile-sub">Out of 4 available</div></div>
+        </div>
+
+        <div class="panel-sub" id="engagementLabel">Studio &amp; Quiz Engagement (Last 7 Days)</div>
+        <div class="bar-chart" id="barChart"></div>
+      </div>
+    </div>
+
+    <!-- Studio usage, quiz funnel, colour of the week -->
+    <div class="grid-3">
+
+      <div class="panel">
+        <div class="panel-title"><svg><use href="#i-jewel"/></svg>Studio Usage by Category <span class="info-icon" tabindex="0" data-tip="Session volume for each product studio — Pendants, Shoes, Sunglasses, and Nails — showing where design time goes."><svg><use href="#i-info"/></svg></span></div>
+        <div class="studio-list">
+          <div class="studio-row">
+            <div class="studio-icon"><svg><use href="#i-jewel"/></svg></div>
+            <div class="studio-info">
+              <div class="studio-name-row"><span class="studio-name">Pendants</span><span class="studio-sessions" id="studioPendantsSessions">4,920 sessions</span></div>
+              <div class="studio-track"><div class="studio-fill" id="studioPendantsFill" style="width:100%"></div></div>
+            </div>
+          </div>
+          <div class="studio-row">
+            <div class="studio-icon"><svg><use href="#i-shoe"/></svg></div>
+            <div class="studio-info">
+              <div class="studio-name-row"><span class="studio-name">Shoes</span><span class="studio-sessions" id="studioShoesSessions">3,110 sessions</span></div>
+              <div class="studio-track"><div class="studio-fill" id="studioShoesFill" style="width:63%"></div></div>
+            </div>
+          </div>
+          <div class="studio-row">
+            <div class="studio-icon"><svg><use href="#i-glasses"/></svg></div>
+            <div class="studio-info">
+              <div class="studio-name-row"><span class="studio-name">Sunglasses</span><span class="studio-sessions" id="studioSunglassesSessions">2,340 sessions</span></div>
+              <div class="studio-track"><div class="studio-fill" id="studioSunglassesFill" style="width:48%"></div></div>
+            </div>
+          </div>
+          <div class="studio-row">
+            <div class="studio-icon"><svg><use href="#i-hand"/></svg></div>
+            <div class="studio-info">
+              <div class="studio-name-row"><span class="studio-name">Nails</span><span class="studio-sessions" id="studioNailsSessions">1,485 sessions</span></div>
+              <div class="studio-track"><div class="studio-fill" id="studioNailsFill" style="width:30%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><svg><use href="#i-check-circle"/></svg>Quiz Completion Funnel <span class="info-icon" tabindex="0" data-tip="How many users start each quiz versus finish it, so you can spot exactly where people drop off."><svg><use href="#i-info"/></svg></span></div>
+        <div class="funnel-list">
+          <div class="funnel-item">
+            <div class="funnel-item-top"><span class="funnel-item-name">Colour Personality Quiz</span><span class="funnel-item-rate" id="quizPersonalityRate">79%</span></div>
+            <div class="funnel-track"><div class="funnel-fill" id="quizPersonalityFill" style="width:79%"></div></div>
+            <div class="funnel-item-sub" id="quizPersonalitySub">2,860 started · 2,259 completed</div>
+          </div>
+          <div class="funnel-item">
+            <div class="funnel-item-top"><span class="funnel-item-name">Seasonal Analysis Quiz</span><span class="funnel-item-rate" id="quizSeasonalRate">71%</span></div>
+            <div class="funnel-track"><div class="funnel-fill" id="quizSeasonalFill" style="width:71%"></div></div>
+            <div class="funnel-item-sub" id="quizSeasonalSub">1,940 started · 1,377 completed</div>
+          </div>
+          <div class="funnel-item">
+            <div class="funnel-item-top"><span class="funnel-item-name">Style Profile Quiz</span><span class="funnel-item-rate" id="quizStyleRate">68%</span></div>
+            <div class="funnel-track"><div class="funnel-fill" id="quizStyleFill" style="width:68%"></div></div>
+            <div class="funnel-item-sub" id="quizStyleSub">1,605 started · 1,091 completed</div>
+          </div>
+        </div>
+        <div class="metric-tiles" style="grid-template-columns: 1fr 1fr;">
+          <div class="metric-tile"><div class="metric-tile-value" id="quizBlended">74%</div><div class="metric-tile-label">Blended Completion Rate</div></div>
+          <div class="metric-tile"><div class="metric-tile-value" id="quizAvgPerUser">2.1</div><div class="metric-tile-label">Avg. Quizzes per User</div></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><svg><use href="#i-star"/></svg>Colour of the Week <span class="info-icon" tabindex="0" data-tip="Engagement with the horoscope-based Colour of the Week feature, which stays locked until a user sets their birthday."><svg><use href="#i-info"/></svg></span></div>
+        <div class="cotw-stat"><span class="cotw-stat-label">Birthday set</span><span class="cotw-stat-value" id="cotwBirthday">58%</span></div>
+        <div class="cotw-stat"><span class="cotw-stat-label">Reveal rate (once unlocked)</span><span class="cotw-stat-value" id="cotwReveal">88%</span></div>
+        <div class="cotw-stat"><span class="cotw-stat-label">Avg. reveals per user</span><span class="cotw-stat-value" id="cotwAvgReveals">3.4 / mo</span></div>
+        <div class="cotw-stat"><span class="cotw-stat-label">Shared to Profile</span><span class="cotw-stat-value" id="cotwShared">21%</span></div>
+        <div class="cotw-highlight">
+          <div class="cotw-highlight-label">Most resonant sign this week</div>
+          <div class="cotw-highlight-value">Scorpio — Terracotta Bloom</div>
+          <div class="cotw-highlight-sub">312 reveals · 94% return next week</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Retention curve -->
+    <div class="panel" style="margin-bottom:14px;">
+      <div class="panel-title"><svg><use href="#i-trend"/></svg>Retention Curve <span class="info-icon" tabindex="0" data-tip="The percentage of a user cohort still active at each milestone — Day 1, 3, 7, 14, 30 — after their first use."><svg><use href="#i-info"/></svg></span></div>
+      <div class="retention-chart-wrap">
+        <div class="retention-axis"><span>100%</span><span>75%</span><span>50%</span><span>25%</span><span>0%</span></div>
+        <div class="retention-svg-box">
+          <svg viewBox="0 0 620 200" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="retFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#A07DE0" stop-opacity="0.55"/>
+                <stop offset="100%" stop-color="#A07DE0" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g class="retention-gridlines">
+              <line x1="0" y1="10" x2="620" y2="10"/>
+              <line x1="0" y1="55" x2="620" y2="55"/>
+              <line x1="0" y1="100" x2="620" y2="100"/>
+              <line x1="0" y1="145" x2="620" y2="145"/>
+              <line x1="0" y1="190" x2="620" y2="190"/>
+            </g>
+            <path id="retFillPath" d="M10,10 C60,10 110,49.6 160,49.6 C210,49.6 260,73 310,73 C360,73 410,96.4 460,96.4 C510,96.4 560,121.6 610,121.6 L610,190 L10,190 Z" fill="url(#retFill)"/>
+            <path id="retLinePath" d="M10,10 C60,10 110,49.6 160,49.6 C210,49.6 260,73 310,73 C360,73 410,96.4 460,96.4 C510,96.4 560,121.6 610,121.6" fill="none" stroke="#A07DE0" stroke-width="2.5" stroke-linecap="round"/>
+            <g fill="#A07DE0" id="retDots">
+              <circle cx="10" cy="10" r="3.5"/><circle cx="160" cy="49.6" r="3.5"/><circle cx="310" cy="73" r="3.5"/><circle cx="460" cy="96.4" r="3.5"/><circle cx="610" cy="121.6" r="3.5"/>
+            </g>
+          </svg>
+          <div class="retention-daylabels"><span>Day 1</span><span>Day 3</span><span>Day 7</span><span>Day 14</span><span>Day 30</span></div>
+        </div>
+      </div>
+      <div class="retention-stats">
+        <div><div class="retention-stat-val" id="retStat0Val">100%</div><div class="retention-stat-label">Day 1</div><div class="retention-stat-sub" id="retStat0Sub">1,000 users</div></div>
+        <div><div class="retention-stat-val" id="retStat1Val">78%</div><div class="retention-stat-label">Day 3</div><div class="retention-stat-sub" id="retStat1Sub">780 users</div></div>
+        <div><div class="retention-stat-val" id="retStat2Val">65%</div><div class="retention-stat-label">Day 7</div><div class="retention-stat-sub" id="retStat2Sub">650 users</div></div>
+        <div><div class="retention-stat-val" id="retStat3Val">52%</div><div class="retention-stat-label">Day 14</div><div class="retention-stat-sub" id="retStat3Sub">520 users</div></div>
+        <div><div class="retention-stat-val" id="retStat4Val">38%</div><div class="retention-stat-label">Day 30</div><div class="retention-stat-sub" id="retStat4Sub">380 users</div></div>
+      </div>
+    </div>
+
+    <!-- Recent user activity -->
+    <div class="panel">
+      <div class="panel-title"><svg><use href="#i-users"/></svg>Recent User Activity <span class="info-icon" tabindex="0" data-tip="A live feed of the most recent individual users and their engagement — always shows the latest activity, regardless of the date filter above."><svg><use href="#i-info"/></svg></span></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>User</th><th>Favorite Color</th><th>Top Studio</th><th class="num">Changes</th><th>Status</th><th class="num">Last Seen</th></tr>
+          </thead>
+          <tbody id="activityBody"></tbody>
+        </table>
+      </div>
+      <div class="table-foot">
+        <span id="totalUsersLabel">Showing 5 of 1,247 users</span>
+        <div class="table-foot-links">
+          <a href="#" class="disabled">Previous</a>
+          <a href="#" class="view-all">View All Users</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  document.getElementById('collapseBtn').addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+  });
+
+  // ── Theme (dark / light) ────────────────────────────────────
+  var THEME_KEY = 'aimcolours-dashboard-theme';
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggleIcon').innerHTML = '<use href="#i-' + (theme === 'light' ? 'moon' : 'sun') + '"/>';
+    document.getElementById('themeToggleLabel').textContent = theme === 'light' ? 'Light' : 'Dark';
+    renderHeatmap(theme);
+  }
+  document.getElementById('themeToggle').addEventListener('click', function () {
+    var current = document.documentElement.getAttribute('data-theme') || 'dark';
+    var next = current === 'light' ? 'dark' : 'light';
+    localStorage.setItem(THEME_KEY, next);
+    applyTheme(next);
+  });
+
+  // Activity heatmap (Mon–Sun), 0=low .. 3=high
+  var heatLevels = [1, 0, 3, 1, 2, 0, 1];
+  var days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  function renderHeatmap(theme) {
+    var heatColors = theme === 'light'
+      ? ['rgba(123,82,200,0.14)', 'rgba(123,82,200,0.32)', 'rgba(123,82,200,0.55)', '#7B52C8']
+      : ['rgba(123,82,200,0.15)', 'rgba(123,82,200,0.4)', 'rgba(123,82,200,0.65)', '#A07DE0'];
+    var heatmapRow = document.getElementById('heatmapRow');
+    heatmapRow.innerHTML = '';
+    days.forEach(function (day, i) {
+      var wrap = document.createElement('div');
+      wrap.className = 'heatmap-cell-wrap';
+      var label = document.createElement('div');
+      label.className = 'heatmap-daylabel';
+      label.textContent = day;
+      var cell = document.createElement('div');
+      cell.className = 'heatmap-cell';
+      cell.style.background = heatColors[heatLevels[i]];
+      wrap.appendChild(label);
+      wrap.appendChild(cell);
+      heatmapRow.appendChild(wrap);
+    });
+  }
+
+  applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+  // ── Date-range-driven data ──────────────────────────────────
+  function genBars(count, startH, endH) {
+    var jitter = [0, 6, -4, 3, -6, 5, -2, 4, -3, 2];
+    var arr = [];
+    for (var i = 0; i < count; i++) {
+      var t = count === 1 ? 0 : i / (count - 1);
+      var base = startH + (endH - startH) * t;
+      arr.push(Math.max(6, Math.min(100, Math.round(base + jitter[i % jitter.length]))));
+    }
+    return arr;
+  }
+
+  var RANGE_DATA = {
+    '7': {
+      label: 'Last 7 Days',
+      devices: { value: '12,847', delta: '▲ 8.3%', dir: 'up', caption: 'Connected this week' },
+      changes: { value: '23.4', delta: '▲ 12.1%', dir: 'up' },
+      lovedPct: '42% preference',
+      birthday: { value: '58%', delta: '▲ 6.4%', dir: 'up' },
+      quiz: { value: '74%', delta: '▲ 9.5%', dir: 'up' },
+      retention: { value: '65%', delta: '▲ 5.7%', dir: 'up' },
+      curve: [100, 78, 65, 52, 38], cohort: 1000,
+      features: [
+        { pct: 81, delta: '▲ 14%', dir: 'up' },
+        { pct: 69, delta: '▲ 6%', dir: 'up' },
+        { pct: 57, delta: '▲ 19%', dir: 'up' },
+        { pct: 41, delta: '▲ 11%', dir: 'up' },
+        { pct: 24, delta: '▼ 2%', dir: 'down' }
+      ],
+      avgChanges: '12.4', discovery: '67%', studiosTried: '3.1',
+      studios: { pendants: 4920, shoes: 3110, sunglasses: 2340, nails: 1485 },
+      quizzes: {
+        personality: { started: 2860, completed: 2259 },
+        seasonal: { started: 1940, completed: 1377 },
+        style: { started: 1605, completed: 1091 }
+      },
+      quizBlended: '74%', quizAvgPerUser: '2.1',
+      cotw: { birthday: '58%', reveal: '88%', avgReveals: '1.1 / wk', shared: '21%' },
+      totalUsers: '1,247',
+      bars: genBars(7, 30, 85)
+    },
+    '30': {
+      label: 'Last 30 Days',
+      devices: { value: '34,210', delta: '▲ 11.6%', dir: 'up', caption: 'Connected this month' },
+      changes: { value: '26.8', delta: '▲ 9.4%', dir: 'up' },
+      lovedPct: '44% preference',
+      birthday: { value: '63%', delta: '▲ 8.1%', dir: 'up' },
+      quiz: { value: '76%', delta: '▲ 7.2%', dir: 'up' },
+      retention: { value: '61%', delta: '▲ 2.9%', dir: 'up' },
+      curve: [100, 81, 68, 55, 41], cohort: 4300,
+      features: [
+        { pct: 84, delta: '▲ 10%', dir: 'up' },
+        { pct: 73, delta: '▲ 5%', dir: 'up' },
+        { pct: 61, delta: '▲ 16%', dir: 'up' },
+        { pct: 45, delta: '▲ 9%', dir: 'up' },
+        { pct: 27, delta: '▲ 1%', dir: 'up' }
+      ],
+      avgChanges: '13.8', discovery: '71%', studiosTried: '3.3',
+      studios: { pendants: 13650, shoes: 8760, sunglasses: 6580, nails: 4120 },
+      quizzes: {
+        personality: { started: 7920, completed: 6216 },
+        seasonal: { started: 5380, completed: 3921 },
+        style: { started: 4460, completed: 3122 }
+      },
+      quizBlended: '75%', quizAvgPerUser: '2.3',
+      cotw: { birthday: '63%', reveal: '89%', avgReveals: '4.2 / mo', shared: '23%' },
+      totalUsers: '3,180',
+      bars: genBars(30, 20, 96)
+    },
+    '90': {
+      label: 'Last 90 Days',
+      devices: { value: '71,480', delta: '▲ 9.2%', dir: 'up', caption: 'Connected this quarter' },
+      changes: { value: '29.1', delta: '▲ 7.0%', dir: 'up' },
+      lovedPct: '46% preference',
+      birthday: { value: '68%', delta: '▲ 10.5%', dir: 'up' },
+      quiz: { value: '78%', delta: '▲ 6.0%', dir: 'up' },
+      retention: { value: '58%', delta: '▲ 1.2%', dir: 'up' },
+      curve: [100, 83, 71, 58, 45], cohort: 12100,
+      features: [
+        { pct: 87, delta: '▲ 8%', dir: 'up' },
+        { pct: 76, delta: '▲ 4%', dir: 'up' },
+        { pct: 64, delta: '▲ 13%', dir: 'up' },
+        { pct: 49, delta: '▲ 7%', dir: 'up' },
+        { pct: 30, delta: '▲ 3%', dir: 'up' }
+      ],
+      avgChanges: '14.9', discovery: '74%', studiosTried: '3.5',
+      studios: { pendants: 33900, shoes: 22100, sunglasses: 16450, nails: 10380 },
+      quizzes: {
+        personality: { started: 19600, completed: 15288 },
+        seasonal: { started: 13350, completed: 10012 },
+        style: { started: 11080, completed: 7978 }
+      },
+      quizBlended: '76%', quizAvgPerUser: '2.5',
+      cotw: { birthday: '68%', reveal: '90%', avgReveals: '11.8 / qtr', shared: '25%' },
+      totalUsers: '6,940',
+      bars: genBars(13, 25, 90)
+    },
+    'ytd': {
+      label: 'Year to Date',
+      devices: { value: '118,650', delta: '▲ 22.4%', dir: 'up', caption: 'Connected year to date' },
+      changes: { value: '31.5', delta: '▲ 15.8%', dir: 'up' },
+      lovedPct: '48% preference',
+      birthday: { value: '72%', delta: '▲ 13.9%', dir: 'up' },
+      quiz: { value: '79%', delta: '▲ 8.8%', dir: 'up' },
+      retention: { value: '55%', delta: '▼ 0.6%', dir: 'down' },
+      curve: [100, 85, 74, 62, 49], cohort: 29800,
+      features: [
+        { pct: 89, delta: '▲ 9%', dir: 'up' },
+        { pct: 79, delta: '▲ 6%', dir: 'up' },
+        { pct: 67, delta: '▲ 15%', dir: 'up' },
+        { pct: 53, delta: '▲ 8%', dir: 'up' },
+        { pct: 33, delta: '▲ 4%', dir: 'up' }
+      ],
+      avgChanges: '15.6', discovery: '76%', studiosTried: '3.6',
+      studios: { pendants: 81200, shoes: 54300, sunglasses: 40100, nails: 25600 },
+      quizzes: {
+        personality: { started: 46200, completed: 36498 },
+        seasonal: { started: 31500, completed: 24255 },
+        style: { started: 26100, completed: 19458 }
+      },
+      quizBlended: '77%', quizAvgPerUser: '2.7',
+      cotw: { birthday: '72%', reveal: '91%', avgReveals: '41 / yr', shared: '27%' },
+      totalUsers: '12,860',
+      bars: genBars(9, 20, 92)
+    }
+  };
+
+  function fmt(n) { return n.toLocaleString('en-US'); }
+  function pctOf(n, max) { return Math.round((n / max) * 100); }
+
+  function buildRetentionPath(values) {
+    var xs = [10, 160, 310, 460, 610];
+    var ys = values.map(function (v) { return 10 + (100 - v) / 100 * 180; });
+    var d = 'M' + xs[0] + ',' + ys[0];
+    for (var i = 0; i < 4; i++) {
+      var xMid = (xs[i] + xs[i + 1]) / 2;
+      d += ' C' + xMid + ',' + ys[i] + ' ' + xMid + ',' + ys[i + 1] + ' ' + xs[i + 1] + ',' + ys[i + 1];
+    }
+    return { line: d, xs: xs, ys: ys };
+  }
+
+  function setDelta(el, delta, dir) {
+    el.textContent = delta;
+    el.classList.toggle('up', dir === 'up');
+    el.classList.toggle('down', dir === 'down');
+  }
+
+  function render(rangeKey) {
+    var d = RANGE_DATA[rangeKey];
+
+    document.getElementById('statDevicesValue').textContent = d.devices.value;
+    document.getElementById('statDevicesCaption').textContent = d.devices.caption;
+    setDelta(document.getElementById('statDevicesDelta'), d.devices.delta, d.devices.dir);
+
+    document.getElementById('statChangesValue').textContent = d.changes.value;
+    setDelta(document.getElementById('statChangesDelta'), d.changes.delta, d.changes.dir);
+
+    document.getElementById('statLovedCaption').textContent = d.lovedPct;
+
+    document.getElementById('statBirthdayValue').textContent = d.birthday.value;
+    setDelta(document.getElementById('statBirthdayDelta'), d.birthday.delta, d.birthday.dir);
+
+    document.getElementById('statQuizValue').textContent = d.quiz.value;
+    setDelta(document.getElementById('statQuizDelta'), d.quiz.delta, d.quiz.dir);
+
+    document.getElementById('statRetentionValue').textContent = d.retention.value;
+    setDelta(document.getElementById('statRetentionDelta'), d.retention.delta, d.retention.dir);
+
+    d.features.forEach(function (f, i) {
+      document.getElementById('feat' + i + 'Fill').style.width = f.pct + '%';
+      document.getElementById('feat' + i + 'Pct').textContent = f.pct + '%';
+      setDelta(document.getElementById('feat' + i + 'Delta'), f.delta, f.dir);
+    });
+    document.getElementById('metricAvgChanges').textContent = d.avgChanges;
+    document.getElementById('metricDiscovery').textContent = d.discovery;
+    document.getElementById('metricStudiosTried').textContent = d.studiosTried;
+    document.getElementById('engagementLabel').innerHTML = 'Studio &amp; Quiz Engagement (' + d.label + ')';
+
+    var maxStudio = Math.max(d.studios.pendants, d.studios.shoes, d.studios.sunglasses, d.studios.nails);
+    ['pendants', 'shoes', 'sunglasses', 'nails'].forEach(function (key) {
+      var cap = key.charAt(0).toUpperCase() + key.slice(1);
+      document.getElementById('studio' + cap + 'Sessions').textContent = fmt(d.studios[key]) + ' sessions';
+      document.getElementById('studio' + cap + 'Fill').style.width = pctOf(d.studios[key], maxStudio) + '%';
+    });
+
+    [['personality', 'Personality'], ['seasonal', 'Seasonal'], ['style', 'Style']].forEach(function (pair) {
+      var q = d.quizzes[pair[0]];
+      var rate = Math.round((q.completed / q.started) * 100);
+      document.getElementById('quiz' + pair[1] + 'Rate').textContent = rate + '%';
+      document.getElementById('quiz' + pair[1] + 'Fill').style.width = rate + '%';
+      document.getElementById('quiz' + pair[1] + 'Sub').textContent = fmt(q.started) + ' started · ' + fmt(q.completed) + ' completed';
+    });
+    document.getElementById('quizBlended').textContent = d.quizBlended;
+    document.getElementById('quizAvgPerUser').textContent = d.quizAvgPerUser;
+
+    document.getElementById('cotwBirthday').textContent = d.cotw.birthday;
+    document.getElementById('cotwReveal').textContent = d.cotw.reveal;
+    document.getElementById('cotwAvgReveals').textContent = d.cotw.avgReveals;
+    document.getElementById('cotwShared').textContent = d.cotw.shared;
+
+    var path = buildRetentionPath(d.curve);
+    document.getElementById('retLinePath').setAttribute('d', path.line);
+    document.getElementById('retFillPath').setAttribute('d', path.line + ' L' + path.xs[4] + ',190 L' + path.xs[0] + ',190 Z');
+    var dots = path.xs.map(function (x, i) { return '<circle cx="' + x + '" cy="' + path.ys[i] + '" r="3.5"/>'; }).join('');
+    document.getElementById('retDots').innerHTML = dots;
+
+    d.curve.forEach(function (v, i) {
+      document.getElementById('retStat' + i + 'Val').textContent = v + '%';
+      document.getElementById('retStat' + i + 'Sub').textContent = fmt(Math.round(d.cohort * v / 100)) + ' users';
+    });
+
+    document.getElementById('totalUsersLabel').textContent = 'Showing 5 of ' + d.totalUsers + ' users';
+
+    var barChart = document.getElementById('barChart');
+    barChart.innerHTML = '';
+    d.bars.forEach(function (h) {
+      var bar = document.createElement('div');
+      bar.style.height = h + '%';
+      barChart.appendChild(bar);
+    });
+  }
+
+  document.getElementById('rangeSelect').addEventListener('change', function (e) {
+    render(e.target.value);
+  });
+  render('7');
+
+  // Recent user activity
+  var users = [
+    { initials: 'EW', name: 'Emma Wilson', email: 'emma.w@email.com', color: '#d8637a', colorName: 'Terracotta Bloom', studio: 'Pendants', changes: 247, status: 'power', label: 'Power User', seen: '2 hours ago' },
+    { initials: 'MC', name: 'Marcus Chen', email: 'marcus.c@email.com', color: '#3f8a5c', colorName: 'Emerald Grove', studio: 'Shoes', changes: 156, status: 'active', label: 'Active', seen: '1 day ago' },
+    { initials: 'SR', name: 'Sophia Rodriguez', email: 'sophia.r@email.com', color: '#4a5c9e', colorName: 'Indigo Dusk', studio: 'Sunglasses', changes: 89, status: 'new', label: 'New', seen: '3 hours ago' },
+    { initials: 'JT', name: 'James Thompson', email: 'james.t@email.com', color: '#3f8a5c', colorName: 'Emerald Grove', studio: 'Nails', changes: 34, status: 'inactive', label: 'Inactive', seen: '5 days ago' },
+    { initials: 'LP', name: 'Luna Park', email: 'luna.p@email.com', color: '#d1a23a', colorName: 'Golden Hour', studio: 'Pendants', changes: 198, status: 'power', label: 'Power User', seen: '30 minutes ago' }
+  ];
+  var body = document.getElementById('activityBody');
+  users.forEach(function (u) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><div class="user-cell"><div class="avatar" style="background:' + u.color + '">' + u.initials + '</div>' +
+      '<div><div class="user-name">' + u.name + '</div><div class="user-email">' + u.email + '</div></div></div></td>' +
+      '<td><div class="fav-color-cell"><span class="fav-color-dot" style="background:' + u.color + '"></span><span class="fav-color-tag">' + u.colorName + '</span></div></td>' +
+      '<td><span class="fav-color-tag">' + u.studio + '</span></td>' +
+      '<td class="num"><div class="changes-val">' + u.changes + '</div><div class="changes-sub">changes</div></td>' +
+      '<td><span class="status-pill ' + u.status + '">' + u.label + '</span></td>' +
+      '<td class="num last-seen">' + u.seen + '</td>';
+    body.appendChild(tr);
+  });
+</script>
+
+</body>
+</html>
