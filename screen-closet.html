@@ -84,8 +84,10 @@
   .s34-back{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0}
   .s34-title{font-size:27px;font-weight:400;color:#fff;letter-spacing:.04em;text-transform:uppercase}
 
-  .s34-pendant{flex:1;display:flex;align-items:center;justify-content:center;padding:20px 44px;min-height:0}
+  .s34-pendant{flex:1;display:grid;place-items:center;padding:20px 44px;min-height:0}
+  .s34-pendant svg{grid-area:1/1;width:100%;height:100%}
   .s34-pendant img{width:100%;object-fit:contain;max-height:100%;filter:invert(1);mix-blend-mode:screen}
+  .s34-pendant .pendant-glass-overlay{grid-area:1/1;width:110%;height:110%;object-fit:contain;pointer-events:none;filter:none;mix-blend-mode:normal}
 
   .s34-btn-wrap{flex-shrink:0;padding:14px 80px 40px}
   .s34-btn{width:100%;border:1.5px solid rgba(255,255,255,1);background:transparent;color:#fff;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:13px;border-radius:100px;text-align:center;cursor:pointer}
@@ -293,6 +295,7 @@
     </g>
   </g>
 </svg>
+      <img src="assets/pendant-glass-teardrop.png" alt="" class="pendant-glass-overlay">
     </div>
 
     <div class="s34-btn-wrap" style="position:relative;top:-52px">
@@ -349,6 +352,7 @@
     </g>
   </g>
 </svg>
+      <img src="assets/pendant-glass-teardrop.png" alt="" class="pendant-glass-overlay">
     </div>
 
     <div class="s34-btn-wrap" style="position:relative;top:-52px">
